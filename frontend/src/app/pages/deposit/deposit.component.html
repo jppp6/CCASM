@@ -1,1 +1,25 @@
-<p>deposit works!</p>
+<article>
+    <section class="personal-info">
+        <h2 class="info-heading">Personal Information</h2>
+        <form [formGroup]="applyForm" (submit)="submitDeposit()">
+            <fieldset>
+                <label for="first-name">First name:</label><br>
+                <input type="text" id="first-name" name="first-name" formControlName="firstName"><br>
+
+                <label for="last-name">Last name:</label><br>
+                <input type="text" id="last-name" name="last-name" formControlName="lastName"><br>
+
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email" formControlName="email"><br>
+
+                <label for="additional">Additional Info:</label><br>
+                <textarea id="additional" name="additional" rows="10" cols="40" formControlName="descr" placeholder="Enter info here ...s">
+                </textarea>
+
+                <button type="submit" class="primary">Submit</button>
+            </fieldset>
+        </form>
+    </section>
+
+</article>
+
