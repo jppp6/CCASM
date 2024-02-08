@@ -20,6 +20,7 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
 import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 
 @NgModule({

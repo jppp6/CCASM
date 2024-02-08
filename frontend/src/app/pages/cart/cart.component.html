@@ -1,6 +1,6 @@
 <div name="main_form_div" class="flex justify-center items-center">
 
-    <form #form = "ngForm" (ngSubmit)="onSubmit(form)" novalidate class="max-w-10xl">
+    <form #form = "ngForm" novalidate class="max-w-10xl mb-9">
 
         <div name = "Form_Title" class="flex flex-col text-gray-700 items-center">
             <h1 class="text-xl font-bold mt-5 mb-2">Strain Request Form</h1>
@@ -9,34 +9,43 @@
         <div name = "Strains_Requested" class="flex flex-col text-gray-700 px-9">
             <h1 class="text-m font-bold mt-5 mb-2">Strains Requested</h1>
             <div class="">
-                <!-- TODO: Shows the user strain checout cart -->
+                <!-- TODO: Shows the user strain checkout cart -->
             </div>
         </div>
     
         <div name = "Name_Email_Aff" class="flex flex-wrap mx-5 mb-5 pt-5">
             <div class="w-full sm:w-1/2 md:w-1/3 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-name">
-                    Full Name <span class="text-red-500">*</span>
+                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-firstname">
+                    First Name <span class="text-red-500">*</span>
                 </label>
-                <input type = "text" name = "fullname" placeholder = "Full Name" maxlength="50" [(ngModel)]="formData.name" 
-                class="bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"> 
+                <input type = "text" name = "firstname" placeholder = "First Name" maxlength="50" required [(ngModel)]="formData.firstname" 
+                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"> 
+            </div>
+
+            <div class="w-full sm:w-1/2 md:w-1/3 px-5">
+                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-lastname">
+                    Last Name <span class="text-red-500">*</span>
+                </label>
+                <input type = "text" name = "lastname" placeholder = "Last Name" maxlength="50" required [(ngModel)]="formData.lastname" 
+                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"> 
             </div>
     
             <div class="w-full sm:w-1/2 md:w-1/3 px-5">
                 <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-email">
                     Email <span class="text-red-500">*</span>
                 </label>
-                <input type = "text" name = "email" placeholder = "Email Address" maxlength="50" [(ngModel)]="formData.email" 
-                class="bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white">
+                <input type = "text" name = "email" placeholder = "Email Address" maxlength="50" required [(ngModel)]="formData.email" 
+                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white">
             </div>
-    
-            <div class="w-full sm:w-1/2 md:w-1/3 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
-                    Affiliation <span class="text-red-500">*</span>
-                </label>
-                <input type = "text" name = "affiliation" placeholder = "Affiliation" maxlength="50" [(ngModel)]="formData.affiliation" 
-                class="bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white">
-            </div>
+
+        </div>
+
+        <div class="w-full px-10 mb-5">
+            <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
+                Affiliation <span class="text-red-500">*</span>
+            </label>
+            <input type = "text" name = "affiliation" placeholder = "Affiliation" maxlength="50" required [(ngModel)]="formData.affiliation" 
+            class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white">
         </div>
         
         <div name= "Message" class="flex flex-wrap mx-5 mb-5 max-w-m px-5">
@@ -49,7 +58,7 @@
         
         <div name="checkbox" class="flex flex-wrap mx-10 mb-5">
             <label class="font-style: italic">
-                <input type="checkbox" name="checkbox" [(ngModel)]=formData.checkbox
+                <input type="checkbox" name="checkbox" required [(ngModel)]=formData.checkbox
                 class = "">
                 <span class="text-red-500 font-bold mx-1">*</span>I declare that I have the required permits to recieve the requested isolates.
             </label>
@@ -57,13 +66,15 @@
     
         <div class="flex justify-left px-9 my-5 space-x-10">
             <div class="transform hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
-                <button type="downloadMeta" class="disabled:opacity-75 bg-gray-200 text-gray-700 hover:bg-gray-900 hover:text-gray-200 font-bold py-3 px-4 rounded flex items-center">
+                <button type="downloadMeta" (click)="onSaveMeta()"
+                class="disabled:opacity-75 bg-gray-200 text-gray-700 hover:bg-gray-900 hover:text-gray-200 font-bold py-3 px-4 rounded flex items-center">
                     <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
                     <span>Save Metadata</span>
                 </button>
             </div>
             <div class="transform hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
-              <button type="submit" class="disabled:opacity-75 bg-gray-700 text-white hover:bg-gray-900 font-bold py-3 px-4 rounded">Submit Request</button>
+              <button type="submit" (click)="onSubmit(form)" 
+              class="disabled:opacity-75 bg-gray-700 text-white hover:bg-gray-900 font-bold py-3 px-4 rounded">Submit Request</button>
             </div>
         </div>
     
@@ -74,7 +85,8 @@
 
 <div *ngIf="submitted">
   <h3>Submitted Data:</h3>
-  <p>Full Name: {{ formData.name }}</p>
+  <p>First Name: {{ formData.firstname }}</p>
+  <p>Last Name: {{ formData.lastname }}</p>
   <p>Email: {{ formData.email }}</p>
   <p>Affiliation: {{ formData.affiliation }}</p>
   <p>Message: {{ formData.message }}</p>

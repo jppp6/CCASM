@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -8,7 +8,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class CartComponent {
   formData = {
-    name: '',
+    firstname: '',
+    lastname: '',
     email: '',
     affiliation: '',
     message: '',
@@ -16,14 +17,19 @@ export class CartComponent {
   };
   submitted = false; //declare a submitted property
   
-  onSubmit(form : any) {
+  onSubmit(form : NgForm) {
     //submit form logic here
     if (form.valid) {
       //do something to validate fields
-      console.log("Submission successful")
+      console.log("Submission successful", this.formData)
     } else {
       //Handle form validation issue
       console.log("Invalid form submission, please fill in required fields")
     }
+  }
+
+  onSaveMeta() {
+    //save metadat function
+    console.log("Meta is saved :)")
   }
 }
