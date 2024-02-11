@@ -1,1 +1,88 @@
-<p>contact works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - CCASM Admin Team</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        color: #333333;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        background-color: #00305e;
+        color: white;
+        padding: 10px 20px;
+    }
+    .header h1 {
+        margin: 0;
+    }
+    .content {
+        padding: 20px;
+    }
+    .footer {
+        background-color: #002145;
+        color: white;
+        text-align: center;
+        padding: 10px 20px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .footer p {
+        margin: 10px 0;
+    }
+    .contact-info {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    .contact-info h2 {
+        color: #00305e;
+    }
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+    }
+    .contact-form button {
+        background-color: #00305e;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+    }
+    .contact-form button:hover {
+        background-color: #001f3f;
+    }
+</style>
+</head>
+<body>
+
+    <div class="content">
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or would like more information, please contact us using the details below:</p>
+            <p><strong>Address:</strong> 123 </p>
+            <p><strong>Email:</strong> contact123</p>
+            <p><strong>Phone:</strong> +1 123</p>
+        </div>
+
+        <div class="contact-form">
+            <h2>Send Us a Message</h2>
+            <form action="#" method="post">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
