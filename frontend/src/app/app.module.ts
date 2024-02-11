@@ -19,6 +19,9 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { FaqComponent } from './pages/faq/faq.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
+import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import { AboutComponent } from './pages/about/about.component';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
