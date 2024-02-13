@@ -16,7 +16,7 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initializeMap();
 
-    this.ccasmService.getStrains().subscribe((strains) => {
+    this.ccasmService.getStrains().subscribe((strains: Strain[]) => {
       this.addCircularMarkers(strains);
     });
   }
@@ -35,6 +35,7 @@ export class HomeComponent implements AfterViewInit {
       maxZoom: 6,
       minZoom: 3,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: 'Built using Google Maps',
     };
 
     // Initialize the map
@@ -46,7 +47,8 @@ export class HomeComponent implements AfterViewInit {
   }
 
   addCircularMarkers(strains: Strain[]): void {
-    strains.forEach((strain) => {
+    const strain = [1];
+    strain.forEach((s) => {
       const marker = L.circleMarker([44.2329329, -76.5153151], {
         radius: 25,
       });
