@@ -1,4 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
@@ -11,7 +12,7 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 export class HomeComponent implements AfterViewInit {
   map!: L.Map;
 
-  constructor(private ccasmService: CCASMService) {}
+  constructor(private ccasmService: CCASMService, private router: Router) {}
 
   ngAfterViewInit(): void {
     this.initializeMap();
@@ -53,8 +54,10 @@ export class HomeComponent implements AfterViewInit {
         radius: 25,
       });
 
-      // change to reroute to search page
-      marker.on('click', () => {});
+      marker.on('click', () => {
+        // Change to open the search associated with the location
+        this.router.navigate(['/browse']);
+      });
 
       marker.addTo(this.map);
     });

@@ -23,3 +23,15 @@ body {
 .text-right {
   text-align: right;
 }
+
+.flex-row {
+  flex-direction: row;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
