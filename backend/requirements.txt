@@ -3,3 +3,5 @@ Django==4.2.7
 mysqlclient==2.0.3
 sqlparse==0.4.4
 typing_extensions==4.8.0
+mysql-connector-python==8.3.0
+python-dotenv==1.0.1
