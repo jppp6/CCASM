@@ -9,19 +9,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { HeaderComponent } from './core/header/header.component';
+import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { ContactComponent } from './pages/contact/contact.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
+import { FaqComponent } from './pages/faq/faq.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
-import { FaqComponent } from './pages/faq/faq.component';
-import { ContactComponent } from './pages/contact/contact.component';
-import { AboutComponent } from './pages/about/about.component';
-import { FormsModule } from '@angular/forms';
-import { NgForm } from '@angular/forms';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatTreeModule } from '@angular/material/tree';
+import { ComplexSearchComponent } from './components/complex-search/complex-search.component';
+import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +47,8 @@ import { NgForm } from '@angular/forms';
     FaqComponent,
     ContactComponent,
     AboutComponent,
+    ComplexSearchComponent,
+    SimpleSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +57,16 @@ import { NgForm } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    FormsModule
+    MatTreeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonToggleModule,
+    MatRadioModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -49,3 +49,8 @@ export interface StrainRequest {
   requestState: 'received' | 'processed' | 'sent' | 'refused';
   requestCreationDate: Date;
 }
+
+export interface StrainNode {
+  name: string;
+  children: StrainNode[];
+}
