@@ -1,31 +1,34 @@
-<div class="h100">
-  <div style="padding-top: 32px; padding-right: 32px; display: flex">
+<div class="w100 h100" style="padding: 32px">
+  <div style="display: flex">
     <span class="flex"></span>
-    <button mat-raised-button (click)="exportToCSV()">
-      Download Collection
+    <mat-radio-group [(ngModel)]="searchType">
+      <mat-radio-button [value]="'simple'"> Simple </mat-radio-button>
+      <mat-radio-button [value]="'complex'"> Complex </mat-radio-button>
+    </mat-radio-group>
+    <span style="width: 32px"></span>
+    <button mat-raised-button (click)="exportAll()">
+      Download Entire Collection
     </button>
   </div>
 
-  <div style="display: flex; justify-content: center">
-    <div>
-      <ng-container *ngIf="searchType == 'simple'">
-        <app-simple-search></app-simple-search>
-      </ng-container>
+  <ng-container *ngIf="searchType == 'simple'">
+    <app-simple-search
+      [options]="simpleOptions"
+      (searchString)="simpleSearch($event)"
+    ></app-simple-search>
+  </ng-container>
 
-      <ng-container *ngIf="searchType == 'complex'">
-        <app-complex-search></app-complex-search>
-      </ng-container>
-      <mat-radio-group [(ngModel)]="searchType">
-        <mat-radio-button [value]="'simple'"> Simple </mat-radio-button>
-        <mat-radio-button [value]="'complex'"> Complex </mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
+  <ng-container *ngIf="searchType == 'complex'">
+    <app-complex-search
+      [options]="complexOptions"
+      (searchStrings)="complexSearch($event)"
+    ></app-complex-search>
+  </ng-container>
 
-  <!-- CHANGE THE HEIGHT -->
-  <div style="height: 500px; overflow-y: auto">
+  <!-- TODO: change the height -->
+  <ng-container *ngIf="filteredStrains === null">
     <mat-tree
-      [dataSource]="dataSource"
+      [dataSource]="treeDataSource"
       [treeControl]="treeControl"
       class="strain-tree"
     >
@@ -57,5 +60,37 @@
         </div>
       </mat-nested-tree-node>
     </mat-tree>
-  </div>
+  </ng-container>
+
+  <ng-container *ngIf="filteredStrains !== null">
+    <ng-container *ngIf="filteredStrains.length > 0">
+      <button mat-raised-button (click)="clearResults()">
+        <mat-icon>undo</mat-icon>
+        Clear Results
+      </button>
+
+      <button mat-raised-button (click)="exportFiltered()">
+        Download Filtered Collection
+      </button>
+
+      <ng-container *ngFor="let s of filteredStrains">
+        <mat-card (click)="openStrainInformation(s)">
+          <mat-card-title>
+            <strong>Strain Name:</strong> {{ s.strainName }}
+            <strong>Binomial Classification:</strong>
+            {{ s.binomialClassification }}
+          </mat-card-title>
+          <mat-card-content>
+            <strong>Taxonomic Lineage:</strong>
+            {{ s.taxonomicLineage }}
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="filteredStrains.length === 0">
+      <br />
+      There are no strains that match the desired attributes.
+    </ng-container>
+  </ng-container>
 </div>
