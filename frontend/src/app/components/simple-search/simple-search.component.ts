@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 
 @Component({
@@ -7,9 +7,10 @@ import { Observable, map, startWith } from 'rxjs';
   templateUrl: './simple-search.component.html',
   styleUrls: ['./simple-search.component.css'],
 })
-export class SimpleSearchComponent {
-  simpleSearch = new FormControl<string>('', [Validators.required]);
-  options: string[] = ['Bacteria 1', 'bacteria 2', 'bacteria 3'];
+export class SimpleSearchComponent implements OnInit {
+  @Input() options: string[] = [];
+  @Output() searchString = new EventEmitter<string>();
+  simpleSearch = new FormControl<string>('');
   filteredOptions!: Observable<string[]>;
 
   ngOnInit() {
@@ -19,14 +20,16 @@ export class SimpleSearchComponent {
     );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
+  private _filter(v: string): string[] {
+    const filterValue = v.toLowerCase();
     return this.options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }
-  print(): void {
-    console.log(this.simpleSearch.value);
+
+  search() {
+    if (this.simpleSearch.value) {
+      this.searchString.emit(this.simpleSearch.value);
+    }
   }
 }
