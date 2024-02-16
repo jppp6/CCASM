@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 
 @Component({
@@ -8,12 +8,12 @@ import { Observable, map, startWith } from 'rxjs';
   styleUrls: ['./simple-search.component.css'],
 })
 export class SimpleSearchComponent {
-  myControl = new FormControl('');
+  simpleSearch = new FormControl<string>('', [Validators.required]);
   options: string[] = ['Bacteria 1', 'bacteria 2', 'bacteria 3'];
   filteredOptions!: Observable<string[]>;
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.simpleSearch.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value || ''))
     );
@@ -26,5 +26,7 @@ export class SimpleSearchComponent {
       option.toLowerCase().includes(filterValue)
     );
   }
-  constructor() {}
+  print(): void {
+    console.log(this.simpleSearch.value);
+  }
 }

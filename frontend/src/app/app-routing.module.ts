@@ -22,8 +22,8 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'admin', component: AdminComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home
-  { path: '**', redirectTo: '/pagenotfound' }, // any errors, redirect to page not found
   { path: 'pagenotfound', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/pagenotfound' }, // any errors, redirect to page not found
 ];
 
 @NgModule({

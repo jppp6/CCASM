@@ -1,72 +1,71 @@
-<mat-form-field style="width: 200px">
-  <mat-label>Province</mat-label>
-  <input
-    type="text"
-    aria-label="Search by province"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Isolation Source</mat-label>
-  <input
-    type="text"
-    aria-label="Search by Isolation Source"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Isolation Soil Texture</mat-label>
-  <input
-    type="text"
-    aria-label="Search by Isolation Soil Texture"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Risk Group </mat-label>
-  <input
-    type="text"
-    aria-label="Search by Risk Group"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Number</mat-label>
-  <input
-    type="text"
-    aria-label="Search by name"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Number</mat-label>
-  <input
-    type="text"
-    aria-label="Search by name"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Number</mat-label>
-  <input
-    type="text"
-    aria-label="Search by name"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
-<mat-form-field style="width: 200px">
-  <mat-label>Number</mat-label>
-  <input
-    type="text"
-    aria-label="Search by name"
-    matInput
-    [formControl]="myControl"
-  />
-</mat-form-field>
+<form [formGroup]="complexSearchForm">
+  <mat-form-field style="width: 200px">
+    <mat-label>Strain Name</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Strain Name"
+      matInput
+      formControlName="strainName"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Province</mat-label>
+    <input
+      type="text"
+      aria-label="Search by province"
+      matInput
+      formControlName="province"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Isolation Source</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Isolation Source"
+      matInput
+      formControlName="isolationSource"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Isolation Soil Texture</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Isolation Soil Texture"
+      matInput
+      formControlName="isolationSoilTexture"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Risk Group </mat-label>
+    <input
+      type="text"
+      aria-label="Search by Risk Group"
+      matInput
+      formControlName="riskGroup"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Isolation Protocol</mat-label>
+    <input
+      type="text"
+      aria-label="Search by name"
+      matInput
+      formControlName="isolationProtocol"
+    />
+  </mat-form-field>
+  <mat-form-field style="width: 200px">
+    <mat-label>Is Plant Pathogen</mat-label>
+    <mat-select formControlName="isPlantPathogen">
+      <mat-option>-- None --</mat-option>
+      <mat-option value="true">True</mat-option>
+      <mat-option value="false">False</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+
+<button mat-raised-button color="accent" (click)="print()">see vals</button>
+<button mat-raised-button color="warn" (click)="complexSearchForm.reset()">
+  Clear
+</button>
+
+<button mat-raised-button color="primary" (click)="search()">Search</button>

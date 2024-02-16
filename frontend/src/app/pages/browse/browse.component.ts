@@ -9,11 +9,9 @@ import { StrainNode } from 'src/app/core/utils/ccasm.types';
 })
 export class BrowseComponent implements OnInit {
   // constructor(private ccasmService: CCASMService) {}
-  searchType: 'simple' | 'complex' = 'simple';
+  searchType: 'simple' | 'complex' = 'complex';
   treeControl = new NestedTreeControl<StrainNode>((node) => node.children);
   dataSource = new MatTreeNestedDataSource<StrainNode>();
-
-  constructor() {}
 
   ngOnInit(): void {
     // change this to get the stuff from DB instead
@@ -63,25 +61,21 @@ export class BrowseComponent implements OnInit {
   }
 
   exportToCSV(): void {
-    let csvContent = 'Name,Children Count\n';
-
-    this.dataSource.data.forEach((node) => {
-      const childrenCount = this.recursiveCount(node);
-      csvContent += `${node.name},${childrenCount}\n`;
-    });
-
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'output.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-
-    console.log('CSV file generated and downloaded');
+    // let csvContent = 'Name,Children Count\n';
+    // this.dataSource.data.forEach((node) => {
+    //   const childrenCount = this.recursiveCount(node);
+    //   csvContent += `${node.name},${childrenCount}\n`;
+    // });
+    // const blob = new Blob([csvContent], { type: 'text/csv' });
+    // const url = window.URL.createObjectURL(blob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = 'output.csv';
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
+    // window.URL.revokeObjectURL(url);
+    // console.log('CSV file generated and downloaded');
   }
 }
 

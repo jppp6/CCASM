@@ -5,7 +5,7 @@
     placeholder="Pick one"
     aria-label="Number"
     matInput
-    [formControl]="myControl"
+    [formControl]="simpleSearch"
     [matAutocomplete]="auto"
   />
   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -14,3 +14,4 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+<button mat-button (click)="print()">see vals</button>
