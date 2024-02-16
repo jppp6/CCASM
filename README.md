@@ -28,11 +28,19 @@ https://angular.io/guide/setup-local
 
 In the backend directory:
 
+```python
 python3 -m venv env
+```
 
+```python
 source env/bin/activate
+```
 
+```python
 pip install -r requirements.txt
+```
+
+Don't forget to create .env file for storing API keys + passwds.
 
 # Database
 
