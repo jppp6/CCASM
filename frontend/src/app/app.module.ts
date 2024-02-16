@@ -28,10 +28,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTreeModule } from '@angular/material/tree';
 import { ComplexSearchComponent } from './components/complex-search/complex-search.component';
 import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +56,7 @@ import { SimpleSearchComponent } from './components/simple-search/simple-search.
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
     MatToolbarModule,
     MatTreeModule,
     FormsModule,
