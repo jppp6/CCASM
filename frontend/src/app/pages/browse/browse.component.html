@@ -1,1 +1,68 @@
-<p>browse works!</p>
+<div class="h100">
+  <div style="display: flex; justify-content: center">
+    <div>
+      <mat-radio-group [(ngModel)]="searchType">
+        <mat-radio-button [value]="'simple'"> Simple </mat-radio-button>
+        <mat-radio-button [value]="'complex'"> Complex </mat-radio-button>
+      </mat-radio-group>
+      <br />
+
+      <ng-container *ngIf="searchType == 'simple'">
+        <app-simple-search></app-simple-search>
+      </ng-container>
+
+      <ng-container *ngIf="searchType == 'complex'">
+        <app-complex-search></app-complex-search>
+      </ng-container>
+
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+
+  <div style="display: flex">
+    <span class="flex"></span>
+    <button mat-raised-button (click)="exportToCSV()">
+      Download Collection
+    </button>
+  </div>
+  <!-- CHANGE THE HEIGHT -->
+  <div style="height: 600px; overflow-y: auto">
+    <mat-tree
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+      class="strain-tree"
+    >
+      <!-- This is the tree node template for leaf nodes -->
+      <!-- There is inline padding applied to this node using styles.
+            This padding value depends on the mat-icon-button width. -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        {{ node.name }}
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <div class="mat-tree-node">
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.name"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{
+                treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
+              }}
+            </mat-icon>
+          </button>
+          {{ node.name }} ({{ recursiveCount(node) }})
+        </div>
+        <!-- There is inline padding applied to this div using styles.
+        This padding value depends on the mat-icon-button width.  -->
+        <div
+          [class.strain-tree-invisible]="!treeControl.isExpanded(node)"
+          role="group"
+        >
+          <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+      </mat-nested-tree-node>
+    </mat-tree>
+  </div>
+</div>
