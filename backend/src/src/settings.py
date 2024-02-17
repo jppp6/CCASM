@@ -81,11 +81,16 @@ WSGI_APPLICATION = "src.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "CCASM_DEV01",
+        "NAME": "ccasmdb",
         "USER": "ccasmadmin",
         "PASSWORD": getenv("DEV_DB_PASS"),
         "HOST": getenv('DEV_DB_IP'),
-        "PORT": "3306"
+        "PORT": "3306",
+        "OPTIONS": {
+            "ssl": {
+                'ca': getenv('SSL_CA')
+            }
+        }
     },
 
     "CCASM_PROD": {
@@ -94,7 +99,12 @@ DATABASES = {
         "USER": "ccasmadmin",
         "PASSWORD": getenv("PROD_DB_PASS"),
         "HOST": getenv('PROD_DB_IP'),
-        "PORT": "3306"
+        "PORT": "3306",
+        "OPTIONS": {
+            "ssl": {
+                getenv('SSL_CA')
+            }
+        }
     }
 }
 
