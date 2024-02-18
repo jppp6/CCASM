@@ -1,14 +1,17 @@
-<mat-form-field style="width: 100%">
+<!-- TO FIX: When the selection is no longer matching, the autocomplete checkmark should not be there -->
+
+<mat-form-field class="w100">
   <mat-label>Strain Name</mat-label>
-  <!-- TODO: Fix autocomplete check not disappearing-->
   <input
     type="text"
     aria-label="Strain Name"
     matInput
     [formControl]="simpleSearch"
     [matAutocomplete]="auto"
+    #trigger="matAutocompleteTrigger"
+    (keydown.enter)="$event.stopPropagation(); trigger.closePanel()"
   />
-  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+  <mat-autocomplete #auto="matAutocomplete" hideSingleSelectionIndicator>
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{ option }}
     </mat-option>

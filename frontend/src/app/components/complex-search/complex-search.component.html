@@ -1,5 +1,7 @@
-<form [formGroup]="complexSearchForm">
-  <mat-form-field style="width: 200px">
+<!-- TO FIX: When the selection is no longer matching, the autocomplete checkmark should not be there -->
+
+<form [formGroup]="complexSearchForm" class="form-container">
+  <mat-form-field class="complex-form-field">
     <mat-label>Strain Name</mat-label>
     <input
       type="text"
@@ -8,15 +10,12 @@
       formControlName="binomialClassification"
       [matAutocomplete]="binomialClassification"
     />
-    <mat-autocomplete
-      autoActiveFirstOption
-      #binomialClassification="matAutocomplete"
-    >
+    <mat-autocomplete #binomialClassification="matAutocomplete">
       <mat-option *ngFor="let option of bcFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -27,10 +26,10 @@
       *ngIf="complexSearchForm.get('binomialClassification')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Province</mat-label>
     <input
       type="text"
@@ -39,15 +38,12 @@
       formControlName="isolationProvince"
       [matAutocomplete]="isolationProvince"
     />
-    <mat-autocomplete
-      autoActiveFirstOption
-      #isolationProvince="matAutocomplete"
-    >
+    <mat-autocomplete #isolationProvince="matAutocomplete">
       <mat-option *ngFor="let option of iprovFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -58,10 +54,10 @@
       *ngIf="complexSearchForm.get('isolationProvince')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Isolation Source</mat-label>
     <input
       type="text"
@@ -70,12 +66,12 @@
       formControlName="isolationSource"
       [matAutocomplete]="isolationSource"
     />
-    <mat-autocomplete autoActiveFirstOption #isolationSource="matAutocomplete">
+    <mat-autocomplete #isolationSource="matAutocomplete">
       <mat-option *ngFor="let option of isFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -86,10 +82,10 @@
       *ngIf="complexSearchForm.get('isolationSource')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Isolation Soil Texture</mat-label>
     <input
       type="text"
@@ -98,15 +94,12 @@
       formControlName="isolationSoilTexture"
       [matAutocomplete]="isolationSoilTexture"
     />
-    <mat-autocomplete
-      autoActiveFirstOption
-      #isolationSoilTexture="matAutocomplete"
-    >
+    <mat-autocomplete #isolationSoilTexture="matAutocomplete">
       <mat-option *ngFor="let option of istFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -117,10 +110,10 @@
       *ngIf="complexSearchForm.get('isolationSoilTexture')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Risk Group </mat-label>
     <input
       type="text"
@@ -129,12 +122,12 @@
       formControlName="riskGroup"
       [matAutocomplete]="riskGroup"
     />
-    <mat-autocomplete autoActiveFirstOption #riskGroup="matAutocomplete">
+    <mat-autocomplete #riskGroup="matAutocomplete">
       <mat-option *ngFor="let option of rgFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -144,10 +137,10 @@
       *ngIf="complexSearchForm.get('riskGroup')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Isolation Protocol</mat-label>
     <input
       type="text"
@@ -156,15 +149,12 @@
       formControlName="isolationProtocol"
       [matAutocomplete]="isolationProtocol"
     />
-    <mat-autocomplete
-      autoActiveFirstOption
-      #isolationProtocol="matAutocomplete"
-    >
+    <mat-autocomplete #isolationProtocol="matAutocomplete">
       <mat-option *ngFor="let option of iprotFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
     </mat-autocomplete>
-    <button
+    <!-- <button
       mat-icon-button
       aria-label="Clear"
       matSuffix
@@ -175,10 +165,10 @@
       *ngIf="complexSearchForm.get('isolationProtocol')?.value"
     >
       <mat-icon>clear</mat-icon>
-    </button>
+    </button> -->
   </mat-form-field>
 
-  <mat-form-field style="width: 200px">
+  <mat-form-field class="complex-form-field">
     <mat-label>Is Plant Pathogen</mat-label>
     <mat-select formControlName="isPlantPathogen">
       <mat-option>-- None --</mat-option>
@@ -200,8 +190,9 @@
   </mat-form-field>
 </form>
 
-<button mat-raised-button color="warn" (click)="complexSearchForm.reset()">
+<!-- INCASE: We want a reset button -->
+<!-- <button mat-raised-button color="warn" (click)="complexSearchForm.reset()">
   Clear
-</button>
+</button> -->
 
 <button mat-raised-button color="primary" (click)="search()">Search</button>

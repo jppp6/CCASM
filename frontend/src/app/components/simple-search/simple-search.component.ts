@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -7,29 +7,28 @@ import { Observable, map, startWith } from 'rxjs';
   templateUrl: './simple-search.component.html',
   styleUrls: ['./simple-search.component.css'],
 })
-export class SimpleSearchComponent implements OnInit {
-  @Input() options: string[] = [];
+export class SimpleSearchComponent {
   @Output() searchString = new EventEmitter<string>();
-  simpleSearch = new FormControl<string>('');
-  filteredOptions!: Observable<string[]>;
+  @Input() options: string[] = [];
 
-  ngOnInit() {
-    this.filteredOptions = this.simpleSearch.valueChanges.pipe(
+  simpleSearch = new FormControl<string>('');
+  filteredOptions: Observable<string[]> = this._createFilteredObservable();
+
+  private _createFilteredObservable(): Observable<string[]> {
+    return this.simpleSearch.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filter(value || ''))
+      map((v) => this._filter(v || ''))
     );
   }
 
   private _filter(v: string): string[] {
-    const filterValue = v.toLowerCase();
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
-    );
+    v = v.toLowerCase();
+    return this.options.filter((o) => o.toLowerCase().includes(v));
   }
 
   search() {
     if (this.simpleSearch.value) {
-      this.searchString.emit(this.simpleSearch.value);
+      this.searchString.emit(this.simpleSearch.value.toLowerCase());
     }
   }
 }
