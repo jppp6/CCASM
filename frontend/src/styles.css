@@ -14,8 +14,19 @@ body {
 .flex {
   flex: 1 1 auto;
 }
-
 .flex-box {
   display: flex;
+}
+
+.flex-column {
+  display: flex;
   flex-direction: column;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
 }

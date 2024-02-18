@@ -50,4 +50,11 @@ export class Utils {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
+
+  static formatDate(date: Date): string {
+    const year = date.getFullYear().toString().slice(-2);
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
 }

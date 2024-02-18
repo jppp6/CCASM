@@ -10,5 +10,12 @@
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button cdkFocusInitial>Add to Cart</button>
+  <button
+    mat-button
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="addStrainToCart()"
+  >
+    Add to Cart
+  </button>
 </mat-dialog-actions>

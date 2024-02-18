@@ -1,14 +1,14 @@
-<div class="w100 h100" style="padding: 32px">
-  <div style="display: flex">
+<div class="h100" style="padding: 32px">
+  <div class="flex-box">
+    <button mat-raised-button (click)="exportAll()">
+      Download Entire Collection
+    </button>
     <span class="flex"></span>
     <mat-radio-group [(ngModel)]="searchType">
       <mat-radio-button [value]="'simple'"> Simple </mat-radio-button>
       <mat-radio-button [value]="'complex'"> Complex </mat-radio-button>
     </mat-radio-group>
     <span style="width: 32px"></span>
-    <button mat-raised-button (click)="exportAll()">
-      Download Entire Collection
-    </button>
   </div>
 
   <ng-container *ngIf="searchType == 'simple'">
@@ -25,14 +25,19 @@
     ></app-complex-search>
   </ng-container>
 
-  <!-- TODO: change the height -->
+  <mat-divider style="margin: 22px"></mat-divider>
+
   <ng-container *ngIf="filteredStrains === null">
     <mat-tree
+      class="strain-tree"
       [dataSource]="treeDataSource"
       [treeControl]="treeControl"
-      class="strain-tree"
     >
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+      <mat-tree-node
+        *matTreeNodeDef="let node"
+        (click)="simpleSearch(node.name)"
+        matTreeNodeToggle
+      >
         {{ node.name }}
       </mat-tree-node>
 
@@ -64,17 +69,20 @@
 
   <ng-container *ngIf="filteredStrains !== null">
     <ng-container *ngIf="filteredStrains.length > 0">
+      <button mat-raised-button (click)="exportFiltered()">
+        Download Filtered Collection
+      </button>
+
       <button mat-raised-button (click)="clearResults()">
         <mat-icon>undo</mat-icon>
         Clear Results
       </button>
 
-      <button mat-raised-button (click)="exportFiltered()">
-        Download Filtered Collection
-      </button>
-
       <ng-container *ngFor="let s of filteredStrains">
-        <mat-card (click)="openStrainInformation(s)">
+        <mat-card
+          (click)="openStrainInformation(s)"
+          style="background-color: #ececec"
+        >
           <mat-card-title>
             <strong>Strain Name:</strong> {{ s.strainName }}
             <strong>Binomial Classification:</strong>

@@ -1,3 +1,8 @@
+.strain-tree {
+  background-color: #ececec;
+  border-radius: 16px;
+}
+
 .strain-tree-invisible {
   display: none;
 }

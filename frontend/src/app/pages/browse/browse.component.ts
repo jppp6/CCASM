@@ -5,6 +5,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { StrainDetailsDialog } from 'src/app/components/strain-details/strain-details.component';
 import { Strain, StrainNode } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
+
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html',
@@ -22,19 +23,25 @@ export class BrowseComponent implements OnInit {
   allStrains: Strain[] = [];
 
   simpleOptions: string[] = [];
-  complexOptions!: {
+  complexOptions: {
     binomialClassification: string[];
     isolationProvince: string[];
     isolationSource: string[];
     isolationSoilTexture: string[];
     riskGroup: string[];
     isolationProtocol: string[];
+  } = {
+    binomialClassification: [],
+    isolationProvince: [],
+    isolationSource: [],
+    isolationSoilTexture: [],
+    riskGroup: [],
+    isolationProtocol: [],
   };
 
   ngOnInit(): void {
     // change this to get the stuff from DB instead
-    this.allStrains = Utils.snackCaseToCamelCase(allData);
-
+    this.allStrains = Utils.snackCaseToCamelCase(allData) as Strain[];
     this.treeDataSource.data = this.buildTree(
       this.allStrains.map((s) => s.taxonomicLineage)
     );
@@ -70,35 +77,36 @@ export class BrowseComponent implements OnInit {
   }
 
   simpleSearch(searchString: string): void {
+    searchString = searchString.toLowerCase();
     if (searchString === '') {
       this.filteredStrains = null;
     } else {
       this.filteredStrains = this.allStrains.filter((s) =>
-        s.binomialClassification.includes(searchString)
+        s.binomialClassification.toLowerCase().includes(searchString)
       );
     }
   }
 
-  complexSearch(searchParams: { [key: string]: string | null }): void {
-    Object.keys(searchParams).forEach((key) => {
-      const value = searchParams[key];
-      searchParams[key] = typeof value === 'string' ? value.toLowerCase() : '';
-    });
-
+  complexSearch(searchParams: { [key: string]: string }): void {
     this.filteredStrains = this.allStrains.filter((s) =>
-      Object.keys(searchParams).every((key) => {
-        const v = searchParams[key];
-        return v && (s as any)[key].toString().toLowerCase().includes(v);
-      })
+      Object.keys(searchParams).every((key) =>
+        (s as any)[key].toString().toLowerCase().includes(searchParams[key])
+      )
     );
   }
 
   exportFiltered(): void {
-    Utils.exportToCSV(this.filteredStrains || [], 'strains.csv');
+    Utils.exportToCSV(
+      this.filteredStrains || [],
+      'CCASM-' + Utils.formatDate(new Date()) + '.csv'
+    );
   }
 
   exportAll(): void {
-    Utils.exportToCSV(this.allStrains || [], 'strains.csv');
+    Utils.exportToCSV(
+      this.allStrains,
+      'CCASM-' + Utils.formatDate(new Date()) + '.csv'
+    );
   }
 
   clearResults(): void {

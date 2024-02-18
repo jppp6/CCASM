@@ -10,9 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class ComplexSearchComponent {
   @Input() options!: { [key: string]: string[] };
-  @Output() searchStrings = new EventEmitter<{
-    [key: string]: string | null;
-  }>();
+  @Output() searchStrings = new EventEmitter<{ [key: string]: string }>();
 
   complexSearchForm = new FormGroup({
     binomialClassification: new FormControl<string>(''),
@@ -24,22 +22,22 @@ export class ComplexSearchComponent {
     isPlantPathogen: new FormControl<string>(''),
   });
 
-  bcFiltered = this.createFilteredObservable('binomialClassification');
-  iprovFiltered = this.createFilteredObservable('isolationProvince');
-  isFiltered = this.createFilteredObservable('isolationSource');
-  istFiltered = this.createFilteredObservable('isolationSoilTexture');
-  rgFiltered = this.createFilteredObservable('riskGroup');
-  iprotFiltered = this.createFilteredObservable('isolationProtocol');
+  bcFiltered = this._createFilteredObservable('binomialClassification');
+  iprovFiltered = this._createFilteredObservable('isolationProvince');
+  isFiltered = this._createFilteredObservable('isolationSource');
+  istFiltered = this._createFilteredObservable('isolationSoilTexture');
+  rgFiltered = this._createFilteredObservable('riskGroup');
+  iprotFiltered = this._createFilteredObservable('isolationProtocol');
 
-  private createFilteredObservable(controlName: string): Observable<string[]> {
+  private _createFilteredObservable(controlName: string): Observable<string[]> {
     const c = this.complexSearchForm.get(controlName);
     if (c) {
       return ((this as any)[`${controlName}Filtered`] = c.valueChanges.pipe(
         startWith(''),
-        map((v) => this._filter(this.options[controlName], v || ''))
+        map((v: string) => this._filter(this.options[controlName], v))
       ));
     } else {
-      return new Observable();
+      return new Observable<string[]>();
     }
   }
 
@@ -53,6 +51,18 @@ export class ComplexSearchComponent {
   }
 
   search(): void {
-    this.searchStrings.emit(this.complexSearchForm.value);
+    const searchForm = { ...this.complexSearchForm.value };
+    const searchParams: { [key: string]: string } = {};
+
+    Object.keys(searchForm).forEach((key) => {
+      const value = (searchForm as any)[key];
+      if (value && typeof value === 'string') {
+        searchParams[key] = value.toLowerCase();
+      }
+    });
+
+    if (Object.keys(searchParams).length > 0) {
+      this.searchStrings.emit(searchParams);
+    }
   }
 }
