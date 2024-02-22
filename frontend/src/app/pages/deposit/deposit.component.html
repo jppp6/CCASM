@@ -1,77 +1,134 @@
-<div name="main-div" class="flex justify-center items-center">
+<article name="main">
 
-    <form [formGroup]="applyForm" novalidate class="max-w-full mb-9">
+    <div name="main-div" class="flex justify-evenly items-center">
 
-        <div name="Form-Title" class="flex flex-col text-gray-700 items-center">
-            <h1 class="text-xl font-bold mt-5 mb-2">Strain Deposit Request</h1>
-        </div>
+        <!-- Main Form -->
+        <form [formGroup]="applyForm" (ngSubmit)="build()" novalidate class="max-w-full mb-9">
 
-        <div name = "first-last" class="flex flex-wrap mx-5 mb-5 pt-5">
-            <div class="w-full sm:w-1/2 md:w-1/2 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-firstname">
-                    First Name <span class="text-red-500">*</span>
-                </label>
-                <input type = "text" name = "firstname" placeholder = "First Name" maxlength="50" formControlName="firstName"
-                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"> 
+            <!-- Title -->
+            <div name="Form-Title" class="flex flex-col text-gray-700 items-center">
+                <h1 class="text-xl font-bold mt-5 mb-2">Strain Deposit Request</h1>
             </div>
-
-            <div class="w-full sm:w-1/2 md:w-1/3 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-lastname">
-                    Last Name <span class="text-red-500">*</span>
-                </label>
-                <input type = "text" name = "lastname" placeholder = "Last Name" maxlength="50" formControlName="lastName"
-                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"> 
-            </div>
-        </div>
-            
-        <div name = "eml-aff" class="flex flex-wrap mx-5 mb-5 pt-5">
-            <div class="w-full sm:w-1/2 md:w-1/2 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-email">
-                    Email <span class="text-red-500">*</span>
-                </label>
-                <input type = "text" name = "email" placeholder = "Email Address" maxlength="50" formControlName="email" 
-                class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white">
-            </div>
-
-            <div class="w-full sm:w-1/2 md:w-1/2 px-5">
-                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
-                    Affiliation <span class="text-red-500">*</span>
-                </label>
-                <input type = "text" name = "affiliation" placeholder = "Affiliation" maxlength="50" formControlName="affiliation" 
-                class="bg-gray-100 text-gray-700 border rounded w-fit py-3 px-4 leading-tight focus:outline-none focus:bg-white">
-            </div>
-
-        </div>
-
-        <div name= "Message" class="flex flex-wrap mx-5 mb-5 max-w-m px-5">
-            <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
-                Message
-            </label> 
-            <textarea type = "text" name = "message" placeholder = "Optional Message ..." maxlength="300" formControlName="message"
-            class="w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"></textarea>
-        </div>
-
-        <div class="flex justify-left px-9 my-5 space-x-10">
-            <div class="transform hover:-translate-y-1 hover:scale-100 transition ease-in-out duration-300">
-                <input type="file" class="file-input" formControlName="depositExcel" (change)="onFileUpload($event)" #deposit>
-
-                <div class="file-upload">
-
-                    {{filename || "No file uploaded yet."}}
-
-                    <button mat-mini-fab color="primary" class="upload-btn"
-                    (click)="deposit.click()">
-                        <mat-icon>attach_file</mat-icon>
-                    </button>
-                </div>
-            </div>
-            <div class="transform hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
-              <button type="submit" (click)="submitDeposit()"
-              class="disabled:opacity-75 bg-gray-700 text-white hover:bg-gray-900 font-bold py-3 px-4 rounded">Submit Request</button>
-            </div>
-        </div>
-
-    </form>
     
-</div>
+            <!-- First line -->
+            <div name = "first-last-email" class="flex flex-wrap mx-5 mb-5 pt-5">
+                <div class="w-full sm:w-1/3 md:w-1/3 px-5">
+                    <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-firstname">
+                        First Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type = "text" name = "firstname" placeholder = "First Name" maxlength="50" formControlName="firstName" required
+                    class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white 
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"> 
+                </div>
+    
+                <div class="w-full sm:w-1/3 md:w-1/3 px-5">
+                    <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-lastname">
+                        Last Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type = "text" name = "lastname" placeholder = "Last Name" maxlength="50" formControlName="lastName" required
+                    class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500"> 
+                </div>
 
+                <div class="w-full sm:w-1/3 md:w-1/3 px-5">
+                    <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-email">
+                        Email <span class="text-red-500">*</span>
+                    </label>
+                    <input type = "text" name = "email" placeholder = "Email Address" maxlength="50" formControlName="email" required
+                    class="bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+                </div>
+
+            </div>
+            
+            <!-- 2nd line -->
+            <div name = "aff" class="flex flex-wrap mx-5 mb-5 pt-5">
+                
+                <div class="w-full px-5">
+                    <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
+                        Affiliation <span class="text-red-500">*</span>
+                    </label>
+                    <input type = "text" name = "affiliation" placeholder = "Affiliation" maxlength="200" formControlName="affiliation" required
+                    class="bg-gray-100 text-gray-700 border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:bg-white
+                    invalid:border-pink-500 invalid:text-pink-600
+                    focus:invalid:border-pink-500 focus:invalid:ring-pink-500">
+                </div>
+    
+            </div>
+    
+            <!-- Message box -->
+            <div name= "Message" class="flex flex-wrap mx-5 mb-5 max-w-m px-5">
+                <label class="block tracking-wide text-gray-700 text-m font-bold mb-2" for="grid-affiliation">
+                    Message
+                </label> 
+                <textarea type = "text" name = "message" placeholder = "Optional Message ..." maxlength="300" formControlName="message"
+                class="w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"></textarea>
+            </div>
+
+            <div name="info" class="flex flex-wrap mx-10 mb-5">
+                <label class="font-style: italic">
+                    This request will put you in contact with one of us. Furthur communication will be needed.
+                </label>
+            </div>
+
+            <!-- buttons/file upload -->
+            <div class="flex justify-between px-9 my-5 space-x-10">
+    
+                <div class="transform hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
+                    <button type="submit" [disabled]="applyForm.invalid"
+                    class="disabled:opacity-75 bg-gray-700 text-white hover:bg-gray-900 font-bold py-3 px-4 rounded">Submit Request</button>
+                  </div>
+    
+                <div class="transform hover:-translate-y-1 hover:scale-100 transition ease-in-out duration-300">
+                    <input type="file" class="file-input" formControlName="depositExcel" (change)="onFileUpload($event)" required #deposit>
+    
+                    <div class="file-upload">
+    
+                        {{filename || "No file uploaded yet."}}
+    
+                        <button mat-mini-fab color="primary" class="upload-btn"
+                        (click)="deposit.click()">
+                            <mat-icon>attach_file</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Errors Looks bad right now will update-->
+            <label for="errors">
+                <div class="error" *ngIf="f.firstName?.touched && f.firstName?.invalid">
+                    <div *ngIf="f.firstName?.errors?.['required']">First name is required.</div>
+                </div>
+
+                <div class="error" *ngIf="f.lastName?.touched && f.lastName?.invalid">
+                    <div *ngIf="f.lastName?.errors?.['required']">Last name is required.</div>
+                </div>
+
+                <div class="error" *ngIf="f.email?.touched && f.email?.invalid">
+                    <div *ngIf="f.email?.errors?.['required']">Email is required.</div>
+                    <div *ngIf="f.email?.errors?.['minlength']">
+                        Email must be at least 3 characters long.
+                    </div>
+                    <div *ngIf="f.email?.errors?.['email']">
+                        Not valid email.
+                    </div>
+                </div>
+
+                <div class="error" *ngIf="f.affiliation?.touched && f.affiliation?.invalid">
+                    <div *ngIf="f.affiliation.errors?.['required']">Affiliation is required.</div>
+                </div>
+
+                <div class="error" *ngIf="f.depositExcel?.touched && f.depositExcel?.invalid">
+                    <div *ngIf="f.depositExcel?.errors?.['required']">File(.csv|.xlsx|.xls) is required.</div>
+                </div>
+            </label>
+            
+        </form>
+        
+    </div>
+
+</article>
