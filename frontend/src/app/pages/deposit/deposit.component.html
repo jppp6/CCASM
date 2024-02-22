@@ -3,7 +3,7 @@
     <div name="main-div" class="flex justify-evenly items-center">
 
         <!-- Main Form -->
-        <form [formGroup]="applyForm" (ngSubmit)="build()" novalidate class="max-w-full mb-9">
+        <form [formGroup]="applyForm" (ngSubmit)="build($event.submitter.id)" novalidate class="max-w-full mb-9">
 
             <!-- Title -->
             <div name="Form-Title" class="flex flex-col text-gray-700 items-center">
@@ -78,7 +78,7 @@
             <div class="flex justify-between px-9 my-5 space-x-10">
     
                 <div class="transform hover:-translate-y-1 hover:scale-110 transition ease-in-out duration-300">
-                    <button type="submit" [disabled]="applyForm.invalid"
+                    <button id="main" type="submit" [disabled]="applyForm.invalid"
                     class="disabled:opacity-75 bg-gray-700 text-white hover:bg-gray-900 font-bold py-3 px-4 rounded">Submit Request</button>
                   </div>
     
@@ -87,9 +87,9 @@
     
                     <div class="file-upload">
     
-                        {{filename || "No file uploaded yet."}}
+                        {{filename || "file upload (xlsx,xls,csv)"}}
     
-                        <button mat-mini-fab color="primary" class="upload-btn"
+                        <button mat-mini-fab id="file" color="primary" class="upload-btn"
                         (click)="deposit.click()">
                             <mat-icon>attach_file</mat-icon>
                         </button>
@@ -100,30 +100,29 @@
 
             <!-- Errors Looks bad right now will update-->
             <label for="errors">
-                <div class="error" *ngIf="f.firstName?.touched && f.firstName?.invalid">
+                <div class="error" *ngIf="f.firstName?.dirty && f.firstName?.invalid">
                     <div *ngIf="f.firstName?.errors?.['required']">First name is required.</div>
+                    <div *ngIf="f.firstName?.errors?.['pattern']">Only alphabetic characters.</div>
                 </div>
 
-                <div class="error" *ngIf="f.lastName?.touched && f.lastName?.invalid">
+                <div class="error" *ngIf="f.lastName?.dirty && f.lastName?.invalid">
                     <div *ngIf="f.lastName?.errors?.['required']">Last name is required.</div>
+                    <div *ngIf="f.lastName?.errors?.['pattern']">Only alphabetic characters.</div>
                 </div>
 
-                <div class="error" *ngIf="f.email?.touched && f.email?.invalid">
+                <div class="error" *ngIf="f.email?.dirty && f.email?.invalid">
                     <div *ngIf="f.email?.errors?.['required']">Email is required.</div>
-                    <div *ngIf="f.email?.errors?.['minlength']">
-                        Email must be at least 3 characters long.
-                    </div>
                     <div *ngIf="f.email?.errors?.['email']">
                         Not valid email.
                     </div>
                 </div>
 
-                <div class="error" *ngIf="f.affiliation?.touched && f.affiliation?.invalid">
-                    <div *ngIf="f.affiliation.errors?.['required']">Affiliation is required.</div>
+                <div class="error" *ngIf="f.affiliation?.dirty && f.affiliation?.invalid">
+                    <div *ngIf="f.affiliation?.errors?.['required']">Affiliation is required.</div>
                 </div>
 
-                <div class="error" *ngIf="f.depositExcel?.touched && f.depositExcel?.invalid">
-                    <div *ngIf="f.depositExcel?.errors?.['required']">File(.csv|.xlsx|.xls) is required.</div>
+                <div class="error" *ngIf="f.depositExcel?.invalid">
+                    <div *ngIf="f.depositExcel?.errors?.['pattern']">File type(.csv|.xlsx|.xls) is required.</div>
                 </div>
             </label>
             

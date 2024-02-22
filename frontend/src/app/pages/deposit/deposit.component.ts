@@ -12,12 +12,12 @@ export class DepositComponent implements OnInit {
 
   // More validators will be added later
   applyForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: ['', [Validators.required,Validators.minLength(3), Validators.email]],
+    firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+    lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+    email: ['', [Validators.required, Validators.email]],
     affiliation: ['', [Validators.required, Validators.minLength(3)]],
     message: [''],
-    depositExcel: ['', [Validators.required]]
+    depositExcel: ['', Validators.pattern('^.+\.(xlsx|xls|csv)$')]
   });
 
   services = inject(CCASMService)
@@ -27,26 +27,24 @@ export class DepositComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  build() {
-    console.log(this.applyForm.value, this.applyForm.valid)
+  build(event: string) {
+    if (event != 'file') {
+      // build the strainDeposit Object
+      const newStraindeposit: StrainDeposit = {
+        depositId: 1,  //Temporary assignment
+        firstName: this.applyForm.controls.firstName.value!,
+        lastName: this.applyForm.controls.lastName.value!,
+        email: this.applyForm.controls.email.value!,
+        affiliation: this.applyForm.controls.affiliation.value!,
+        message: this.applyForm.controls.message.value!,
+        depositExcel: this.applyForm.controls.depositExcel.value!,
+        depositState: 'processed',
+        depositCreationDate: new Date()
+      }
 
-    // TODO --- Do some basic checking
-
-    // build the strainDeposit Object
-    const newStraindeposit: StrainDeposit = {
-      depositId: 1,
-      firstName: this.applyForm.controls.firstName.value!,
-      lastName: this.applyForm.controls.lastName.value!,
-      email: this.applyForm.controls.email.value!,
-      affiliation: this.applyForm.controls.affiliation.value!,
-      message: this.applyForm.controls.message.value!,
-      depositExcel: this.applyForm.controls.depositExcel.value!,
-      depositState: 'processed',
-      depositCreationDate: new Date()
+      // POST request
+      this.submitDeposit(newStraindeposit)
     }
-
-    // POST request
-    this.submitDeposit(newStraindeposit)
   }
 
   submitDeposit(sd : StrainDeposit) {
