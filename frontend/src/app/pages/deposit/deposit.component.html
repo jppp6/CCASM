@@ -99,21 +99,21 @@
             </div>
 
             <!-- Errors Looks bad right now will update-->
-            <label for="errors">
+            <label for="errors" class=" flex justify-between px-9 italic text-red-500">
                 <div class="error" *ngIf="f.firstName?.dirty && f.firstName?.invalid">
-                    <div *ngIf="f.firstName?.errors?.['required']">First name is required.</div>
-                    <div *ngIf="f.firstName?.errors?.['pattern']">Only alphabetic characters.</div>
+                    <div *ngIf="f.firstName?.errors?.['required']">* First name is required.</div>
+                    <div *ngIf="f.firstName?.errors?.['pattern']">* Only alphabetic characters.</div>
                 </div>
 
                 <div class="error" *ngIf="f.lastName?.dirty && f.lastName?.invalid">
-                    <div *ngIf="f.lastName?.errors?.['required']">Last name is required.</div>
-                    <div *ngIf="f.lastName?.errors?.['pattern']">Only alphabetic characters.</div>
+                    <div *ngIf="f.lastName?.errors?.['required']">* Last name is required.</div>
+                    <div *ngIf="f.lastName?.errors?.['pattern']">* Only alphabetic characters.</div>
                 </div>
 
                 <div class="error" *ngIf="f.email?.dirty && f.email?.invalid">
-                    <div *ngIf="f.email?.errors?.['required']">Email is required.</div>
+                    <div *ngIf="f.email?.errors?.['required']">* Email is required.</div>
                     <div *ngIf="f.email?.errors?.['email']">
-                        Not valid email.
+                        * Not valid email.
                     </div>
                 </div>
 
