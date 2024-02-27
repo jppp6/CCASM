@@ -1,0 +1,47 @@
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    }
+    .header {    
+    background-color: #00305e;
+    color: white;
+    padding: 10px 20px;
+    }
+    .header h1 {
+    margin: 0;
+    }
+    .content {
+    padding: 20px;
+    }
+    .footer {
+    background-color: #002145;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    }
+    .footer p {
+    margin: 10px 0;
+    }
+    .admin-card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .admin-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    }
+    .admin-info {
+    color: #00305e;
+    margin-left: 20px;
+    }
+    .admin-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    }
