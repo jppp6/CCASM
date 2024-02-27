@@ -1,6 +1,6 @@
 export interface Strain {
   ccasmId: number;
-  strainNames: string;
+  strainName: string;
   binomialClassification: string;
   taxonomicLineage: string;
   riskGroup: number;
@@ -10,7 +10,7 @@ export interface Strain {
   isolationSource: string;
   isolationYear: number;
   isolationProtocol: string;
-  isolationFrowthMedium: string;
+  isolationGrowthMedium: string;
   isolationGrowthTemperature: number;
   isolationGrowthMediumComposition: string;
   isolationProvince: string;
@@ -48,4 +48,9 @@ export interface StrainRequest {
   strainsRequested: number[];
   requestState: 'received' | 'processed' | 'sent' | 'refused';
   requestCreationDate: Date;
+}
+
+export interface StrainNode {
+  name: string;
+  children: StrainNode[];
 }

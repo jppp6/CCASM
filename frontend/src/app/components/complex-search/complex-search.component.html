@@ -1,0 +1,198 @@
+<!-- TO FIX: When the selection is no longer matching, the autocomplete checkmark should not be there -->
+
+<form [formGroup]="complexSearchForm" class="form-container">
+  <mat-form-field class="complex-form-field">
+    <mat-label>Strain Name</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Strain Name"
+      matInput
+      formControlName="binomialClassification"
+      [matAutocomplete]="binomialClassification"
+    />
+    <mat-autocomplete #binomialClassification="matAutocomplete">
+      <mat-option *ngFor="let option of bcFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('binomialClassification')?.reset()
+      "
+      *ngIf="complexSearchForm.get('binomialClassification')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Province</mat-label>
+    <input
+      type="text"
+      aria-label="Search by province"
+      matInput
+      formControlName="isolationProvince"
+      [matAutocomplete]="isolationProvince"
+    />
+    <mat-autocomplete #isolationProvince="matAutocomplete">
+      <mat-option *ngFor="let option of iprovFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('isolationProvince')?.reset()
+      "
+      *ngIf="complexSearchForm.get('isolationProvince')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Isolation Source</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Isolation Source"
+      matInput
+      formControlName="isolationSource"
+      [matAutocomplete]="isolationSource"
+    />
+    <mat-autocomplete #isolationSource="matAutocomplete">
+      <mat-option *ngFor="let option of isFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('isolationSource')?.reset()
+      "
+      *ngIf="complexSearchForm.get('isolationSource')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Isolation Soil Texture</mat-label>
+    <input
+      type="text"
+      aria-label="Search by Isolation Soil Texture"
+      matInput
+      formControlName="isolationSoilTexture"
+      [matAutocomplete]="isolationSoilTexture"
+    />
+    <mat-autocomplete #isolationSoilTexture="matAutocomplete">
+      <mat-option *ngFor="let option of istFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('isolationSoilTexture')?.reset()
+      "
+      *ngIf="complexSearchForm.get('isolationSoilTexture')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Risk Group </mat-label>
+    <input
+      type="text"
+      aria-label="Search by Risk Group"
+      matInput
+      formControlName="riskGroup"
+      [matAutocomplete]="riskGroup"
+    />
+    <mat-autocomplete #riskGroup="matAutocomplete">
+      <mat-option *ngFor="let option of rgFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation(); complexSearchForm.get('riskGroup')?.reset()
+      "
+      *ngIf="complexSearchForm.get('riskGroup')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Isolation Protocol</mat-label>
+    <input
+      type="text"
+      aria-label="Search by name"
+      matInput
+      formControlName="isolationProtocol"
+      [matAutocomplete]="isolationProtocol"
+    />
+    <mat-autocomplete #isolationProtocol="matAutocomplete">
+      <mat-option *ngFor="let option of iprotFiltered | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+    <!-- <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('isolationProtocol')?.reset()
+      "
+      *ngIf="complexSearchForm.get('isolationProtocol')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button> -->
+  </mat-form-field>
+
+  <mat-form-field class="complex-form-field">
+    <mat-label>Is Plant Pathogen</mat-label>
+    <mat-select formControlName="isPlantPathogen">
+      <mat-option>-- None --</mat-option>
+      <mat-option value="true">True</mat-option>
+      <mat-option value="false">False</mat-option>
+    </mat-select>
+    <button
+      mat-icon-button
+      aria-label="Clear"
+      matSuffix
+      (click)="
+        $event.stopPropagation();
+        complexSearchForm.get('isPlantPathogen')?.reset()
+      "
+      *ngIf="complexSearchForm.get('isPlantPathogen')?.value"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+</form>
+
+<!-- INCASE: We want a reset button -->
+<!-- <button mat-raised-button color="warn" (click)="complexSearchForm.reset()">
+  Clear
+</button> -->
+
+<button mat-raised-button color="primary" (click)="search()">Search</button>
