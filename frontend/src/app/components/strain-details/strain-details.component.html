@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Strain Information</h2>
+
+<mat-dialog-content>
+  <div *ngFor="let item of data | keyvalue; let last = last">
+    <strong> {{ item.key | toTitleCase }}: </strong>
+    {{ item.value }}
+    <mat-divider *ngIf="!last"></mat-divider>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="addStrainToCart()"
+  >
+    Add to Cart
+  </button>
+</mat-dialog-actions>

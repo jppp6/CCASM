@@ -1,6 +1,6 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;/* You can add global styles to this file, and also import other style files */
+@tailwind utilities;
 
 html,
 body {
@@ -14,8 +14,19 @@ body {
 .flex {
   flex: 1 1 auto;
 }
-
 .flex-box {
   display: flex;
+}
+
+.flex-column {
+  display: flex;
   flex-direction: column;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
 }
