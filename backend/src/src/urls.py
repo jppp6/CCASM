@@ -17,6 +17,29 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+
+from django.views.generic import TemplateView
+
+from django.conf.urls import include, re_path
+from rest_framework.routers import DefaultRouter
+from strains.views import StrainsViewSet
+
+
+#2nd attempt:
+router = DefaultRouter()
+router.register(StrainsViewSet, base_name='strains')
+
+urlpatterns = [
+    re_path('^', include(router.urls)),
+]
+
+#1st attempt at urlpatterns
+""" urlpatterns = [
+    path('', TemplateView.as_view(template_name='index.html')),
+] """
+
+''' OG django
 urlpatterns = [
     path("admin/", admin.site.urls),
 ]
+'''
