@@ -1,1 +1,74 @@
-<p>about works!</p>
+<mat-expansion-panel style="margin-top: 32px">
+  <mat-expansion-panel-header>
+    <mat-panel-title> What is the purpose of CCASM?</mat-panel-title>
+  </mat-expansion-panel-header>
+  <p class="answer">
+    The ultimate goal of the Canadian Collection of Agricultural Soil Microbes
+    (CCASM) is to store microbe sample information collected by researchers
+    around Canada. Researchers have already foregone collecting data, and will
+    continue to do so in the future, but there is no centralized solution for
+    sharing, storing or managing this data. CCASM is meant to fill that gap by
+    creating a web portal where researchers can browse the catalog of samples as
+    well as request physical samples of the microbes.
+  </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>How do I browse the CCASM catalog?</mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <p class="answer">
+    CCASM allows for users to easily access the catalog of samples by navigating
+    to the
+    <a routerLink="/browse" mat-stroked-button>Browse</a> section of the
+    website. Here, you can search for specific samples. You do not need to log
+    in to download strain data, just simply press download and a csv will be
+    generated.
+  </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      How do I request physical samples of a CCASM microbe?
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <p class="answer">
+    If you find a sample you're interested in, you can request physical samples
+    by clicking on the sample's details page and selecting the "Add to Cart"
+    button. Once happy with selection, navigate to the cart page, where you will
+    fill out a form to start the requesting process.
+  </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      How do I deposit a strain to be added to CCASM?
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <p class="answer">
+    If you have any strains that can be added to the collection, navigate to the
+    <a routerLink="/deposit" mat-stroked-button>Deposit</a> page. There you will
+    be prompted to fill out an excel document detailing the required
+    information. <br />*The outcome of this deposit is determined by the admin
+    team.
+  </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel style="margin-bottom: 32px">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      How do I get in contact with the CCASM team?
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <strong> You can contact the following admins: </strong>
+
+  <div class="answer">
+    George Colin diCenzo -
+    <a href="mailto:george@queensu.ca" mat-stroked-button>Contact by email</a>
+  </div>
+</mat-expansion-panel>
