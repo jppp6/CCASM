@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   height: 100%;
@@ -10,8 +14,11 @@ body {
 .flex {
   flex: 1 1 auto;
 }
-
 .flex-box {
+  display: flex;
+}
+
+.flex-column {
   display: flex;
   flex-direction: column;
 }

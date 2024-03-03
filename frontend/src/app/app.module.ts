@@ -10,8 +10,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ComplexSearchComponent } from './components/complex-search/complex-search.component';
+import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
+import { StrainDetailsDialog } from './components/strain-details/strain-details.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { HeaderComponent } from './core/header/header.component';
+import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { BrowseComponent } from './pages/browse/browse.component';
@@ -22,6 +26,16 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -38,6 +52,10 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
     FaqComponent,
     ContactComponent,
     AboutComponent,
+    ComplexSearchComponent,
+    SimpleSearchComponent,
+    StrainDetailsDialog,
+    ToTitleCasePipe,
   ],
   imports: [
     BrowserModule,
@@ -45,10 +63,21 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
+    MatDialogModule,
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
     HttpClientModule,
+    MatTreeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonToggleModule,
+    MatRadioModule,
     MatDividerModule,
   ],
   providers: [],

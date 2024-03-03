@@ -1,0 +1,31 @@
+.strain-tree {
+  background-color: #ececec;
+  border-radius: 16px;
+}
+
+.strain-tree-invisible {
+  display: none;
+}
+
+.strain-tree ul,
+.strain-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+/*
+   * This padding sets alignment of the nested nodes.
+   */
+.strain-tree .mat-nested-tree-node div[role="group"] {
+  padding-left: 40px;
+}
+
+/*
+   * Padding for leaf nodes.
+   * Leaf nodes need to have padding so as to align with other non-leaf nodes
+   * under the same parent.
+   */
+.strain-tree div[role="group"] > .mat-tree-node {
+  padding-left: 40px;
+}
