@@ -24,6 +24,9 @@ export interface Strain {
   notes: string;
   citationAtTimeOfDeposit: string;
   photo: string;
+
+  longitude: number;
+  latitude: number;
 }
 
 export interface StrainDeposit {

@@ -1,7 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import * as L from 'leaflet';
-import { CCASMService } from 'src/app/core/services/ccasm.services';
+import { StrainDetailsDialog } from 'src/app/components/strain-details/strain-details.component';
+import { StrainStoreService } from 'src/app/core/services/strain.service';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 
 @Component({
@@ -12,14 +13,14 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 export class HomeComponent implements AfterViewInit {
   map!: L.Map;
 
-  constructor(private ccasmService: CCASMService, private router: Router) {}
+  constructor(
+    private strainService: StrainStoreService,
+    public dialog: MatDialog
+  ) {}
 
   ngAfterViewInit(): void {
     this.initializeMap();
-
-    this.ccasmService.getStrains().subscribe((strains: Strain[]) => {
-      this.addCircularMarkers(strains);
-    });
+    this.addCircularMarkers(this.strainService.getAllStrain());
   }
 
   initializeMap(): void {
@@ -33,7 +34,7 @@ export class HomeComponent implements AfterViewInit {
 
     // Map options
     const options: L.TileLayerOptions = {
-      maxZoom: 6,
+      maxZoom: 9,
       minZoom: 3,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
       attribution: 'Built using Google Maps',
@@ -48,15 +49,22 @@ export class HomeComponent implements AfterViewInit {
   }
 
   addCircularMarkers(strains: Strain[]): void {
-    const strain = [1];
-    strain.forEach((s) => {
-      const marker = L.circleMarker([44.2329329, -76.5153151], {
-        radius: 25,
-      });
+    strains.forEach((s) => {
+      if (!s.latitude || !s.longitude) {
+        return;
+      }
+
+      const marker = L.circleMarker(
+        { lat: s.latitude, lng: s.longitude },
+        { radius: 15 }
+      );
 
       marker.on('click', () => {
-        // Change to open the search associated with the location
-        this.router.navigate(['/browse']);
+        // Open Strain details
+        this.dialog.open(StrainDetailsDialog, {
+          width: '600px',
+          data: s,
+        });
       });
 
       marker.addTo(this.map);
