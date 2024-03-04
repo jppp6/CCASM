@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from os import getenv
-from dotenv import load_doatenv
+from dotenv import load_dotenv
 
-load_doatenv()
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,11 +81,16 @@ WSGI_APPLICATION = "src.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "CCASM_DEV01",
+        "NAME": "ccasmdb",
         "USER": "ccasmadmin",
         "PASSWORD": getenv("DEV_DB_PASS"),
         "HOST": getenv('DEV_DB_IP'),
-        "PORT": "3306"
+        "PORT": "3306",
+        "OPTIONS": {
+            "ssl": {
+                'ca': getenv('SSL_CA')
+            }
+        }
     },
 
     "CCASM_PROD": {
@@ -94,7 +99,12 @@ DATABASES = {
         "USER": "ccasmadmin",
         "PASSWORD": getenv("PROD_DB_PASS"),
         "HOST": getenv('PROD_DB_IP'),
-        "PORT": "3306"
+        "PORT": "3306",
+        "OPTIONS": {
+            "ssl": {
+                getenv('SSL_CA')
+            }
+        }
     }
 }
 
