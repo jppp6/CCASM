@@ -57,9 +57,10 @@ MIDDLEWARE = [
     "cordsheaders.middleware.CorsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
+#TODO change if using cors (middleware to match ports between backend and frontend)
+""" CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200"
-]
+] """
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -160,9 +161,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
+""" STATICFILES_DIRS = [
     BASE_DIR / "static",
-]
+] """
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
