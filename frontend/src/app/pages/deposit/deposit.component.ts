@@ -17,7 +17,7 @@ export class DepositComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     affiliation: ['', [Validators.required, Validators.minLength(3)]],
     message: [''],
-    depositExcel: ['', Validators.pattern('^.+\.(xlsx|xls|csv)$')]
+    depositExcel: ['', Validators.required, Validators.pattern('^.+\.(xlsx|xls|csv)$')]
   });
 
   services = inject(CCASMService)
