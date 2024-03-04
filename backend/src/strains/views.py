@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from models import *
+
 from rest_framework.mixins import (
     CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 )
 from rest_framework.viewsets import GenericViewSet
-from .serializers import StrainSerializer
 
+from .models import *
+from .serializers import *
 #Not sure if the following was the right approach (did not use rest_framework)
-'''
+
 # Create your views here.
-@require_GET
+""" @require_GET
 def get_strain_by_strainID(request, strain_id : int):
     try:
         strain = Strains.objects.get(id=strain_id)
@@ -42,10 +43,10 @@ def get_strain_by_strainID(request, strain_id : int):
             'citation_deposit_time': strain.citation_deposit_time,
             'photo': strain.photo
         }
-        return JsonResponse(data)
+        return JsonResponse(strain) #chanegd to strain from data
     except Strains.DoesNotExist:
         return JsonResponse({'error': 'Strain not found'}, status=404)
-    
+   
 @require_GET
 def get_strains(request):
     strains = Strains.objects.all()
@@ -76,9 +77,17 @@ def get_strains(request):
             'citation_deposit_time': strain.citation_deposit_time,
             'photo': strain.photo
             } for strain in strains]
-    return JsonResponse({'strains': data})
-'''
+    print(JsonResponse({'strains': data}))
+    return JsonResponse({'strains': data}) """
 
+""" def strain_list(request=""):
+    strains = Strains.objects.all() #complex non-pythonic data
+    data = list(strains.values()) # convert to python list
+    return JsonResponse({
+                    'strains': data
+    }) """
+
+#from github 
 class StrainsViewSet(GenericViewSet,  # generic view functionality
                      CreateModelMixin,  # handles POSTs
                      RetrieveModelMixin,  # handles GETs for 1 Company
@@ -86,3 +95,6 @@ class StrainsViewSet(GenericViewSet,  # generic view functionality
                      ListModelMixin):  # handles GETs for many Companies
     serializer_class = StrainSerializer
     queryset = Strains.objects.all()
+
+#TODO: determine which approach is best for views and add remianing models
+# see https://github.com/JoshGraham14/QUampus/blob/main/backend/api/views.py
