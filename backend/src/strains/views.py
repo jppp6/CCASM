@@ -16,12 +16,11 @@ from .serializers import StrainSerializer
 #     queryset = Strains.objects.all()
 #     serializer_class = StrainsSerializer
 
-@api_view("GET")
 def get_strain(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse({'strains': serializer.data}, safe=False)
 
-@api_view("POST")
-def post_strain(request):
-    pass
+# @api_view("POST")
+# def post_strain(request):
+#     pass
