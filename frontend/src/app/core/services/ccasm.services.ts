@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
+import { Strain, StrainDeposit, StrainRequest, AdminAccount } from '../utils/ccasm.types';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,16 @@ export class CCASMService {
   readonly url = 'localhost';
 
   constructor(private http: HttpClient) {}
+
+  getAccount(accountId: number): Observable<AdminAccount> {
+    const str = accountId.toString();
+    return this.http.get<AdminAccount>(this.url + '/admin/' + toString);
+  }
+
+  postAccount(account: AdminAccount): Observable<void> {
+    return this.http.post<void>(this.url + '/admin', account);
+  }
+
 
   getStrain(strainId: number): Observable<Strain> {
     const strainIdString = strainId.toString();

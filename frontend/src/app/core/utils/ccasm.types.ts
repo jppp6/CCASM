@@ -54,3 +54,10 @@ export interface StrainNode {
   name: string;
   children: StrainNode[];
 }
+
+export interface AdminAccount {
+  adminId: number;
+  email: string;
+  password: string;
+  creationDate: Date;
+}

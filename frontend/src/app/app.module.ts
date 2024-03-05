@@ -12,6 +12,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -31,6 +34,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,6 +71,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatButtonToggleModule,
     MatRadioModule,
     MatDividerModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
