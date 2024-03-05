@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
@@ -8,7 +8,12 @@ import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 })
 export class CCASMService {
   // CHANGE THIS TO THE RIGHT PATH
-  readonly url = 'localhost';
+  // I'm using the same port for django and angular, however
+  // I've included django-cors-middleware in the settings.py
+  // we should look into serving django through different port
+  // and creating a pipeline to the angular app port for
+  // security purposes?
+  readonly url = 'http://localhost:4200'; // TODO: change this in future probably
 
   constructor(private http: HttpClient) {}
 
@@ -84,5 +89,9 @@ export class CCASMService {
   postStrainDeposit(deposit: StrainDeposit): Observable<void> {
     // format the post into an http body
     return this.http.post<void>(this.url + '/strain-deposit', deposit);
+  }
+
+  test(): void{
+    console.log(this.http.get<Strain[]>(this.url + '/strains'));
   }
 }

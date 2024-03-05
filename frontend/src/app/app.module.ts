@@ -13,7 +13,6 @@ import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,8 +33,9 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
-  declarations: [
+  declarations:[
     AppComponent,
     HomeComponent,
     BrowseComponent,
