@@ -3,6 +3,9 @@ from rest_framework.views import APIView
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
+from rest_framework.decorators import api_view
+
+
 
 from .models import Deposits, Requests, Strains, Users, Webusers
 from .serializers import StrainSerializer
@@ -13,10 +16,12 @@ from .serializers import StrainSerializer
 #     queryset = Strains.objects.all()
 #     serializer_class = StrainsSerializer
 
+@api_view("GET")
 def get_strain(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
     return JsonResponse(serializer.data, safe=False)
 
-#TODO: determine which approach is best for views and add remianing models
-# see https://github.com/JoshGraham14/QUampus/blob/main/backend/api/views.py
+@api_view("POST")
+def post_strain(request):
+    pass
