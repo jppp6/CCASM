@@ -1,9 +1,26 @@
 <div class="flex-column h100">
-  <app-header></app-header>
+  <mat-toolbar>
+    <a routerLink="/home" mat-button>
+      Canadian Collection of Agricultural Soil Microbes
+    </a>
+    <span class="flex"></span>
+
+    <a class="header-link" routerLink="/browse" mat-button>Browse</a>
+    |
+    <a class="header-link" routerLink="/statistics" mat-button>Statistics</a>
+    |
+    <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
+    |
+    <a class="header-link" routerLink="/cart" mat-button>Cart</a>
+  </mat-toolbar>
 
   <div style="flex: 1">
     <router-outlet></router-outlet>
   </div>
 
-  <app-footer></app-footer>
+  <mat-toolbar class="footer">
+    <a class="header-link" routerLink="/about" mat-button>About</a>
+    |
+    <a class="header-link" routerLink="/admin" mat-button>Admin</a>
+  </mat-toolbar>
 </div>
