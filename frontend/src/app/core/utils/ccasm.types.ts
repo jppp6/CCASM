@@ -4,7 +4,7 @@ export interface Strain {
   binomialClassification: string;
   taxonomicLineage: string;
   riskGroup: number;
-  isPlantPathogen: boolean;
+  isPlantPathogen: number;
   colonyMorphology: string;
   hostPlantSpecies: string;
   isolationSource: string;
@@ -13,20 +13,17 @@ export interface Strain {
   isolationGrowthMedium: string;
   isolationGrowthTemperature: number;
   isolationGrowthMediumComposition: string;
-  isolationProvince: string;
-  isolationGpsCoordinates: string;
-  isolationSoilPh: string;
+  isolationSoilPh: number;
   isolationSoilOrganicMatter: string;
   isolationSoilTexture: string;
-  isolationOther: string;
-  genomeNcbiAccessions: string;
-  genomeSize: number;
-  notes: string;
-  citationAtTimeOfDeposit: string;
-  photo: string;
-
+  isolationSoilProvince: string;
   longitude: number;
   latitude: number;
+  genomeNcbiAssociation: string;
+  genomeSize: number;
+  notes: string;
+  citationDepositTime: Date;
+  photo: string;
 }
 
 export interface StrainDeposit {

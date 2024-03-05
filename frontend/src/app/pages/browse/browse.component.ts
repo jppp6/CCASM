@@ -29,14 +29,14 @@ export class BrowseComponent implements OnInit {
   simpleOptions: string[] = [];
   complexOptions: {
     binomialClassification: string[];
-    isolationProvince: string[];
+    isolationSoilProvince: string[];
     isolationSource: string[];
     isolationSoilTexture: string[];
     riskGroup: string[];
     isolationProtocol: string[];
   } = {
     binomialClassification: [],
-    isolationProvince: [],
+    isolationSoilProvince: [],
     isolationSource: [],
     isolationSoilTexture: [],
     riskGroup: [],
@@ -62,8 +62,8 @@ export class BrowseComponent implements OnInit {
       riskGroup: Utils.filterDuplicates(
         this.allStrains.map((s) => s.riskGroup.toString()).filter((s) => !!s)
       ),
-      isolationProvince: Utils.filterDuplicates(
-        this.allStrains.map((s) => s.isolationProvince).filter((s) => !!s)
+      isolationSoilProvince: Utils.filterDuplicates(
+        this.allStrains.map((s) => s.isolationSoilProvince).filter((s) => !!s)
       ),
       isolationSoilTexture: Utils.filterDuplicates(
         this.allStrains.map((s) => s.isolationSoilTexture).filter((s) => !!s)

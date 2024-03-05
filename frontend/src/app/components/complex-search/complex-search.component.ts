@@ -14,7 +14,7 @@ export class ComplexSearchComponent {
 
   complexSearchForm = new FormGroup({
     binomialClassification: new FormControl<string>(''),
-    isolationProvince: new FormControl<string>(''),
+    isolationSoilProvince: new FormControl<string>(''),
     isolationSource: new FormControl<string>(''),
     isolationSoilTexture: new FormControl<string>(''),
     riskGroup: new FormControl<string>(''),
@@ -23,7 +23,7 @@ export class ComplexSearchComponent {
   });
 
   bcFiltered = this._createFilteredObservable('binomialClassification');
-  iprovFiltered = this._createFilteredObservable('isolationProvince');
+  iprovFiltered = this._createFilteredObservable('isolationSoilProvince');
   isFiltered = this._createFilteredObservable('isolationSource');
   istFiltered = this._createFilteredObservable('isolationSoilTexture');
   rgFiltered = this._createFilteredObservable('riskGroup');

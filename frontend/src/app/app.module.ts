@@ -36,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
+    AppComponent,
     HomeComponent,
     BrowseComponent,
     StatisticsComponent,

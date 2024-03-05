@@ -33,12 +33,12 @@
     <mat-label>Province</mat-label>
     <input
       type="text"
-      aria-label="Search by province"
+      aria-label="Search by Soil Province"
       matInput
-      formControlName="isolationProvince"
-      [matAutocomplete]="isolationProvince"
+      formControlName="isolationSoilProvince"
+      [matAutocomplete]="isolationSoilProvince"
     />
-    <mat-autocomplete #isolationProvince="matAutocomplete">
+    <mat-autocomplete #isolationSoilProvince="matAutocomplete">
       <mat-option *ngFor="let option of iprovFiltered | async" [value]="option">
         {{ option }}
       </mat-option>
@@ -49,9 +49,9 @@
       matSuffix
       (click)="
         $event.stopPropagation();
-        complexSearchForm.get('isolationProvince')?.reset()
+        complexSearchForm.get('isolationSoilProvince')?.reset()
       "
-      *ngIf="complexSearchForm.get('isolationProvince')?.value"
+      *ngIf="complexSearchForm.get('isolationSoilProvince')?.value"
     >
       <mat-icon>clear</mat-icon>
     </button> -->
