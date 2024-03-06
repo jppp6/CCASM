@@ -4,7 +4,7 @@ import { Strain } from '../utils/ccasm.types';
 @Injectable({
   providedIn: 'root',
 })
-export class CartStoreService {
+export class StrainCartService {
   cart: Strain[] = [];
 
   addStrain(newStrain: Strain): void {

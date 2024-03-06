@@ -1,6 +1,6 @@
 <div class="h100" style="padding: 32px">
   <div class="flex-box">
-    <button mat-raised-button (click)="exportAll()">
+    <button mat-raised-button (click)="exportAll()" *ngIf="allStrains.length > 0 ">
       Download Entire Collection
     </button>
     <span class="flex"></span>

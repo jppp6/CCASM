@@ -8,17 +8,17 @@ import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 })
 export class CCASMService {
   // CHANGE THIS TO THE RIGHT PATH
-  readonly url = 'localhost';
+  readonly url = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getStrain(strainId: number): Observable<Strain> {
     const strainIdString = strainId.toString();
     return this.http.get<Strain>(this.url + '/strain/' + strainIdString);
   }
 
-  getStrains(): Observable<Strain[]> {
-    return this.http.get<Strain[]>(this.url + '/strains');
+  getStrains(): Observable<{ strains: Strain[] }> {
+    return this.http.get<{ strains: Strain[] }>(this.url + '/strains/');
   }
 
   getStrainsBySearch(searchString: string): Observable<Strain[]> {

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CartStoreService } from 'src/app/core/services/cart-store.service';
+import { StrainCartService } from 'src/app/core/services/strain-cart.service';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 
 @Component({
@@ -11,10 +11,10 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 export class StrainDetailsDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Strain,
-    private cartService: CartStoreService
-  ) {}
+    private strainCartService: StrainCartService,
+  ) { }
 
   addStrainToCart(): void {
-    this.cartService.addStrain(this.data);
+    this.strainCartService.addStrain(this.data);
   }
 }
