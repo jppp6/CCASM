@@ -46,10 +46,6 @@ export class ComplexSearchComponent {
     return options.filter((o) => o.toLowerCase().includes(filterValue));
   }
 
-  clearSearch(): void {
-    this.complexSearchForm.reset();
-  }
-
   search(): void {
     const searchForm = { ...this.complexSearchForm.value };
     const searchParams: { [key: string]: string } = {};
@@ -65,4 +61,9 @@ export class ComplexSearchComponent {
       this.searchStrings.emit(searchParams);
     }
   }
+
+  clearSearch(): void {
+    this.complexSearchForm.reset();
+  }
+
 }
