@@ -26,14 +26,14 @@ export class BrowseComponent implements OnInit {
   simpleOptions: string[] = [];
   complexOptions: {
     binomialClassification: string[];
-    isolationProvince: string[];
+    isolationSoilProvince: string[];
     isolationSource: string[];
     isolationSoilTexture: string[];
     riskGroup: string[];
     isolationProtocol: string[];
   } = {
       binomialClassification: [],
-      isolationProvince: [],
+      isolationSoilProvince: [],
       isolationSource: [],
       isolationSoilTexture: [],
       riskGroup: [],
@@ -41,12 +41,8 @@ export class BrowseComponent implements OnInit {
     };
 
   ngOnInit(): void {
-    this.ccasmService.getStrains().subscribe((strains) => {
-      this.allStrains = Utils.snackCaseToCamelCase(strains.strains) as Strain[];
-
-      this.treeDataSource.data = this.buildTree(
-        this.allStrains.map((s) => s.taxonomicLineage)
-      );
+    this.ccasmService.getStrains().subscribe((result) => {
+      this.allStrains = Utils.snackCaseToCamelCase(result.strains) as Strain[];
 
       this.simpleOptions = Utils.filterDuplicatesAndFalsy(
         this.allStrains.map((s) => s.binomialClassification)
@@ -60,8 +56,8 @@ export class BrowseComponent implements OnInit {
         riskGroup: Utils.filterDuplicatesAndFalsy(
           this.allStrains.map((s) => s.riskGroup.toString())
         ),
-        isolationProvince: Utils.filterDuplicatesAndFalsy(
-          this.allStrains.map((s) => s.isolationProvince)
+        isolationSoilProvince: Utils.filterDuplicatesAndFalsy(
+          this.allStrains.map((s) => s.isolationSoilProvince)
         ),
         isolationSoilTexture: Utils.filterDuplicatesAndFalsy(
           this.allStrains.map((s) => s.isolationSoilTexture)

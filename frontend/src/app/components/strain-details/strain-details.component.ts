@@ -11,10 +11,10 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 export class StrainDetailsDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Strain,
-    private strainCartService: StrainCartService,
+    private strainCartService: StrainCartService
   ) { }
 
   addStrainToCart(): void {
-    this.strainCartService.addStrain(this.data);
+    this.strainCartService.addStrainToCart(this.data);
   }
 }
