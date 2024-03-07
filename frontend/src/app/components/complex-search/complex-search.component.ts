@@ -14,7 +14,7 @@ export class ComplexSearchComponent {
 
   complexSearchForm = new FormGroup({
     binomialClassification: new FormControl<string>(''),
-    isolationProvince: new FormControl<string>(''),
+    isolationSoilProvince: new FormControl<string>(''),
     isolationSource: new FormControl<string>(''),
     isolationSoilTexture: new FormControl<string>(''),
     riskGroup: new FormControl<string>(''),
@@ -23,7 +23,7 @@ export class ComplexSearchComponent {
   });
 
   bcFiltered = this._createFilteredObservable('binomialClassification');
-  iprovFiltered = this._createFilteredObservable('isolationProvince');
+  iprovFiltered = this._createFilteredObservable('isolationSoilProvince');
   isFiltered = this._createFilteredObservable('isolationSource');
   istFiltered = this._createFilteredObservable('isolationSoilTexture');
   rgFiltered = this._createFilteredObservable('riskGroup');
@@ -46,10 +46,6 @@ export class ComplexSearchComponent {
     return options.filter((o) => o.toLowerCase().includes(filterValue));
   }
 
-  clearSearch(): void {
-    this.complexSearchForm.reset();
-  }
-
   search(): void {
     const searchForm = { ...this.complexSearchForm.value };
     const searchParams: { [key: string]: string } = {};
@@ -65,4 +61,9 @@ export class ComplexSearchComponent {
       this.searchStrings.emit(searchParams);
     }
   }
+
+  clearSearch(): void {
+    this.complexSearchForm.reset();
+  }
+
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
@@ -7,23 +7,18 @@ import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
   providedIn: 'root',
 })
 export class CCASMService {
-  // CHANGE THIS TO THE RIGHT PATH
-  // I'm using the same port for django and angular, however
-  // I've included django-cors-middleware in the settings.py
-  // we should look into serving django through different port
-  // and creating a pipeline to the angular app port for
-  // security purposes?
-  readonly url = 'http://localhost:4200'; // TODO: change this in future probably
+  // Make sure to change this to the Domain name when deployed
+  readonly url = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getStrain(strainId: number): Observable<Strain> {
     const strainIdString = strainId.toString();
     return this.http.get<Strain>(this.url + '/strain/' + strainIdString);
   }
 
-  getStrains(): Observable<Strain[]> {
-    return this.http.get<Strain[]>(this.url + '/strains');
+  getStrains(): Observable<{ strains: Strain[] }> {
+    return this.http.get<{ strains: Strain[] }>(this.url + '/strains/');
   }
 
   getStrainsBySearch(searchString: string): Observable<Strain[]> {
@@ -91,7 +86,7 @@ export class CCASMService {
     return this.http.post<void>(this.url + '/strain-deposit', deposit);
   }
 
-  test(): void{
+  test(): void {
     console.log(this.http.get<Strain[]>(this.url + '/strains'));
   }
 }

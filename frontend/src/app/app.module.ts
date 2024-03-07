@@ -35,7 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations:[
+  declarations: [
     AppComponent,
     HomeComponent,
     BrowseComponent,
@@ -76,4 +76,4 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

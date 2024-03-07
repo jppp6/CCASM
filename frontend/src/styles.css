@@ -23,6 +23,18 @@ body {
   flex-direction: column;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
 .w100 {
   width: 100%;
 }

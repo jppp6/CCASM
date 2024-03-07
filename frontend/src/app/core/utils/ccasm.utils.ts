@@ -24,8 +24,8 @@ export class Utils {
     }
   }
 
-  static filterDuplicates(values: string[]): string[] {
-    return values.filter((v, i) => values.indexOf(v) === i);
+  static filterDuplicatesAndFalsy(values: string[]): string[] {
+    return values.filter((v, i) => values.indexOf(v) === i).filter((v) => !!v);
   }
 
   static exportToCSV(data: Strain[], filename: string): void {
