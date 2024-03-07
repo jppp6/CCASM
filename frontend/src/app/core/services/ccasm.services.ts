@@ -7,7 +7,7 @@ import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
   providedIn: 'root',
 })
 export class CCASMService {
-  // CHANGE THIS TO THE RIGHT PATH
+  // Make sure to change this to the Domain name when deployed
   readonly url = 'http://localhost:8000';
 
   constructor(private http: HttpClient) { }
@@ -84,5 +84,9 @@ export class CCASMService {
   postStrainDeposit(deposit: StrainDeposit): Observable<void> {
     // format the post into an http body
     return this.http.post<void>(this.url + '/strain-deposit', deposit);
+  }
+
+  test(): void {
+    console.log(this.http.get<Strain[]>(this.url + '/strains'));
   }
 }

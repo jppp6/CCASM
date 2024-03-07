@@ -14,7 +14,6 @@ body {
 .flex {
   flex: 1 1 auto;
 }
-
 .flex-box {
   display: flex;
 }
