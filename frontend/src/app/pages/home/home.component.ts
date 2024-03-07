@@ -20,8 +20,9 @@ export class HomeComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
+    this.initializeMap();
+
     this.ccasmService.getStrains().subscribe((result) => {
-      this.initializeMap();
       this.addCircularMarkers(Utils.snackCaseToCamelCase(result.strains) as Strain[]);
     })
   }
