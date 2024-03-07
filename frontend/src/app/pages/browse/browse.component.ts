@@ -22,6 +22,7 @@ export class BrowseComponent implements OnInit {
 
   filteredStrains: Strain[] | null = null;
   allStrains: Strain[] = [];
+  loadingStrains: boolean = false;
 
   simpleOptions: string[] = [];
   complexOptions: {
@@ -41,6 +42,7 @@ export class BrowseComponent implements OnInit {
     };
 
   ngOnInit(): void {
+    this.loadingStrains = true;
     this.ccasmService.getStrains().subscribe((result) => {
       this.allStrains = Utils.snackCaseToCamelCase(result.strains) as Strain[];
 
@@ -66,6 +68,7 @@ export class BrowseComponent implements OnInit {
           this.allStrains.map((s) => s.isolationProtocol)
         ),
       };
+      this.loadingStrains = false;
     })
   }
 
