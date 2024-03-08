@@ -3,17 +3,34 @@
         <a routerLink="/home" mat-button>
             Canadian Collection of Agricultural Soil Microbes
         </a>
+
         <span class="flex"></span>
 
-        <a class="header-link" routerLink="/browse" mat-button>Browse</a>
-        |
-        <a class="header-link" routerLink="/statistics" mat-button>
-            Statistics
-        </a>
-        |
-        <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
-        |
-        <a class="header-link" routerLink="/cart" mat-button>Cart</a>
+        <div class="buttons-container">
+            <a class="header-link" routerLink="/browse" mat-button>Browse</a>
+            |
+            <a class="header-link" routerLink="/statistics" mat-button>
+                Statistics
+            </a>
+            |
+            <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
+            |
+            <a class="header-link" routerLink="/cart" mat-button>Cart</a>
+        </div>
+
+        <div class="menu-button">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/browse">Browse</button>
+                <button mat-menu-item routerLink="/statistics">
+                    Statistics
+                </button>
+                <button mat-menu-item routerLink="/deposit">Deposit</button>
+                <button mat-menu-item routerLink="/cart">Cart</button>
+            </mat-menu>
+        </div>
     </mat-toolbar>
 
     <div class="flex">

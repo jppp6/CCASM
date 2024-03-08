@@ -3,6 +3,7 @@ import { ComplexSearchComponent } from './components/complex-search/complex-sear
 import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
 import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
 import { AdminDepositsComponent } from './pages/admin/dashboard/admin-deposits/admin-deposits.component';
 import { AdminRequestsComponent } from './pages/admin/dashboard/admin-requests/admin-requests.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
@@ -29,6 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -39,7 +41,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collecti
         MatButtonModule,
         MatIconModule,
         MatTableModule,
+        MatMenuModule,
         MatExpansionModule,
         MatSelectModule,
         MatDialogModule,

@@ -7,3 +7,23 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+@media (min-width: 800px) {
+    .buttons-container {
+        display: block; /* Show buttons container */
+    }
+
+    .menu-button {
+        display: none; /* Hide menu button */
+    }
+}
+
+@media (max-width: 800px) {
+    .buttons-container {
+        display: none; /* Hide buttons container */
+    }
+
+    .menu-button {
+        display: flex; /* Show menu button */
+    }
+}
