@@ -1,10 +1,11 @@
 import { AppComponent } from './app.component';
 import { ComplexSearchComponent } from './components/complex-search/complex-search.component';
 import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
-import { StrainDetailsDialog } from './components/strain-details/strain-details.component';
-import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AdminDepositsComponent } from './pages/admin/dashboard/admin-deposits/admin-deposits.component';
+import { AdminRequestsComponent } from './pages/admin/dashboard/admin-requests/admin-requests.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
@@ -12,8 +13,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { StrainDetailsDialog } from './components/strain-details/strain-details.component';
+import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -29,53 +32,62 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    BrowseComponent,
-    StatisticsComponent,
-    DepositComponent,
-    CartComponent,
-    AdminComponent,
-    PageNotFoundComponent,
-    AboutComponent,
-    ComplexSearchComponent,
-    SimpleSearchComponent,
-    StrainDetailsDialog,
-    ToTitleCasePipe,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatProgressSpinnerModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatTreeModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatButtonToggleModule,
-    MatRadioModule,
-    MatDividerModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        BrowseComponent,
+        StatisticsComponent,
+        DepositComponent,
+        CartComponent,
+        AdminComponent,
+        PageNotFoundComponent,
+        AboutComponent,
+        ComplexSearchComponent,
+        SimpleSearchComponent,
+        StrainDetailsDialog,
+        ToTitleCasePipe,
+        DashboardComponent,
+        AdminRequestsComponent,
+        AdminDepositsComponent,
+        AdminCollectionComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatProgressSpinnerModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatExpansionModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatTreeModule,
+        MatSortModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatButtonToggleModule,
+        MatRadioModule,
+        MatDividerModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

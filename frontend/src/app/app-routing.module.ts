@@ -10,20 +10,20 @@ import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'browse', component: BrowseComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'deposit', component: DepositComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home
-  { path: 'pagenotfound', component: PageNotFoundComponent },
-  { path: '**', redirectTo: '/pagenotfound' }, // any errors, redirect to page not found
+    { path: 'home', component: HomeComponent },
+    { path: 'browse', component: BrowseComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'deposit', component: DepositComponent },
+    { path: 'statistics', component: StatisticsComponent },
+    { path: 'about', component: AboutComponent },
+    { path: 'admin', component: AdminComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home
+    { path: 'pagenotfound', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/pagenotfound' }, // any errors, redirect to page not found
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

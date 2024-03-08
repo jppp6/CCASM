@@ -1,0 +1,42 @@
+<!-- Currently on every click itll reload the component (can change to once if using visibility tags instead of ngif) -->
+
+<div
+    class="flex-center h100"
+    style="flex-direction: column"
+    *ngIf="view === 'select'"
+>
+    <span style="margin-bottom: 16px">
+        <strong> Welcome to the CCASM Admin Dashboard!!!</strong>
+    </span>
+    <button
+        mat-raised-button
+        (click)="view = 'requests'"
+        style="margin-bottom: 16px"
+    >
+        Show Strain Requests Dashboard
+    </button>
+    <button
+        mat-raised-button
+        (click)="view = 'deposits'"
+        style="margin-bottom: 16px"
+    >
+        Show Strain Deposits Dashboard
+    </button>
+    <button mat-raised-button (click)="view = 'collection'">
+        Show Admin Collection
+    </button>
+</div>
+
+<div *ngIf="view !== 'select'" style="margin: 16px">
+    <button mat-raised-button (click)="view = 'select'">
+        Return to View Select
+    </button>
+
+    <div style="padding-top: 16px">
+        <app-admin-requests *ngIf="view === 'requests'"></app-admin-requests>
+        <app-admin-deposits *ngIf="view === 'deposits'"></app-admin-deposits>
+        <app-admin-collection
+            *ngIf="view === 'collection'"
+        ></app-admin-collection>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+<mat-form-field subscriptSizing="dynamic" style="width: 100%">
+    <mat-label>Filter Desposits</mat-label>
+    <input
+        matInput
+        #input
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. processed"
+    />
+</mat-form-field>
+
+<mat-card>
+    <table mat-table [dataSource]="dataSource" matSort>
+        <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <ng-container matColumnDef="depositId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Deposit ID
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.depositId }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                First Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="affiliation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Affiliation
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.affiliation }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="message">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
+            <td mat-cell *matCellDef="let row">{{ row.message }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="depositExcel">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Deposit Excel
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.depositExcel }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="depositState">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Deposit State
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-form-field subscriptSizing="dynamic">
+                    <mat-select
+                        [(ngModel)]="row.depositState"
+                        (selectionChange)="updateDepositState(row)"
+                    >
+                        <mat-option
+                            *ngFor="let state of depositStates"
+                            [value]="state"
+                        >
+                            {{ state }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="depositCreationDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Deposit Creation Date & Time
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.depositCreationDate | date : "medium" }}
+            </td>
+        </ng-container>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow>
+            <td [attr.colspan]="displayedColumns.length">
+                <span *ngIf="dataSource.data.length === 0"
+                    >No data to display...</span
+                >
+                <span *ngIf="dataSource.data.length > 0"
+                    >No data matching the filter "<strong>{{
+                        input.value
+                    }}</strong
+                    >"</span
+                >
+            </td>
+        </tr>
+    </table>
+</mat-card>

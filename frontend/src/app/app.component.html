@@ -1,25 +1,28 @@
 <div class="flex-column h100">
-  <mat-toolbar>
-    <a routerLink="/home" mat-button>
-      Canadian Collection of Agricultural Soil Microbes
-    </a>
-    <span class="flex"></span>
+    <mat-toolbar>
+        <a routerLink="/home" mat-button>
+            Canadian Collection of Agricultural Soil Microbes
+        </a>
+        <span class="flex"></span>
 
-    <a class="header-link" routerLink="/browse" mat-button>Browse</a>
-    |
-    <a class="header-link" routerLink="/statistics" mat-button>Statistics</a>
-    |
-    <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
-    |
-    <a class="header-link" routerLink="/cart" mat-button>Cart</a>
-  </mat-toolbar>
+        <a class="header-link" routerLink="/browse" mat-button>Browse</a>
+        |
+        <a class="header-link" routerLink="/statistics" mat-button>
+            Statistics
+        </a>
+        |
+        <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
+        |
+        <a class="header-link" routerLink="/cart" mat-button>Cart</a>
+    </mat-toolbar>
 
-  <div style="flex: 1">
-    <router-outlet></router-outlet>
-  </div>
-  <mat-toolbar class="footer">
-    <a class="header-link" routerLink="/about" mat-button>About</a>
-    |
-    <a class="header-link" routerLink="/admin" mat-button>Admin</a>
-  </mat-toolbar>
+    <div class="flex">
+        <router-outlet></router-outlet>
+    </div>
+
+    <mat-toolbar class="footer">
+        <a class="header-link" routerLink="/about" mat-button>About</a>
+        |
+        <a class="header-link" routerLink="/admin" mat-button>Admin</a>
+    </mat-toolbar>
 </div>
