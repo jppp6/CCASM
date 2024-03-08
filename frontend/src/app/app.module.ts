@@ -1,6 +1,4 @@
 import { AppComponent } from './app.component';
-import { ComplexSearchComponent } from './components/complex-search/complex-search.component';
-import { SimpleSearchComponent } from './components/simple-search/simple-search.component';
 import { AboutComponent } from './pages/about/about.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
@@ -8,14 +6,16 @@ import { AdminDepositsComponent } from './pages/admin/dashboard/admin-deposits/a
 import { AdminRequestsComponent } from './pages/admin/dashboard/admin-requests/admin-requests.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { BrowseComponent } from './pages/browse/browse.component';
+import { ComplexSearchComponent } from './pages/browse/complex-search/complex-search.component';
+import { SimpleSearchComponent } from './pages/browse/simple-search/simple-search.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PageNotFoundComponent } from './pages/notfound/notfound.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
-import { StrainDetailsDialog } from './components/strain-details/strain-details.component';
 import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
+import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
