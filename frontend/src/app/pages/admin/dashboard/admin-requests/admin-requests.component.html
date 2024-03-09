@@ -1,12 +1,27 @@
-<mat-form-field subscriptSizing="dynamic" style="width: 100%">
+<mat-form-field subscriptSizing="dynamic" style="width: 50%">
     <mat-label>Filter Requests</mat-label>
     <input
         matInput
-        #input
-        (keyup)="applyFilter($event)"
+        [(ngModel)]="filterValue"
+        (keyup)="applyFilter(filterValue)"
         placeholder="Ex. processed"
-    />
+    /><button
+        matSuffix
+        mat-icon-button
+        *ngIf="filterValue"
+        (click)="applyFilter('')"
+    >
+        <mat-icon>clear</mat-icon>
+    </button>
 </mat-form-field>
+
+<button
+    mat-stroked-button
+    *ngFor="let state of requestStates"
+    (click)="applyFilter(state)"
+>
+    {{ state | toTitleCase }}
+</button>
 
 <mat-card>
     <table mat-table [dataSource]="dataSource" matSort>
@@ -95,15 +110,15 @@
         <!-- Row shown when there is no matching data. -->
         <tr *matNoDataRow>
             <td [attr.colspan]="displayedColumns.length">
-                <span *ngIf="dataSource.data.length === 0"
-                    >No data to display...</span
-                >
-                <span *ngIf="dataSource.data.length > 0"
-                    >No data matching the filter "<strong>{{
-                        input.value
-                    }}</strong
-                    >"</span
-                >
+                <span *ngIf="dataSource.data.length === 0">
+                    No data to display...
+                </span>
+                <span *ngIf="dataSource.data.length > 0">
+                    No data matching the filter "<strong>
+                        {{ filterValue }}
+                    </strong>
+                    "
+                </span>
             </td>
         </tr>
     </table>

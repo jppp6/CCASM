@@ -147,18 +147,19 @@ export class AdminDepositsComponent implements OnInit, AfterViewInit {
         'depositState',
         'depositCreationDate',
     ];
+    filterValue: string = '';
 
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private ccasmService: CCASMService) {}
 
     ngOnInit(): void {
-        // this.ccasmService.getStrainDeposits().subscribe((data) => {
-        this.dataSource.data = dummyData;
-        // this.dataSource.data =  Utils.snackCaseToCamelCase(
-        //     dummyRequests
-        // ) as StrainRequest[];
-        // });
+        this.ccasmService.getStrainDeposits().subscribe((data) => {
+            this.dataSource.data = dummyData;
+            // this.dataSource.data = Utils.snackCaseToCamelCase(
+            //     data.deposits
+            // ) as StrainDeposit[];
+        });
     }
 
     ngAfterViewInit() {
@@ -171,8 +172,9 @@ export class AdminDepositsComponent implements OnInit, AfterViewInit {
         // });
     }
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    applyFilter(event: string): void {
+        const filterVal = event.trim().toLowerCase();
+        this.dataSource.filter = filterVal;
+        this.filterValue = filterVal;
     }
 }

@@ -24,6 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -69,6 +70,7 @@ import { AppRoutingModule } from './app-routing.module';
         BrowserAnimationsModule,
         MatButtonModule,
         MatIconModule,
+        MatChipsModule,
         MatTableModule,
         MatMenuModule,
         MatExpansionModule,

@@ -3,6 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { StrainRequest } from 'src/app/core/utils/ccasm.types';
+import { Utils } from 'src/app/core/utils/ccasm.utils';
 
 const dummyRequests: StrainRequest[] = [
     {
@@ -145,18 +146,19 @@ export class AdminRequestsComponent implements OnInit, AfterViewInit {
         'requestState',
         'requestCreationDate',
     ];
+    filterValue: string = '';
 
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private ccasmService: CCASMService) {}
 
     ngOnInit(): void {
-        // this.ccasmService.getStrainRequests().subscribe((data) => {
-        this.dataSource.data = dummyRequests.concat(dummyRequests);
-        // this.dataSource.data =  Utils.snackCaseToCamelCase(
-        //     dummyRequests
-        // ) as StrainRequest[];
-        // });
+        this.ccasmService.getStrainRequests().subscribe((data) => {
+            // this.dataSource.data = dummyData;
+            this.dataSource.data = Utils.snackCaseToCamelCase(
+                data.requests
+            ) as StrainRequest[];
+        });
     }
 
     ngAfterViewInit() {
@@ -169,8 +171,9 @@ export class AdminRequestsComponent implements OnInit, AfterViewInit {
         // });
     }
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    applyFilter(event: string): void {
+        const filterVal = event.trim().toLowerCase();
+        this.dataSource.filter = filterVal;
+        this.filterValue = filterVal;
     }
 }

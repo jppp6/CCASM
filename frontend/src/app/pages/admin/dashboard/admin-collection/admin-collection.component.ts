@@ -39,13 +39,14 @@ export class AdminCollectionComponent {
         'citationDepositTime',
         'photo',
     ];
+    filterValue: string = '';
 
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(private ccasmService: CCASMService) {}
 
     ngOnInit(): void {
-        this.ccasmService.getStrains().subscribe((data) => {
+        this.ccasmService.getStrainCollection().subscribe((data) => {
             this.dataSource.data = Utils.snackCaseToCamelCase(
                 data.strains
             ) as Strain[];
@@ -56,8 +57,9 @@ export class AdminCollectionComponent {
         this.dataSource.sort = this.sort;
     }
 
-    applyFilter(event: Event) {
-        const filterValue = (event.target as HTMLInputElement).value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    applyFilter(event: string): void {
+        const filterVal = event.trim().toLowerCase();
+        this.dataSource.filter = filterVal;
+        this.filterValue = filterVal;
     }
 }
