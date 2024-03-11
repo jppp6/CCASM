@@ -1,0 +1,81 @@
+.main-div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 2.5rem; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: #333; /* Set the color */
+    text-align: center; /* Center the text */
+    margin-bottom: 30px; /* Add some space below the title */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 2px; /* Add letter spacing */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+}
+
+h2 {
+font-size: 1.0rem; /* Adjust the font size as needed */
+font-weight: bold;
+color: #333; /* Set the color */
+text-align: center; /* Center the text */
+margin-bottom: 5px; /* Add some space below the title */
+text-transform: uppercase; /* Convert text to uppercase */
+letter-spacing: 2px; /* Add letter spacing */
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+}
+
+div {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.aff {
+    width: 100%;
+}
+
+.msg {
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+    max-height: 300px;
+}
+
+.first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+}
+
+.first-line .mat-form-field {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.first-line .mat-form-field:nth-child(1) {
+    padding-right: 10px;
+}
+
+button{
+    margin-right: 1vw;
+    background: #4285F4;
+    color: white;
+    font-size: 15px;
+    line-height: 18px;
+    height: auto;
+    width: auto;
+}
+
+.file-error {
+    color: red;
+    font-style: italic;
+    font-size: 15px;
+}
+
+.file-input {
+    display: none;
+}

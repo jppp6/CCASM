@@ -53,7 +53,7 @@ export class CCASMService {
 
     postStrainRequest(request: StrainRequest): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/strain-request', request);
+        return this.http.post<void>(this.url + '/strain-request/', request);
     }
 
     getStrainDeposit(depositId: number): Observable<StrainDeposit> {
@@ -65,6 +65,6 @@ export class CCASMService {
 
     postStrainDeposit(deposit: StrainDeposit): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/strain-deposit', deposit);
+        return this.http.post<void>(this.url + '/strain-deposit/', deposit);
     }
 }

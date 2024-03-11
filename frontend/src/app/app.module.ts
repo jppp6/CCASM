@@ -17,7 +17,7 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -38,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +80,7 @@ import { AppRoutingModule } from './app-routing.module';
         MatToolbarModule,
         MatTreeModule,
         MatSortModule,
+        MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
         MatAutocompleteModule,
@@ -90,6 +92,10 @@ import { AppRoutingModule } from './app-routing.module';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
+        HttpClientXsrfModule.withOptions({
+            cookieName: 'csrftoken',
+            headerName: 'X-CSRFTOKEN',
+        }),
     ],
     providers: [],
     bootstrap: [AppComponent],
