@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Strain } from 'src/app/core/utils/ccasm.types';
+import { Utils } from 'src/app/core/utils/ccasm.utils';
 
 @Component({
     selector: 'app-admin-edit',
@@ -10,19 +11,5 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 export class AdminEditComponent {
     constructor(@Inject(MAT_DIALOG_DATA) public data: Strain) {}
 
-    readonly provinceAbbreviations: string[] = [
-        'AB',
-        'BC',
-        'MB',
-        'NB',
-        'NL',
-        'NS',
-        'NT',
-        'NU',
-        'ON',
-        'PE',
-        'QC',
-        'SK',
-        'YT',
-    ];
+    readonly provinceAbbreviations: string[] = Utils.getProvinceAbbreviations();
 }

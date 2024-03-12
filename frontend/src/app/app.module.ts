@@ -38,11 +38,13 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
 
 @NgModule({
@@ -65,6 +67,7 @@ import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edi
         AdminDepositsComponent,
         AdminCollectionComponent,
         AdminEditComponent,
+        AdminAddComponent,
     ],
     imports: [
         BrowserModule,
@@ -73,6 +76,7 @@ import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edi
         MatCheckboxModule,
         BrowserAnimationsModule,
         MatButtonModule,
+        MatTabsModule,
         MatIconModule,
         MatChipsModule,
         MatTableModule,
