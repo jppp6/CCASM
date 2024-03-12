@@ -86,6 +86,13 @@ export class CCASMService {
     return this.http.post<void>(this.url + '/strain-deposit', deposit);
   }
 
+  getStrainsPerProvince(): Observable<any> {
+    return this.http.get<any[]>(`${this.url}/strains-per-province`);
+  }
+  getStrainsPerTaxonomicLevel(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/strains-per-taxonomic-level`);
+  }
+
   test(): void {
     console.log(this.http.get<Strain[]>(this.url + '/strains'));
   }

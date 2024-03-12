@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { StatisticsService } from 'src/app/core/services/statistics.service';
 import { MatDialog } from '@angular/material/dialog';
 import { StrainDetailsDialog } from 'src/app/components/strain-details/strain-details.component';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
@@ -19,7 +18,7 @@ export class StatisticsComponent implements OnInit{
   strainsPerTaxonomicLevel: any[] = [];
 
   constructor(
-    private statisticsService: StatisticsService,
+    private statisticsService: CCASMService,
     private ccasmService: CCASMService,
     public dialog: MatDialog
     ) {}
@@ -70,7 +69,7 @@ export class StatisticsComponent implements OnInit{
     };
 
     // Initialize the map
-    this.map = L.map('map').setView(startingCoordinates, startingZoom);
+    this.map = L.map('statistics-map').setView(startingCoordinates, startingZoom);
 
     // Add the Google maps tile to the map
     const tiles: L.TileLayer = L.tileLayer(googleLayerString, options);
