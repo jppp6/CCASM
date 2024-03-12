@@ -44,7 +44,7 @@ export class HomeComponent implements AfterViewInit {
         };
 
         // Initialize the map
-        this.map = L.map('map').setView(startingCoordinates, startingZoom);
+        this.map = L.map('home-map').setView(startingCoordinates, startingZoom);
 
         // Add the Google maps tile to the map
         const tiles: L.TileLayer = L.tileLayer(googleLayerString, options);

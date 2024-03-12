@@ -79,7 +79,7 @@ export class BrowseComponent implements OnInit {
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.toLowerCase();
+        searchString = searchString.toLowerCase().replace('unclassified ', '');
         if (searchString === '') {
             this.filteredStrains = null;
         } else {
