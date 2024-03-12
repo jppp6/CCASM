@@ -15,14 +15,35 @@
     </button>
 </mat-form-field>
 
-<mat-card style="overflow-x: auto">
+<mat-card style="overflow-x: auto; overflow-y: auto">
     <table mat-table [dataSource]="dataSource" matSort>
         <tr
             mat-header-row
             *matHeaderRowDef="displayedColumns; sticky: true"
         ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (dblclick)="openStrainEditor(row)"
+        ></tr>
 
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-stroked-button (click)="openStrainEditor(row)">
+                    Edit
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="visible">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Visible</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.visible" color="primary">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
         <ng-container matColumnDef="ccasmId">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>CCASM ID</th>
             <td mat-cell *matCellDef="let row">{{ row.ccasmId }}</td>
@@ -50,7 +71,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Taxonomic Lineage
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.taxonomicLineage }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.taxonomicLineage }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="riskGroup">
@@ -64,27 +87,35 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Is Plant Pathogen
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.isPlantPathogen }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isPlantPathogen }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="colonyMorphology">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Colony Morphology
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.colonyMorphology }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.colonyMorphology }}
+            </td>
         </ng-container>
         <ng-container matColumnDef="hostPlantSpecies">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Host Plant Species
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.hostPlantSpecies }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.hostPlantSpecies }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="isolationSource">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Isolation Source
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.isolationSource }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSource }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="isolationYear">
@@ -98,7 +129,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Isolation Protocol
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.isolationProtocol }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationProtocol }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="isolationGrowthMedium">
@@ -132,7 +165,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Isolation Soil pH
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.isolationSoilPh }}</td>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSoilPh }}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="isolationSoilOrganicMatter">
@@ -161,7 +196,6 @@
                 {{ row.isolationSoilProvince }}
             </td>
         </ng-container>
-
         <ng-container matColumnDef="longitude">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Longitude</th>
             <td mat-cell *matCellDef="let row">{{ row.longitude }}</td>
@@ -193,12 +227,10 @@
             <td mat-cell *matCellDef="let row">{{ row.notes }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="citationDepositTime">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Citation Deposit Time
-            </th>
+        <ng-container matColumnDef="citation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Citation</th>
             <td mat-cell *matCellDef="let row">
-                {{ row.citationDepositTime | date : "medium" }}
+                {{ row.citation }}
             </td>
         </ng-container>
 

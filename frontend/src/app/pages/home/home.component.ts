@@ -58,7 +58,8 @@ export class HomeComponent implements AfterViewInit {
             }
 
             const marker = L.circleMarker(
-                { lat: s.latitude, lng: s.longitude },
+                // TODO FLIP BACK
+                { lat: s.longitude, lng: s.latitude },
                 { radius: 15 }
             );
 

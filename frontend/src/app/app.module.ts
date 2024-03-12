@@ -24,6 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -42,6 +43,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
 
 @NgModule({
     declarations: [
@@ -62,11 +64,13 @@ import { AppRoutingModule } from './app-routing.module';
         AdminRequestsComponent,
         AdminDepositsComponent,
         AdminCollectionComponent,
+        AdminEditComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         MatProgressSpinnerModule,
+        MatCheckboxModule,
         BrowserAnimationsModule,
         MatButtonModule,
         MatIconModule,
