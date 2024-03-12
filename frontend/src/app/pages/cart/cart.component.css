@@ -1,37 +1,49 @@
-.main-div {
-    width: 100%;
+#wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    justify-content: space-between;
 }
 
-.title {
-    font-size: 2.5rem; /* Adjust the font size as needed */
+.left {
+    width: 50%;
+    padding-right: 10px;
+}
+
+mat-card {
+    width: 90%;
+  }
+
+.right {
+    width: 50%;
+    float: right;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+h1 {
+    font-size: 1.5rem; /* Adjust the font size as needed */
     font-weight: bold;
     color: #333; /* Set the color */
-    text-align: center; /* Center the text */
-    margin-bottom: 30px; /* Add some space below the title */
+    margin-bottom: 20px; /* Add some space below the title */
     text-transform: uppercase; /* Convert text to uppercase */
     letter-spacing: 2px; /* Add letter spacing */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
 }
 
-h2 {
-font-size: 1.0rem; /* Adjust the font size as needed */
-font-weight: bold;
-color: #333; /* Set the color */
-text-align: center; /* Center the text */
-margin-bottom: 5px; /* Add some space below the title */
-text-transform: uppercase; /* Convert text to uppercase */
-letter-spacing: 2px; /* Add letter spacing */
-text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+hr {
+    margin-bottom: 2.0rem;
 }
 
-div {
-    margin-top: 10px;
+.nothing {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.terms {
     margin-bottom: 20px;
 }
-
 .aff {
     width: 100%;
 }
@@ -43,21 +55,16 @@ div {
     max-height: 300px;
 }
 
+.disclaimer {
+    margin-bottom: 20px;
+}
+
 .first-line {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     gap: 40px;
-}
-
-.first-line .mat-form-field {
-    display: inline-block;
-    width: 100%;
-    vertical-align: middle;
-}
-
-.first-line .mat-form-field:nth-child(1) {
-    padding-right: 10px;
 }
 
 button{
