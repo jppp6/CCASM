@@ -1,1 +1,24 @@
-<p>statistics works!</p>
+<div id="map" style="height: 70%"></div>
+
+
+<div class="statistics-container">
+    <h2>Strains Per Province</h2>
+    <table *ngIf="strainsPerProvince.length > 0; else noDataTemplate">
+      <thead>
+        <tr>
+          <th>Province</th>
+          <th>Number of Strains</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let strain of strainsPerProvince">
+          <td>{{ strain.province }}</td>
+          <td>{{ strain.count }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noDataTemplate>
+      <p>No data available.</p>
+    </ng-template>
+  </div>
+  
