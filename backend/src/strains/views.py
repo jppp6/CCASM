@@ -1,5 +1,6 @@
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import Deposits, Requests, Strains, Users, Webusers
@@ -7,6 +8,7 @@ from .serializers import StrainSerializer
 #Not sure if the following was the right approach (did not use rest_framework)
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def get_strain_all(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
@@ -36,7 +38,7 @@ def strain_details(request, ccasm_id):
         strain.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view('POST')
+@api_view(['POST'])
 def post_strain(request):
     serializer = StrainSerializer(data=request.data)
     if serializer.is_valid():
@@ -45,6 +47,6 @@ def post_strain(request):
 
 # This will do the bulk upload
 # This will need the django csv reader to work
-@api_view("POST")
-def post_csv(request):
-    pass
+# @api_view("POST")
+# def post_csv(request):
+#     pass
