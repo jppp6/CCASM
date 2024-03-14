@@ -3,19 +3,22 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .models import Deposits, Requests, Strains, Users, Webusers
-from .serializers import StrainSerializer
-#Not sure if the following was the right approach (did not use rest_framework)
+from .models import Deposits, Requests, Strains, Users, Webusers, Requestedstrains
+from .serializers import StrainSerializer, RequestsSerializer, RequestedStrainsSerializer
 
+
+# GET for all strains
+# Will return all entries in the Strain DB Table
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([AllowAny])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
 def get_strain_all(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
     return Response({'strains': serializer.data})
 
-# This will just add a single strain
+# Single Strain request methods
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
 def strain_details(request, ccasm_id):
     # See if exists
     try:
@@ -39,6 +42,7 @@ def strain_details(request, ccasm_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
 def post_strain(request):
     serializer = StrainSerializer(data=request.data)
     if serializer.is_valid():
@@ -50,3 +54,67 @@ def post_strain(request):
 # @api_view("POST")
 # def post_csv(request):
 #     pass
+
+# Get all requests from users
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_requests_all(request):
+    requested = Requests.objects.all()
+    serializer = RequestsSerializer(requested, many=True)
+    return Response({'requests': serializer.data})
+
+
+# CRUD operations for requests from users
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+def requests_details(request, request_id):
+    try:
+        requested = Requests.objects.get(pk=request_id)
+    except Requests.DoesNotExist:
+        return Response(status= status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = RequestsSerializer(requested)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = RequestsSerializer(requested, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        requested.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Post for requests from users
+@api_view(['POST'])
+@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+def post_request(request):
+    serializer = RequestsSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# This needs some work to work nice with composite primary keys
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+def requested_strains_details(request, request_id, ccasm_id):
+    try:
+        requested = Requestedstrains.objects.get(pk=request_id)
+    except Requestedstrains.DoesNotExist:
+        return Response(status= status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = RequestedStrainsSerializer(requested)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = RequestedStrainsSerializer(requested, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        requested.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

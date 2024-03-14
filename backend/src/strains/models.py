@@ -22,8 +22,8 @@ class Deposits(models.Model):
 
 
 class Requestedstrains(models.Model):
-    request = models.ForeignKey('Webusers', models.DO_NOTHING)
-    ccasm = models.ForeignKey('Strains', models.DO_NOTHING)
+    request = models.ForeignKey('Webusers', on_delete=models.CASCADE)
+    ccasm = models.ForeignKey('Strains', on_delete=models.CASCADE)
 
     class Meta:
         managed = False

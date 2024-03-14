@@ -18,9 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from strains import views
 
+# Will probably have to change these urls to follow some convention
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('strains/', views.get_strain_all),
     path('strains/<int:ccasm_id>/', views.strain_details),
-    path('strains/post/', views.post_strain)
+    path('strains/post/', views.post_strain),
+    path('requests/', views.get_requests_all),
+    path('requests/<int:request_id>', views.requests_details),
+    path('requests/post', views.post_request)
 ]
