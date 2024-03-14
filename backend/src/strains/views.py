@@ -16,6 +16,13 @@ def get_strain_all(request):
     serializer = StrainSerializer(strains, many=True)
     return Response({'strains': serializer.data})
 
+@api_view(['GET'])
+@permission_classes([AllowAny])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
+def get_strain_browse(request):
+    strains = Strains.objects.filter(visible=1) #based on whatever column decides visibility
+    serializer = StrainSerializer(strains, many=True)
+    return Response({'strains': serializer.data})
+
 # Single Strain request methods
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([AllowAny])         #This WILL have to change once permissions are available for users

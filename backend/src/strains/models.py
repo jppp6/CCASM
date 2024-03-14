@@ -66,8 +66,9 @@ class Strains(models.Model):
     genome_ncbi_association = models.CharField(max_length=128, blank=True, null=True)
     genome_size = models.FloatField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    citation_deposit_time = models.DateTimeField(blank=True, null=True)
+    citation = models.TextField(blank=True, null=True)
     photo = models.CharField(max_length=1024, blank=True, null=True)
+    visible = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
