@@ -17,7 +17,7 @@ from .serializers import StrainSerializer,DepositsSerializer, RequestsSerializer
 #     serializer_class = StrainsSerializer
 
 def get_strain_collection(request):
-    strains = Strains.objects.all()
+    strains = Strains.objects.filter(visible=True)
     serializer = StrainSerializer(strains, many=True)
     return JsonResponse({'strains': serializer.data}, safe=False)
 
