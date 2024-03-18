@@ -3,6 +3,7 @@ import { CCASMService } from '../../core/services/ccasm.services';
 import { Strain, StrainRequest } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import { StrainCartService } from 'src/app/core/services/strain-cart.service';
+import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -11,7 +12,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
- 
+  
 
   applyForm = this.fb.group({
     firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
@@ -19,19 +20,25 @@ export class CartComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     affiliation: ['', [Validators.required, Validators.minLength(3)]],
     message: [''],
-    checkbox: [null, [Validators.required]],
+    checkbox: [null, [Validators.required]]
   });
 
-  services = inject(CCASMService)
-  scs = inject(StrainCartService)
+  services = inject(CCASMService);
+  scs = inject(StrainCartService);
 
-  constructor(private fb: FormBuilder) {
+  //dataSource = new MatTableDataSource<Strain>([]);
+  dataSource : Strain[] = [];
+
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.applyForm.valueChanges.subscribe(console.log);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //this.dataSource.data = this.scs.getSelectedStrains()
+    this.dataSource =this.scs.getSelectedStrains();
+  }
 
-  msg = ""
+  msg = "";
 
   submitRequest(sr : StrainRequest) {
     //submit form logic here
@@ -39,16 +46,16 @@ export class CartComponent implements OnInit {
       {
         // Success 
         next: () => {
-          this.msg = "Request Sent!"
+          this.msg = "Request Sent!";
           console.log('Post success');
         },
         // Failure
         error: (error) => {
-          this.msg = "Request Failed!"
+          this.msg = "Request Failed!";
           console.log('Post failed', error);
         } 
       }
-    )
+    );
   }
 
   build() {
@@ -62,18 +69,25 @@ export class CartComponent implements OnInit {
         strainsRequested: [],
         requestState: 'received',
         requestCreationDate: new Date()
-      }
+      };
 
-      this.submitRequest(newStrainRequest)
+      this.submitRequest(newStrainRequest);
   }
 
   exportAll(): void {
-    if (this.scs.getSelectedStrains().length > 0) {
+    if (this.dataSource.length > 0) {
         Utils.exportToCSV(
-            this.scs.getSelectedStrains(),
+            this.dataSource,
             'CCASM-' + Utils.formatDate(new Date()) + '.csv'
         );
     }
+  }
+
+  removeStrain(i : number): void {
+    console.log("Removing strain id:" + i);
+    this.scs.removeStrainById(i.toString());
+    this.dataSource = this.scs.getSelectedStrains()
+    this.cdr.detectChanges();
   }
 
   get f() {

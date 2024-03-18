@@ -1,91 +1,114 @@
-<div name="main-div" class="main-div">
-    
-    <!-- Main Form -->
-    <form [formGroup]="applyForm" novalidate class="form">
+<div id="wrapper">
+    <div class="Left">
+        <!-- Strain Cart -->
+        <h1 class="cart">Strain Cart</h1>
+
+        <ng-container *ngIf="dataSource.length > 0; else emptyCart">
+            <mat-card *ngFor="let s of dataSource" style="background-color: #ececec">
+                <mat-card-title>
+                    <strong>CCASM ID:</strong> {{ s.ccasmId }}
+                    <strong>Binomial Classification:</strong> {{ s.binomialClassification }}
+                    <!-- ugly button rn will fix -->
+                    <button mat-icon-button (click)="removeStrain(s.ccasmId)">
+                        <mat-icon aria-label="Remove">delete</mat-icon>
+                    </button>
+                </mat-card-title>
+                <mat-card-content>
+                    <strong>Taxonomic Lineage:</strong> {{ s.taxonomicLineage }}
+                </mat-card-content>
+            </mat-card>
+        </ng-container>
+        
+        <ng-template #emptyCart>
+            <p class="nothing">Nothing in cart...</p>
+        </ng-template>
+    </div> 
+
+    <div name="main-div" class="right">    
 
         <!-- Title -->
         <h1 class="title">Request Strain Form</h1>
+        <hr>
 
-        <!-- Strain Cart -->
-        <h2 class="cart">Strain Cart</h2>
-        <mat-divider></mat-divider>
+        <!-- Main Form -->
+        <form [formGroup]="applyForm" novalidate class="form">
 
-        <!-- First line -->
-        <div name = "first-last-email" class="first-line">
-            <mat-form-field appearance="outline">
-                <mat-label>First name</mat-label>
-                <input type="one" matInput formControlName="firstName" placeholder="Ex. John" >
-                    <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['required']">* First Name is <strong>required</strong></mat-error>
-                    <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
-            </mat-form-field>
+            <!-- First line -->
+            <div name = "first-last-email" class="first-line">
+                <mat-form-field appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input type="one" matInput formControlName="firstName" placeholder="Ex. John" >
+                        <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['required']">* First Name is <strong>required</strong></mat-error>
+                        <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Last name</mat-label>
-                <input type="one" matInput formControlName="lastName" placeholder="Ex. Doe">
-                    <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['required']">* Last Name is <strong>required</strong></mat-error>
-                    <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input type="one" matInput formControlName="lastName" placeholder="Ex. Doe">
+                        <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['required']">* Last Name is <strong>required</strong></mat-error>
+                        <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input type="one" matInput formControlName="email" placeholder="Ex. email@test.com">
-                    <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['required']">* Email is <strong>required</strong>.</mat-error>
-                    <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['email']">* Email not <strong>valid</strong>.</mat-error>
-            </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input type="one" matInput formControlName="email" placeholder="Ex. email@test.com">
+                        <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['required']">* Email is <strong>required</strong>.</mat-error>
+                        <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['email']">* Email not <strong>valid</strong>.</mat-error>
+                </mat-form-field>
 
-        </div>
-        
-        <!-- 2nd line -->
-        <div name = "aff" class="second">
+            </div>
             
-            <mat-form-field class="aff" appearance="outline">
-                <mat-label>Affiliation</mat-label>
-                <input type="two" matInput formControlName="affiliation" placeholder="Ex. Professor at example University">
-                    <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['required']">* Affiliation is <strong>required</strong>.</mat-error>
-                    <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['minlength']">* More than 3 characters <strong>needed</strong>.</mat-error>
-            </mat-form-field>
+            <!-- 2nd line -->
+            <div name = "aff" class="second">
+                
+                <mat-form-field class="aff" appearance="outline">
+                    <mat-label>Affiliation</mat-label>
+                    <input type="two" matInput formControlName="affiliation" placeholder="Ex. Professor at example University">
+                        <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['required']">* Affiliation is <strong>required</strong>.</mat-error>
+                        <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['minlength']">* More than 3 characters <strong>needed</strong>.</mat-error>
+                </mat-form-field>
 
-        </div>
+            </div>
 
-        <!-- Message box -->
-        <div name= "Message">
-            <mat-form-field class="msg">
-                <mat-label>Additional Information</mat-label>
-                <textarea matInput rows="8" maxlength="400" formControlName="message" placeholder="Write here..."></textarea>
-              </mat-form-field>
-        </div>
+            <!-- Message box -->
+            <div name= "Message">
+                <mat-form-field class="msg">
+                    <mat-label>Additional Information...</mat-label>
+                    <textarea matInput rows="8" maxlength="400" formControlName="message" placeholder="Write here..."></textarea>
+                </mat-form-field>
+            </div>
 
-        <div name="info" class="disclaimer">
-            <label class="txt" style="font-style: italic;">
-                *This request will put you in contact with one of us. Furthur communication will be needed.
-            </label>
-        </div>
+            <!-- Legal stuff? -->
+            <div>
+                <mat-checkbox formControlName="checkbox">I've read the terms of service</mat-checkbox>
+                <mat-error class="terms" *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']">* Please read the <strong>terms of services</strong>.</mat-error>
+            </div>
+            
+            <div name="info" class="disclaimer">
+                <label class="txt" style="font-style: italic;">
+                    *This request will put you in contact with one of us. Furthur communication will be needed
+                </label>
+            </div>
 
-        <!-- Legal stuff? -->
-        <div>
-            <mat-checkbox class="example-margin" formControlName="checkbox">Check me!</mat-checkbox>
-            <mat-error *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']">* Please read the <strong>terms of services</strong>.</mat-error>
-        </div>
-        
+            <!-- buttons/file upload -->
+            <div class="button">
 
-        <!-- buttons/file upload -->
-        <div class="button">
+                <button
+                mat-raised-button
+                type="submit"
+                [disabled]="applyForm.invalid"
+                (click)="build()"
+                color="primary"><mat-icon>done</mat-icon>Submit</button>
 
-            <button
-            mat-raised-button
-            type="submit"
-            [disabled]="applyForm.invalid"
-            (click)="build()"
-            color="primary"><mat-icon>done</mat-icon>Submit</button>
+                <button
+                mat-raised-button
+                type="download"
+                (click)="exportAll()"
+                color="primary"><mat-icon>download</mat-icon>Save Metadata</button>
+            </div>
 
-            <button
-            mat-raised-button
-            type="download"
-            (click)="exportAll()"
-            color="primary"><mat-icon>download</mat-icon>Save Metadata</button>
-        </div>
+            <div>{{msg || ""}}</div>
 
-        <div>{{msg || ""}}</div>
-
-    </form>    
+        </form>    
+    </div>
 </div>
