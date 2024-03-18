@@ -24,6 +24,24 @@ body {
   flex-direction: column;
 }
 
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
 .w100 {
   width: 100%;
 }

@@ -4,11 +4,11 @@ import { Strain } from '../utils/ccasm.types';
 @Injectable({
   providedIn: 'root',
 })
-export class CartStoreService {
+export class StrainCartService {
   cart: Strain[] = [];
 
-  addStrain(newStrain: Strain): void {
-    this.cart.push(newStrain);
+  addStrainToCart(s: Strain): void {
+    this.cart.push(s);
   }
 
   removeStrainById(strainId: string): boolean {

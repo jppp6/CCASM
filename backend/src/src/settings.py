@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "strains",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +55,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        "rest_framework.permissions.IsAuthenticated",
+    ]
+}
 
 ROOT_URLCONF = "src.urls"
 
@@ -84,28 +97,19 @@ DATABASES = {
         "NAME": "ccasmdb",
         "USER": "ccasmadmin",
         "PASSWORD": getenv("DEV_DB_PASS"),
-        "HOST": getenv('DEV_DB_IP'),
+        "HOST": getenv("DEV_DB_IP"),
         "PORT": "3306",
-        "OPTIONS": {
-            "ssl": {
-                'ca': getenv('SSL_CA')
-            }
-        }
+        "OPTIONS": {"ssl": {"ca": getenv("SSL_CA")}},
     },
-
     "CCASM_PROD": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "CCASM_PROD01",
         "USER": "ccasmadmin",
         "PASSWORD": getenv("PROD_DB_PASS"),
-        "HOST": getenv('PROD_DB_IP'),
+        "HOST": getenv("PROD_DB_IP"),
         "PORT": "3306",
-        "OPTIONS": {
-            "ssl": {
-                getenv('SSL_CA')
-            }
-        }
-    }
+        "OPTIONS": {"ssl": {getenv("SSL_CA")}},
+    },
 }
 
 
@@ -144,6 +148,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+""" STATICFILES_DIRS = [
+    BASE_DIR / "static",
+] """
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

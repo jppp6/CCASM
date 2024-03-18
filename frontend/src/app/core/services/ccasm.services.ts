@@ -7,10 +7,10 @@ import { Strain, StrainDeposit, StrainRequest, AdminAccount } from '../utils/cca
   providedIn: 'root',
 })
 export class CCASMService {
-  // CHANGE THIS TO THE RIGHT PATH
-  readonly url = 'localhost';
+  // Make sure to change this to the Domain name when deployed
+  readonly url = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAccount(accountId: number): Observable<AdminAccount> {
     const str = accountId.toString();
@@ -27,8 +27,8 @@ export class CCASMService {
     return this.http.get<Strain>(this.url + '/strain/' + strainIdString);
   }
 
-  getStrains(): Observable<Strain[]> {
-    return this.http.get<Strain[]>(this.url + '/strains');
+  getStrains(): Observable<{ strains: Strain[] }> {
+    return this.http.get<{ strains: Strain[] }>(this.url + '/strains/');
   }
 
   getStrainsBySearch(searchString: string): Observable<Strain[]> {
@@ -94,5 +94,9 @@ export class CCASMService {
   postStrainDeposit(deposit: StrainDeposit): Observable<void> {
     // format the post into an http body
     return this.http.post<void>(this.url + '/strain-deposit', deposit);
+  }
+
+  test(): void {
+    console.log(this.http.get<Strain[]>(this.url + '/strains'));
   }
 }
