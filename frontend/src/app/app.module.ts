@@ -43,6 +43,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { AppRoutingModule } from './app-routing.module';
         AdminRequestsComponent,
         AdminDepositsComponent,
         AdminCollectionComponent,
+        TermsComponent,
     ],
     imports: [
         BrowserModule,

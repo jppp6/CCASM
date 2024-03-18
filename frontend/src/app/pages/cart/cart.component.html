@@ -80,7 +80,8 @@
 
             <!-- Legal stuff? -->
             <div>
-                <mat-checkbox formControlName="checkbox">I've read the terms of service</mat-checkbox>
+                <mat-checkbox formControlName="checkbox"></mat-checkbox>
+                <button type="button" class="terms" mat-stroked-button (click)="openTerms()">I've read the terms of service</button>
                 <mat-error class="terms" *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']">* Please read the <strong>terms of services</strong>.</mat-error>
             </div>
             
@@ -93,16 +94,16 @@
             <!-- buttons/file upload -->
             <div class="button">
 
-                <button
+                <button name="func"
                 mat-raised-button
                 type="submit"
                 [disabled]="applyForm.invalid"
                 (click)="build()"
                 color="primary"><mat-icon>done</mat-icon>Submit</button>
 
-                <button
+                <button name="func"
                 mat-raised-button
-                type="download"
+                type="button"
                 (click)="exportAll()"
                 color="primary"><mat-icon>download</mat-icon>Save Metadata</button>
             </div>
