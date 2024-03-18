@@ -1,11 +1,33 @@
 from rest_framework import status
+from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Deposits, Requests, Strains, Users, Webusers, Requestedstrains
-from .serializers import StrainSerializer, RequestsSerializer, RequestedStrainsSerializer
+from .models import Deposits, Requests, Strains, Webusers, Requestedstrains
+from .serializers import StrainSerializer, RequestsSerializer, RequestedStrainsSerializer, UserSerializer, MyTokenObtainPairSerializer, RegisterSerializer
 
+from django.contrib.auth.models import User
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 # GET for all strains
 # Will return all entries in the Strain DB Table
@@ -17,7 +39,7 @@ def get_strain_all(request):
     return Response({'strains': serializer.data})
 
 @api_view(['GET'])
-@permission_classes([AllowAny])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
+@permission_classes([IsAuthenticated])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
 def get_strain_browse(request):
     strains = Strains.objects.filter(visible=1) #based on whatever column decides visibility
     serializer = StrainSerializer(strains, many=True)
@@ -25,7 +47,7 @@ def get_strain_browse(request):
 
 # Single Strain request methods
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
 def strain_details(request, ccasm_id):
     # See if exists
     try:
@@ -49,7 +71,7 @@ def strain_details(request, ccasm_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
-@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
 def post_strain(request):
     serializer = StrainSerializer(data=request.data)
     if serializer.is_valid():
@@ -64,7 +86,7 @@ def post_strain(request):
 
 # Get all requests from users
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def get_requests_all(request):
     requested = Requests.objects.all()
     serializer = RequestsSerializer(requested, many=True)
@@ -73,7 +95,7 @@ def get_requests_all(request):
 
 # CRUD operations for requests from users
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
 def requests_details(request, request_id):
     try:
         requested = Requests.objects.get(pk=request_id)
@@ -96,7 +118,7 @@ def requests_details(request, request_id):
 
 # Post for requests from users
 @api_view(['POST'])
-@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
 def post_request(request):
     serializer = RequestsSerializer(data=request.data)
     if serializer.is_valid():
@@ -105,7 +127,7 @@ def post_request(request):
 
 # This needs some work to work nice with composite primary keys
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([AllowAny])         #This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
 def requested_strains_details(request, request_id, ccasm_id):
     try:
         requested = Requestedstrains.objects.get(pk=request_id)

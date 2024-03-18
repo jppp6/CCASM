@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from strains import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # Will probably have to change these urls to follow some convention
 urlpatterns = [
@@ -27,5 +28,8 @@ urlpatterns = [
     path('strains/post/', views.post_strain),
     path('requests/', views.get_requests_all),
     path('requests/<int:request_id>', views.requests_details),
-    path('requests/post', views.post_request)
+    path('requests/post', views.post_request),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', views.RegisterView.as_view(), name='auth_register')
 ]
