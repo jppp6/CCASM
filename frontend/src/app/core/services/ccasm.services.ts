@@ -18,7 +18,7 @@ export class CCASMService {
   }
 
   postAccount(account: AdminAccount): Observable<void> {
-    return this.http.post<void>(this.url + '/admin', account);
+    return this.http.post<void>(this.url + '/admin/', account);
   }
 
 
