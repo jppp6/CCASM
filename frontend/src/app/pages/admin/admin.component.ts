@@ -2,6 +2,7 @@ import { Component, OnInit, inject} from '@angular/core';
 import { CCASMService } from '../../core/services/ccasm.services';
 import { AdminAccount } from 'src/app/core/utils/ccasm.types';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +17,7 @@ export class AdminComponent {
 
   services = inject(CCASMService)
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router ) {
     this.loginForm.valueChanges.subscribe(console.log);
   }
 
@@ -29,12 +30,13 @@ export class AdminComponent {
       password: this.loginForm.controls.password.value!,
       creationDate: new Date()
     }
-
+    
     this.services.postAccount(loginReq).subscribe({
       // TODO do something with the output
       // Success
-      next: () => {
-        console.log("success");
+      next: (data) => {
+        this.router.navigateByUrl('/about');
+        console.log(data);
       },
       // Failure
       error: (error) => {
@@ -43,4 +45,7 @@ export class AdminComponent {
     })
   }
 
+  get f() {
+    return this.loginForm.controls;
+  }
 }

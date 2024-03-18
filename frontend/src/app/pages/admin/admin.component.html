@@ -1,24 +1,30 @@
 <div class="login-container">
 
-    <h2>Admin Login</h2>
+    <form [formGroup]="loginForm" novalidate (ngSubmit)="login()">
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-
-      <div class="form-group">
-        <label for="email">Email <span class="text-red-500">*</span> </label> 
-        <input type="email" id="email" name="email" placeholder="Email" formControlName="email">
+      <h1>Admin Login</h1>
+      
+      <div>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="one" matInput formControlName="email" placeholder="Ex. email@test.com">
+              <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['required']">* Email is <strong>required</strong>.</mat-error>
+              <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['email']">* Email not <strong>valid</strong>.</mat-error>
+        </mat-form-field>
       </div>
 
-      <div class="form-group">
-        <label for="password">Password <span class="text-red-500">*</span> </label> 
-        <input type="password" id="password" name="password" placeholder="Password" required formControlName="password">
+      <div>
+        <mat-form-field >
+          <mat-label>Password</mat-label>
+          <input type="one" matInput formControlName="password" placeholder="Write here ...">
+              <mat-error *ngIf="f.password?.invalid && f.password?.errors?.['required']">* Password is <strong>required</strong></mat-error>
+        </mat-form-field>
       </div>
 
-      <div class="flex justify-between">
-            <button type="submit" [disabled]="loginForm.invalid">Login</button>
-
-            <!--Add forget password window-->
-            <a class="underline">Forgot password?</a>
+      <div>
+        <button
+        type="submit"
+        mat-raised-button [disabled]="loginForm.invalid" color="primary"><mat-icon>done</mat-icon>Login</button>
       </div>
 
     </form>

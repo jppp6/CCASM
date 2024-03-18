@@ -22,7 +22,7 @@ export interface Strain {
   genomeNcbiAssociation: string;
   genomeSize: number;
   notes: string;
-  citationDepositTime: Date;
+  citation: string;
   photo: string;
 }
 
