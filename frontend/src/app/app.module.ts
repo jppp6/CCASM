@@ -24,6 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -37,12 +38,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
+import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
@@ -65,13 +68,17 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         AdminDepositsComponent,
         AdminCollectionComponent,
         TermsComponent,
+        AdminEditComponent,
+        AdminAddComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         MatProgressSpinnerModule,
+        MatCheckboxModule,
         BrowserAnimationsModule,
         MatButtonModule,
+        MatTabsModule,
         MatIconModule,
         MatChipsModule,
         MatTableModule,

@@ -13,18 +13,23 @@
         (click)="view = 'requests'"
         style="margin-bottom: 16px"
     >
-        Show Strain Requests Dashboard
+        Strain Requests Dashboard
     </button>
     <button
         mat-raised-button
         (click)="view = 'deposits'"
         style="margin-bottom: 16px"
     >
-        Show Strain Deposits Dashboard
+        Strain Deposits Dashboard
     </button>
-    <button mat-raised-button (click)="view = 'collection'">
-        Show Admin Collection
+    <button
+        mat-raised-button
+        (click)="view = 'collection'"
+        style="margin-bottom: 16px"
+    >
+        Admin Collection Dashboard
     </button>
+    <button mat-raised-button (click)="view = 'add'">Add to Collection</button>
 </div>
 
 <div *ngIf="view !== 'select'" style="margin: 16px">
@@ -38,5 +43,6 @@
         <app-admin-collection
             *ngIf="view === 'collection'"
         ></app-admin-collection>
+        <app-admin-add *ngIf="view === 'add'"></app-admin-add>
     </div>
 </div>

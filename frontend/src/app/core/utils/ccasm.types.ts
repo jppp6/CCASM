@@ -24,6 +24,7 @@ export interface Strain {
     notes: string;
     citation: string;
     photo: string;
+    visible: boolean;
 }
 
 export interface StrainDeposit {

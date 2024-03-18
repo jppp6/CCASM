@@ -59,4 +59,22 @@ export class Utils {
         const day = ('0' + date.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     }
+
+    static getProvinceAbbreviations(): string[] {
+        return [
+            'AB',
+            'BC',
+            'MB',
+            'NB',
+            'NL',
+            'NS',
+            'NT',
+            'NU',
+            'ON',
+            'PE',
+            'QC',
+            'SK',
+            'YT',
+        ];
+    }
 }

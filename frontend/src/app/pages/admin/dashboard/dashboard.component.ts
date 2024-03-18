@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-    view: 'requests' | 'deposits' | 'collection' | 'select' = 'select';
+    view: 'requests' | 'deposits' | 'collection' | 'add' | 'select' = 'select';
 }

@@ -48,6 +48,10 @@ export class BrowseComponent implements OnInit {
                 result.strains
             ) as Strain[];
 
+            this.treeDataSource.data = this.buildTree(
+                this.allStrains.map((s) => s.taxonomicLineage)
+            );
+
             this.simpleOptions = Utils.filterDuplicatesAndFalsy(
                 this.allStrains.map((s) => s.binomialClassification)
             );
@@ -75,7 +79,7 @@ export class BrowseComponent implements OnInit {
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.toLowerCase();
+        searchString = searchString.toLowerCase().replace('unclassified ', '');
         if (searchString === '') {
             this.filteredStrains = null;
         } else {
