@@ -1,0 +1,87 @@
+#wrapper {
+    display: flex;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    justify-content: space-between;
+}
+
+.left {
+    width: 50%;
+    padding-right: 10px;
+}
+
+mat-card {
+    width: 90%;
+  }
+
+.right {
+    width: 50%;
+    float: right;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+h1 {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: #333; /* Set the color */
+    margin-bottom: 20px; /* Add some space below the title */
+    text-transform: uppercase; /* Convert text to uppercase */
+    letter-spacing: 2px; /* Add letter spacing */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
+}
+
+hr {
+    margin-bottom: 2.0rem;
+}
+
+.nothing {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.terms {
+    margin-bottom: 20px;
+}
+.aff {
+    width: 100%;
+}
+
+.msg {
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+    max-height: 300px;
+}
+
+.disclaimer {
+    margin-bottom: 20px;
+}
+
+.first-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+button {
+    margin-right: 1vw;
+    color: white;
+    font-size: 15px;
+    line-height: 18px;
+    height: auto;
+    width: auto;
+}
+
+.file-error {
+    color: red;
+    font-style: italic;
+    font-size: 15px;
+}
+
+.file-input {
+    display: none;
+}

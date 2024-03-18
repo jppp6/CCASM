@@ -41,7 +41,6 @@ class Requests(models.Model):
         managed = False
         db_table = 'requests'
 
-
 class Strains(models.Model):
     ccasm_id = models.SmallAutoField(primary_key=True)
     strain_name = models.CharField(max_length=128, blank=True, null=True)
@@ -66,8 +65,9 @@ class Strains(models.Model):
     genome_ncbi_association = models.CharField(max_length=128, blank=True, null=True)
     genome_size = models.FloatField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    citation_deposit_time = models.DateTimeField(blank=True, null=True)
+    citation = models.TextField(blank=True, null=True)
     photo = models.CharField(max_length=1024, blank=True, null=True)
+    visible= models.BooleanField(default=True, null=False)
 
     class Meta:
         managed = False

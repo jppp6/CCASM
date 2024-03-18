@@ -2,30 +2,30 @@ import { Injectable } from '@angular/core';
 import { Strain } from '../utils/ccasm.types';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class StrainCartService {
-  cart: Strain[] = [];
+    cart: Strain[] = [];
 
-  addStrainToCart(s: Strain): void {
-    this.cart.push(s);
-  }
-
-  removeStrainById(strainId: string): boolean {
-    const strain = this.cart.find((s) => s.ccasmId.toString() === strainId);
-    if (!strain) {
-      return false;
+    addStrainToCart(s: Strain): void {
+        this.cart.push(s);
     }
 
-    this.cart = this.cart.filter((s) => s.ccasmId.toString() !== strainId);
-    return true;
-  }
+    removeStrainById(strainId: string): boolean {
+        const strain = this.cart.find((s) => s.ccasmId.toString() === strainId);
+        if (!strain) {
+            return false;
+        }
 
-  getSelectedStrains(): Strain[] {
-    return [...this.cart];
-  }
+        this.cart = this.cart.filter((s) => s.ccasmId.toString() !== strainId);
+        return true;
+    }
 
-  clearCart(): void {
-    this.cart = [];
-  }
+    getSelectedStrains(): Strain[] {
+        return [...this.cart];
+    }
+
+    clearCart(): void {
+        this.cart = [];
+    }
 }
