@@ -26,10 +26,8 @@ mat-form-field {
     width: 100%;
 }
 
-.sub {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.err {
+        color: red;
 }
 
 button{

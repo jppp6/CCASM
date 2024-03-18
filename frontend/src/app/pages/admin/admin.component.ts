@@ -21,6 +21,8 @@ export class AdminComponent {
     this.loginForm.valueChanges.subscribe(console.log);
   }
 
+  msg = "";
+
   login() {
     // TODO validate password and authenticate session token
 
@@ -40,6 +42,7 @@ export class AdminComponent {
       },
       // Failure
       error: (error) => {
+        this.msg = "Login Failed!"
         console.log("failed", error);
       }
     })
