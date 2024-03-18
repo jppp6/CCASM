@@ -17,7 +17,7 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -46,6 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
+import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +67,7 @@ import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edi
         AdminRequestsComponent,
         AdminDepositsComponent,
         AdminCollectionComponent,
+        TermsComponent,
         AdminEditComponent,
         AdminAddComponent,
     ],
@@ -87,6 +89,7 @@ import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edi
         MatToolbarModule,
         MatTreeModule,
         MatSortModule,
+        MatCheckboxModule,
         FormsModule,
         ReactiveFormsModule,
         MatAutocompleteModule,
@@ -98,6 +101,10 @@ import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edi
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
+        HttpClientXsrfModule.withOptions({
+            cookieName: 'csrftoken',
+            headerName: 'X-CSRFTOKEN',
+        }),
     ],
     providers: [],
     bootstrap: [AppComponent],

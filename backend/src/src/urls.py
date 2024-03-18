@@ -22,5 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('strain/collection/', views.get_strain_collection),
     path('strain/deposits/', views.get_strain_deposits),
-    path('strain/requests/', views.get_strain_requests)
+    path('strain/requests/', views.get_strain_requests),
+    path('strain-deposit/', views.post_deposit),
+    path('strain-request/', views.get_post_request)
 ]
