@@ -1,0 +1,256 @@
+<mat-form-field subscriptSizing="dynamic" style="width: 50%">
+    <mat-label>Filter Collection</mat-label>
+    <input
+        matInput
+        [(ngModel)]="filterValue"
+        (keyup)="applyFilter(filterValue)"
+        placeholder="Ex. processed"
+    /><button
+        matSuffix
+        mat-icon-button
+        *ngIf="filterValue"
+        (click)="applyFilter('')"
+    >
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-form-field>
+
+<mat-card style="overflow-x: auto; overflow-y: auto">
+    <table mat-table [dataSource]="dataSource" matSort>
+        <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (dblclick)="openStrainEditor(row)"
+        ></tr>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-stroked-button (click)="openStrainEditor(row)">
+                    Edit
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="visible">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Visible</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox [checked]="row.visible" color="primary">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ccasmId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CCASM ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.ccasmId }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="strainName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Strain Name
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.strainName }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="binomialClassification">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Binomial Classification
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.binomialClassification }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="taxonomicLineage">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Taxonomic Lineage
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.taxonomicLineage }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="riskGroup">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Risk Group
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.riskGroup }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isPlantPathogen">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Is Plant Pathogen
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isPlantPathogen }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colonyMorphology">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Colony Morphology
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.colonyMorphology }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="hostPlantSpecies">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Host Plant Species
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.hostPlantSpecies }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationSource">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Source
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSource }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationYear">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Year
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.isolationYear }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationProtocol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Protocol
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationProtocol }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationGrowthMedium">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Growth Medium
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationGrowthMedium }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationGrowthTemperature">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Growth Temperature
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationGrowthTemperature }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationGrowthMediumComposition">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Growth Medium Composition
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationGrowthMediumComposition }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationSoilPh">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Soil pH
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSoilPh }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationSoilOrganicMatter">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Soil Organic Matter
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSoilOrganicMatter }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationSoilTexture">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Soil Texture
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSoilTexture }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isolationSoilProvince">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Isolation Soil Province
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.isolationSoilProvince }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="longitude">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Longitude</th>
+            <td mat-cell *matCellDef="let row">{{ row.longitude }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="latitude">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Latitude</th>
+            <td mat-cell *matCellDef="let row">{{ row.latitude }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="genomeNcbiAssociation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Genome NCBI Association
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.genomeNcbiAssociation }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="genomeSize">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Genome Size
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.genomeSize }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="notes">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Notes</th>
+            <td mat-cell *matCellDef="let row">{{ row.notes }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="citation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Citation</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.citation }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="photo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Photo</th>
+            <td mat-cell *matCellDef="let row">{{ row.photo }}</td>
+        </ng-container>
+
+        <tr *matNoDataRow>
+            <td [attr.colspan]="displayedColumns.length">
+                <span *ngIf="dataSource.data.length === 0"
+                    >No data to display...</span
+                >
+                <span *ngIf="dataSource.data.length > 0"
+                    >No data matching the filter "<strong>{{
+                        filterValue
+                    }}</strong
+                    >"</span
+                >
+            </td>
+        </tr>
+    </table>
+</mat-card>

@@ -20,5 +20,7 @@ from strains import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('strains/', views.get_strain)
+    path('strain/collection/', views.get_strain_collection),
+    path('strain/deposits/', views.get_strain_deposits),
+    path('strain/requests/', views.get_strain_requests)
 ]
