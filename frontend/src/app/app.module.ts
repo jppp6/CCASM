@@ -1,17 +1,9 @@
 import { AppComponent } from './app.component';
 import { AboutComponent } from './pages/about/about.component';
-<<<<<<< HEAD
 import { AdminCollectionComponent } from './pages/admin-dashboard/admin-collection/admin-collection.component';
 import { AdminDepositsComponent } from './pages/admin-dashboard/admin-deposits/admin-deposits.component';
 import { AdminRequestsComponent } from './pages/admin-dashboard/admin-requests/admin-requests.component';
 import { DashboardComponent } from './pages/admin-dashboard/dashboard.component';
-=======
-import { AdminComponent } from './pages/admin/admin.component';
-import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
-import { AdminDepositsComponent } from './pages/admin/dashboard/admin-deposits/admin-deposits.component';
-import { AdminRequestsComponent } from './pages/admin/dashboard/admin-requests/admin-requests.component';
-import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
->>>>>>> backend_routes
 import { BrowseComponent } from './pages/browse/browse.component';
 import { ComplexSearchComponent } from './pages/browse/complex-search/complex-search.component';
 import { SimpleSearchComponent } from './pages/browse/simple-search/simple-search.component';
@@ -21,7 +13,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
-<<<<<<< HEAD
 import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
 import {
@@ -29,12 +20,7 @@ import {
     HttpClientModule,
     HttpClientXsrfModule,
 } from '@angular/common/http';
-=======
-import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
-import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
->>>>>>> backend_routes
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -61,14 +47,10 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-<<<<<<< HEAD
 import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
-=======
-import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
-import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
->>>>>>> backend_routes
+import { AdminComponent } from './pages/admin/admin.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
@@ -79,20 +61,12 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         StatisticsComponent,
         DepositComponent,
         CartComponent,
-<<<<<<< HEAD
         LoginComponent,
-=======
         AdminComponent,
-        PageNotFoundComponent,
->>>>>>> backend_routes
         AboutComponent,
         ComplexSearchComponent,
         SimpleSearchComponent,
         StrainDetailsDialog,
-<<<<<<< HEAD
-=======
-        ToTitleCasePipe,
->>>>>>> backend_routes
         DashboardComponent,
         AdminRequestsComponent,
         AdminDepositsComponent,
@@ -136,7 +110,6 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
             headerName: 'X-CSRFTOKEN',
         }),
     ],
-<<<<<<< HEAD
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
@@ -144,9 +117,6 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
             multi: true,
         },
     ],
-=======
-    providers: [],
->>>>>>> backend_routes
     bootstrap: [AppComponent],
 })
 export class AppModule {}
