@@ -14,7 +14,6 @@ from pathlib import Path
 from os import getenv
 from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,26 +91,17 @@ WSGI_APPLICATION = "src.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+load_dotenv()
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "ccasmdb",
-        "USER": "ccasmadmin",
-        "PASSWORD": getenv("DEV_DB_PASS"),
-        "HOST": getenv("DEV_DB_IP"),
-        "PORT": "3306",
+        "USER": getenv("DB_USER"),
+        "PASSWORD": getenv("DB_PASS"),
+        "HOST": getenv("DB_IP"),
+        "PORT": getenv("DB_PORT"),
         "OPTIONS": {"ssl": {"ca": getenv("SSL_CA")}},
-    },
-    "CCASM_PROD": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "CCASM_PROD01",
-        "USER": "ccasmadmin",
-        "PASSWORD": getenv("PROD_DB_PASS"),
-        "HOST": getenv("PROD_DB_IP"),
-        "PORT": "3306",
-        "OPTIONS": {"ssl": {getenv("SSL_CA")}},
-    },
+    }
 }
 
 
