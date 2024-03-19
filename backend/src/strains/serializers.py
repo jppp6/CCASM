@@ -37,19 +37,9 @@ class DepositsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class RequestsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Requests
-        fields = "__all__"
 
 
 # TODO: add remaining views in serializer as above
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username", "password", "first_name", "last_name", "email"]
 
 
 class RegisterSerializer(serializers.ModelSerializer):

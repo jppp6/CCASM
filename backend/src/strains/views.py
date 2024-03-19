@@ -1,5 +1,4 @@
 from rest_framework import status
-from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -47,7 +46,7 @@ def get_collection(request):
         visible=True
     )  # based on whatever column decides visibility
     serializer = StrainSerializer(strains, many=True)
-    return Response({"strains": serializer.data})
+    return JsonResponse({"strains": serializer.data})
 
 
 # POST new deposit for any user
@@ -143,7 +142,7 @@ def admin_update_deposit(request):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@permission_classes([permissions.AllowAny])
 def admin_get_requests(request):
     strain_requests = Requests.objects.all()
     serializer = RequestsSerializer(strain_requests, many=True)
