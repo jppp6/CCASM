@@ -34,6 +34,6 @@ urlpatterns = [
     path("api/admin/update-deposit/", views.admin_update_deposit),
     path("api/admin/requests/", views.admin_get_requests),
     path("api/admin/update-request/", views.admin_update_request),
-    path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("refreshToken/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
