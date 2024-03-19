@@ -1,4 +1,4 @@
-from .models import Strains, Requests, Requestedstrains
+from .models import Strains, Requests
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
