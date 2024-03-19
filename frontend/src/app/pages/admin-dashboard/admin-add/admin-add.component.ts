@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import * as csvtojson from 'csvtojson';
+import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 @Component({
@@ -47,7 +48,7 @@ export class AdminAddComponent {
     batchDataSource = new MatTableDataSource<Strain>([]);
     reader: FileReader = new FileReader();
 
-    constructor() {
+    constructor(private ccasmService: CCASMService) {
         this.reader.onload = async (event) => {
             const data: string = event?.target?.result as string;
 
@@ -59,9 +60,9 @@ export class AdminAddComponent {
 
     uploadData(t: 'individual' | 'batch'): void {
         if (t === 'individual') {
-            console.log(this.individualData.value);
+            // this.ccasmService.adminAddStrain(this.individualData.value);
         } else {
-            console.log(this.batchDataSource);
+            // this.ccasmService.adminAddStrains(this.batchDataSource.data);
         }
     }
 

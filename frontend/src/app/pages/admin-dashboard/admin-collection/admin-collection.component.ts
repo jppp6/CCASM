@@ -21,7 +21,7 @@ export class AdminCollectionComponent {
     constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
 
     ngOnInit(): void {
-        this.ccasmService.getStrainCollection().subscribe((data) => {
+        this.ccasmService.adminGetCollection().subscribe((data) => {
             this.dataSource.data = Utils.snackCaseToCamelCase(
                 data.strains
             ) as Strain[];

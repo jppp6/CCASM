@@ -50,7 +50,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
-import { AdminComponent } from './pages/admin/admin.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
@@ -62,7 +61,6 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         DepositComponent,
         CartComponent,
         LoginComponent,
-        AdminComponent,
         AboutComponent,
         ComplexSearchComponent,
         SimpleSearchComponent,

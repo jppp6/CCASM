@@ -51,7 +51,7 @@ export class CartComponent implements OnInit {
 
     submitRequest(sr: StrainRequest) {
         //submit form logic here
-        this.services.postStrainRequest(sr).subscribe({
+        this.services.postRequest(sr).subscribe({
             // Success
             next: () => {
                 this.msg = 'Request Sent!';

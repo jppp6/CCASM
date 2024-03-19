@@ -43,7 +43,7 @@ export class BrowseComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadingStrains = true;
-        this.ccasmService.getStrainCollection().subscribe((result) => {
+        this.ccasmService.getCollection().subscribe((result) => {
             this.allStrains = Utils.snackCaseToCamelCase(
                 result.strains
             ) as Strain[];
