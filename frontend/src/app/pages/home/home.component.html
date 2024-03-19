@@ -1,47 +1,52 @@
-<div id="map" style="height: 70%"></div>
+<div id="home-map" style="height: 70%"></div>
 
 <div class="flex-box flex-row" style="height: 30%">
-  <mat-card class="flex" [appearance]="'outlined'" style="overflow-y: auto">
-    <mat-card-header>
-      <mat-card-title>Welcome to CCASM</mat-card-title>
-      <mat-card-subtitle
-        >A collection of agricultural soil microbes collected around Canada.
-      </mat-card-subtitle>
-    </mat-card-header>
-    <div class="flex"></div>
-    <mat-card-footer>
-      <mat-card-actions>
-        <a href="/browse" mat-raised-button>Browse the Collection</a>
-      </mat-card-actions>
-    </mat-card-footer>
-  </mat-card>
+    <mat-card class="flex" [appearance]="'outlined'" style="overflow-y: auto">
+        <mat-card-header>
+            <mat-card-title>Welcome to CCASM</mat-card-title>
+            <mat-card-subtitle
+                >A collection of agricultural soil microbes collected around
+                Canada.
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <img
+                style="margin-right: 16px"
+                mat-card-sm-image
+                src="assets/genome_canada.png"
+                alt="Genome Canada"
+            />
+            <img
+                style="margin-right: 16px"
+                mat-card-sm-image
+                src="assets/genome_prairie.png"
+                alt="Genome Prairie"
+            />
+            <img
+                mat-card-sm-image
+                src="assets/genome_ontario.png"
+                alt="Genome Ontario"
+            />
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-card-actions>
+                <a routerLink="/browse" mat-raised-button>
+                    Browse the Collection
+                </a>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
 
-  <mat-card class="flex" [appearance]="'outlined'">
-    <br />
-    <b>To be filled with stats... </b>
-    <!-- <table class="w100">
-      <thead>
-        <tr>
-          <th class="text-left">Class</th>
-          <th class="text-right">ex1</th>
-          <th class="text-right">ex2</th>
-          <th class="text-right">ex3</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-left">1</td>
-          <td class="text-right">2</td>
-          <td class="text-right">3</td>
-          <td class="text-right">4</td>
-        </tr>
-        <tr>
-          <td class="text-left">1</td>
-          <td class="text-right">2</td>
-          <td class="text-right">3</td>
-          <td class="text-right">4</td>
-        </tr>
-      </tbody>
-    </table> -->
-  </mat-card>
+    <mat-card class="flex" [appearance]="'outlined'">
+        <mat-card-header>
+            <mat-card-title>To be filled with statistics</mat-card-title>
+        </mat-card-header>
+        <mat-card-footer>
+            <mat-card-actions>
+                <a routerLink="/statistics" mat-raised-button>
+                    Check out Statistics
+                </a>
+            </mat-card-actions>
+        </mat-card-footer>
+    </mat-card>
 </div>

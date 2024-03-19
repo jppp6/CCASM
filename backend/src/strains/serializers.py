@@ -1,8 +1,9 @@
 from .models import Strains, Requests, Requestedstrains
-from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from .models import Strains, Deposits, Requests
+from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -25,11 +26,19 @@ class RequestsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Requests
         fields = '__all__'
-
-class RequestedStrainsSerializer(serializers.ModelSerializer):
+        
+class DepositsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Requestedstrains
+        model = Deposits
         fields = '__all__'
+
+class RequestsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Requests
+        fields = '__all__'
+
+
+#TODO: add remaining views in serializer as above
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

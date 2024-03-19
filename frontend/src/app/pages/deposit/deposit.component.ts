@@ -17,7 +17,7 @@ export class DepositComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     affiliation: ['', [Validators.required, Validators.minLength(3)]],
     message: [''],
-    depositExcel: ['', Validators.required, Validators.pattern('^.+\.(xlsx|xls|csv)$')]
+    depositExcel: ['', Validators.pattern('^.+\.(xlsx|xls|csv)$')]
   });
 
   services = inject(CCASMService)
@@ -27,8 +27,9 @@ export class DepositComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  build(event: string) {
-    if (event != 'file') {
+  msg = ""
+
+  build() {
       // build the strainDeposit Object
       const newStraindeposit: StrainDeposit = {
         depositId: 1,  //Temporary assignment
@@ -38,13 +39,12 @@ export class DepositComponent implements OnInit {
         affiliation: this.applyForm.controls.affiliation.value!,
         message: this.applyForm.controls.message.value!,
         depositExcel: this.applyForm.controls.depositExcel.value!,
-        depositState: 'processed',
+        depositState: 'received',
         depositCreationDate: new Date()
       }
 
       // POST request
       this.submitDeposit(newStraindeposit)
-    }
   }
 
   submitDeposit(sd : StrainDeposit) {
@@ -52,10 +52,12 @@ export class DepositComponent implements OnInit {
       {
         // Success 
         next: () => {
+          this.msg = "Request Sent!"
           console.log('Post success');
         },
         // Failure
         error: (error) => {
+          this.msg = "Request Failed!"
           console.log('Post failed', error);
         } 
       }

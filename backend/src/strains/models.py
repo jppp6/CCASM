@@ -10,7 +10,10 @@ from django.db import models
 
 class Deposits(models.Model):
     deposit_id = models.SmallAutoField(primary_key=True)
-    user = models.ForeignKey('Webusers', models.DO_NOTHING, blank=True, null=True)
+    first_name = models.CharField(max_length=64, blank=True, null=True)
+    last_name = models.CharField(max_length=64, blank=True, null=True)
+    affiliation = models.CharField(max_length=64, blank=True, null=True)
+    email = models.CharField(max_length=64, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
     deposit_excel = models.TextField(blank=True, null=True)
     deposit_state = models.CharField(max_length=16, blank=True, null=True)
@@ -21,18 +24,12 @@ class Deposits(models.Model):
         db_table = 'deposits'
 
 
-class Requestedstrains(models.Model):
-    request = models.ForeignKey('Webusers', on_delete=models.CASCADE)
-    ccasm = models.ForeignKey('Strains', on_delete=models.CASCADE)
-
-    class Meta:
-        managed = False
-        db_table = 'requestedstrains'
-
-
 class Requests(models.Model):
     request_id = models.SmallAutoField(primary_key=True)
-    user = models.ForeignKey('Webusers', models.DO_NOTHING, blank=True, null=True)
+    first_name = models.CharField(max_length=64, blank=True, null=True)
+    last_name = models.CharField(max_length=64, blank=True, null=True)
+    affiliation = models.CharField(max_length=64, blank=True, null=True)
+    email = models.CharField(max_length=64, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
     request_state = models.CharField(max_length=16, blank=True, null=True)
     request_creation_date = models.DateTimeField(blank=True, null=True)
@@ -40,7 +37,6 @@ class Requests(models.Model):
     class Meta:
         managed = False
         db_table = 'requests'
-
 
 class Strains(models.Model):
     ccasm_id = models.SmallAutoField(primary_key=True)
@@ -68,33 +64,9 @@ class Strains(models.Model):
     notes = models.TextField(blank=True, null=True)
     citation = models.TextField(blank=True, null=True)
     photo = models.CharField(max_length=1024, blank=True, null=True)
-    visible = models.IntegerField(blank=True, null=True)
+    visible = models.BooleanField(default=True, null=False)
 
     class Meta:
         managed = False
         db_table = 'strains'
 
-
-class Users(models.Model):
-    login_id = models.SmallAutoField(primary_key=True)
-    username = models.CharField(max_length=64)
-    password = models.CharField(max_length=64)
-    first_name = models.CharField(max_length=64, blank=True, null=True)
-    last_name = models.CharField(max_length=64, blank=True, null=True)
-    email = models.CharField(max_length=64)
-
-    class Meta:
-        managed = False
-        db_table = 'users'
-
-
-class Webusers(models.Model):
-    user_id = models.SmallAutoField(primary_key=True)
-    first_name = models.CharField(max_length=64, blank=True, null=True)
-    last_name = models.CharField(max_length=64, blank=True, null=True)
-    affiliation = models.CharField(max_length=64, blank=True, null=True)
-    email = models.CharField(max_length=64, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'webusers'
