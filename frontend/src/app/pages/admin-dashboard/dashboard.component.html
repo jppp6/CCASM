@@ -29,7 +29,14 @@
     >
         Admin Collection Dashboard
     </button>
-    <button mat-raised-button (click)="view = 'add'">Add to Collection</button>
+    <button
+        mat-raised-button
+        (click)="view = 'add'"
+        style="margin-bottom: 32px"
+    >
+        Add to Collection
+    </button>
+    <button mat-raised-button (click)="logout()">Log Out</button>
 </div>
 
 <div *ngIf="view !== 'select'" style="margin: 16px">

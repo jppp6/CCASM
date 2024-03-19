@@ -9,8 +9,14 @@ import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 export class CCASMService {
     // Make sure to change this to the Domain name when deployed
     readonly url = 'http://localhost:8000';
-
     constructor(private http: HttpClient) {}
+
+    login(username: string, password: string): Observable<any> {
+        return this.http.post<any>(this.url + '/login/', {
+            username: username,
+            password: password,
+        });
+    }
 
     getStrainCollection(): Observable<{ strains: Strain[] }> {
         return this.http.get<{ strains: Strain[] }>(
