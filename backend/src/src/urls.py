@@ -29,7 +29,7 @@ urlpatterns = [
     path('requests/', views.get_requests_all),
     path('requests/<int:request_id>', views.requests_details),
     path('requests/post', views.post_request),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refreshToken/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.RegisterView.as_view(), name='auth_register')
 ]
