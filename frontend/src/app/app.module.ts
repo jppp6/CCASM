@@ -1,23 +1,22 @@
 import { AppComponent } from './app.component';
 import { AboutComponent } from './pages/about/about.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { AdminCollectionComponent } from './pages/admin/dashboard/admin-collection/admin-collection.component';
-import { AdminDepositsComponent } from './pages/admin/dashboard/admin-deposits/admin-deposits.component';
-import { AdminRequestsComponent } from './pages/admin/dashboard/admin-requests/admin-requests.component';
-import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { AdminCollectionComponent } from './pages/admin-dashboard/admin-collection/admin-collection.component';
+import { AdminDepositsComponent } from './pages/admin-dashboard/admin-deposits/admin-deposits.component';
+import { AdminRequestsComponent } from './pages/admin-dashboard/admin-requests/admin-requests.component';
+import { DashboardComponent } from './pages/admin-dashboard/dashboard.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { ComplexSearchComponent } from './pages/browse/complex-search/complex-search.component';
 import { SimpleSearchComponent } from './pages/browse/simple-search/simple-search.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { HomeComponent } from './pages/home/home.component';
-import { PageNotFoundComponent } from './pages/notfound/notfound.component';
+import { LoginComponent } from './pages/login/login.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
-import { ToTitleCasePipe } from './core/utils/titlecase.pipe';
 import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -44,8 +43,9 @@ import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
-import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
+import { HeadersInterceptor } from './core/auth/headers.interceptor';
+import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
+import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
 
 @NgModule({
@@ -56,13 +56,11 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         StatisticsComponent,
         DepositComponent,
         CartComponent,
-        AdminComponent,
-        PageNotFoundComponent,
+        LoginComponent,
         AboutComponent,
         ComplexSearchComponent,
         SimpleSearchComponent,
         StrainDetailsDialog,
-        ToTitleCasePipe,
         DashboardComponent,
         AdminRequestsComponent,
         AdminDepositsComponent,
@@ -101,12 +99,14 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
-        HttpClientXsrfModule.withOptions({
-            cookieName: 'csrftoken',
-            headerName: 'X-CSRFTOKEN',
-        }),
     ],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HeadersInterceptor,
+            multi: true,
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

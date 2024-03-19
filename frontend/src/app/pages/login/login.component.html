@@ -1,0 +1,32 @@
+<form
+    [formGroup]="loginForm"
+    class="flex-center h100"
+    style="flex-direction: column"
+>
+    <h1>Admin Login</h1>
+    <small>
+        Please contact the CCASM team if you need help with the admin log in.
+    </small>
+
+    <br />
+
+    <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" formControlName="username" />
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+
+    <button
+        aria-label="Login"
+        mat-raised-button
+        color="primary"
+        [disabled]="!loginForm.valid"
+        (click)="login()"
+    >
+        <mat-icon>{{ loginForm.valid ? "check" : "close" }} </mat-icon>Login
+    </button>
+</form>

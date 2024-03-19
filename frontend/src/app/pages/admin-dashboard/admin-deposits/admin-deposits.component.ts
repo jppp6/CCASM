@@ -33,7 +33,7 @@ export class AdminDepositsComponent implements OnInit, AfterViewInit {
     constructor(private ccasmService: CCASMService) {}
 
     ngOnInit(): void {
-        this.ccasmService.getStrainDeposits().subscribe((data) => {
+        this.ccasmService.adminGetDeposits().subscribe((data) => {
             this.dataSource.data = Utils.snackCaseToCamelCase(
                 data.deposits
             ) as StrainDeposit[];
@@ -45,9 +45,9 @@ export class AdminDepositsComponent implements OnInit, AfterViewInit {
     }
 
     updateDepositState(deposit: StrainDeposit) {
-        // this.ccasmService.updateStrainDeposit(deposit).subscribe((_) => {
-        //     console.log('updated');
-        // });
+        this.ccasmService.adminUpdateDeposit(deposit).subscribe((_) => {
+            console.log('updated');
+        });
     }
 
     applyFilter(event: string): void {

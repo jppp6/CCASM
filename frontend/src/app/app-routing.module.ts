@@ -1,25 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
 import { AboutComponent } from './pages/about/about.component';
-import { AdminComponent } from './pages/admin/admin.component';
+import { DashboardComponent } from './pages/admin-dashboard/dashboard.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { HomeComponent } from './pages/home/home.component';
-import { PageNotFoundComponent } from './pages/notfound/notfound.component';
+import { LoginComponent } from './pages/login/login.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'browse', component: BrowseComponent },
-    { path: 'cart', component: CartComponent },
-    { path: 'deposit', component: DepositComponent },
     { path: 'statistics', component: StatisticsComponent },
+    { path: 'deposit', component: DepositComponent },
+    { path: 'cart', component: CartComponent },
+
     { path: 'about', component: AboutComponent },
-    { path: 'admin', component: AdminComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' }, // redirect to home
-    { path: 'pagenotfound', component: PageNotFoundComponent },
-    { path: '**', redirectTo: '/pagenotfound' }, // any errors, redirect to page not found
+    { path: 'login', component: LoginComponent },
+    { path: 'admin', component: DashboardComponent, canActivate: [authGuard] },
+
+    { path: '**', redirectTo: '/home' }, // any errors, redirect to page not found
 ];
 
 @NgModule({

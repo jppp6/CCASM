@@ -5,9 +5,8 @@
     style="flex-direction: column"
     *ngIf="view === 'select'"
 >
-    <span style="margin-bottom: 16px">
-        <strong> Welcome to the CCASM Admin Dashboard!!!</strong>
-    </span>
+    <h3>Welcome to the CCASM Admin Dashboard</h3>
+
     <button
         mat-raised-button
         (click)="view = 'requests'"
@@ -29,12 +28,19 @@
     >
         Admin Collection Dashboard
     </button>
-    <button mat-raised-button (click)="view = 'add'">Add to Collection</button>
+    <button
+        mat-raised-button
+        (click)="view = 'add'"
+        style="margin-bottom: 32px"
+    >
+        Add to Collection
+    </button>
+    <button mat-raised-button (click)="logout()">Log Out</button>
 </div>
 
 <div *ngIf="view !== 'select'" style="margin: 16px">
     <button mat-raised-button (click)="view = 'select'">
-        Return to View Select
+        Return to Admin Dashboard
     </button>
 
     <div style="padding-top: 16px">

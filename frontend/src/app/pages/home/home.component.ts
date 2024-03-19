@@ -19,7 +19,8 @@ export class HomeComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.initializeMap();
 
-        this.ccasmService.getStrainCollection().subscribe((result) => {
+        this.ccasmService.getCollection().subscribe((result) => {
+            console.log('asdasdasdasdasd');
             this.addCircularMarkers(
                 Utils.snackCaseToCamelCase(result.strains) as Strain[]
             );
