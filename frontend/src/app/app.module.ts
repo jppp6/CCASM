@@ -15,11 +15,7 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
 
-import {
-    HTTP_INTERCEPTORS,
-    HttpClientModule,
-    HttpClientXsrfModule,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -103,10 +99,6 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
-        HttpClientXsrfModule.withOptions({
-            cookieName: 'csrftoken',
-            headerName: 'X-CSRFTOKEN',
-        }),
     ],
     providers: [
         {

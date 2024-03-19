@@ -20,6 +20,7 @@ export class HomeComponent implements AfterViewInit {
         this.initializeMap();
 
         this.ccasmService.getCollection().subscribe((result) => {
+            console.log('asdasdasdasdasd');
             this.addCircularMarkers(
                 Utils.snackCaseToCamelCase(result.strains) as Strain[]
             );
