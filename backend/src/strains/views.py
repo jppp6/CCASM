@@ -40,8 +40,8 @@ def post_deposit(request):
     serializer = DepositsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # POST new request for any user
@@ -52,8 +52,8 @@ def post_request(request):
     serializer = RequestsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # ADMIN USERS:
@@ -66,7 +66,7 @@ def post_request(request):
 def admin_get_collection(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
-    return Response({"strains": serializer.data})
+    return JsonResponse({"strains": serializer.data})
 
 
 # POST add new strain for admins
@@ -77,7 +77,7 @@ def admin_add_single_strain(request):
     serializer = StrainSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # POST add new strains for admins
@@ -86,10 +86,12 @@ def admin_add_single_strain(request):
 @permission_classes([IsAuthenticated])  # This WILL have to change once permissions are available for users
 def admin_add_bulk_strain(request):
     # TODO: THIS NEEDS TO BE CHANGED FOR BULKIGN PROCESSING (its an array of strains)
-    serializer = StrainSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    upload = request.POST['strains']
+    for i in upload:
+        serializer = StrainSerializer(data=i)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
 # PUT to update a strain
 # This is used in the admin collection tab
@@ -99,12 +101,12 @@ def admin_update_strain(request, pk):
     try:
         strain = Strains.objects.get(pk=pk)
     except Strains.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
     
     serializer = StrainSerializer(strain, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
 
 # DEPOSITS
 
@@ -114,7 +116,7 @@ def admin_update_strain(request, pk):
 def admin_get_deposits(request):
     deposits = Deposits.objects.all()
     serializer = DepositsSerializer(deposits, many=True)
-    return Response({'deposits': serializer.data})
+    return JsonResponse({'deposits': serializer.data})
 
 # PUT to update deposited strains status
 @api_view(['PUT'])
@@ -123,12 +125,12 @@ def admin_update_deposit(request, pk):
     try:
         deposit = Deposits.objects.get(pk=pk)
     except Deposits.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
     
     serializer = DepositsSerializer(deposit, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
     
 
 # REQUESTS
@@ -139,7 +141,7 @@ def admin_update_deposit(request, pk):
 def admin_get_requests(request):
     reqs = Requests.objects.all()
     serializer = RequestsSerializer(reqs, many=True)
-    return Response({'requests': serializer.data})
+    return JsonResponse({'requests': serializer.data})
 
 # PUT to update requested strains
 @api_view(['PUT'])
@@ -148,9 +150,9 @@ def admin_update_request(request, pk):
     try:
         req = Requests.objects.get(pk=pk)
     except Requests.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
     
     serializer = RequestsSerializer(req, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
