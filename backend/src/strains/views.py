@@ -1,7 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -9,9 +8,9 @@ from django.http import JsonResponse
 
 from .models import Deposits, Requests, Strains
 from .serializers import StrainSerializer, DepositsSerializer, RequestsSerializer, MyTokenObtainPairSerializer
+import json
 
-# Not sure if the following was the right approach (did not use rest_framework)
-
+# Token generation
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
@@ -23,7 +22,7 @@ class MyObtainTokenPairView(TokenObtainPairView):
 # GET collection for any user
 # This is used in the browse page
 @api_view(["GET"])
-@permission_classes([AllowAny])  # This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
+@permission_classes([AllowAny]) 
 def get_collection(request):
     strains = Strains.objects.filter(
         visible=True
@@ -62,7 +61,7 @@ def post_request(request):
 # GET collection for admins
 # This is used in the admin collection tab
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])  # This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
+@permission_classes([IsAuthenticated])  
 def admin_get_collection(request):
     strains = Strains.objects.all()
     serializer = StrainSerializer(strains, many=True)
@@ -72,7 +71,7 @@ def admin_get_collection(request):
 # POST add new strain for admins
 # This is used in the admin collection tab
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])  # This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated]) 
 def admin_add_single_strain(request):
     serializer = StrainSerializer(data=request.data)
     if serializer.is_valid():
@@ -83,15 +82,19 @@ def admin_add_single_strain(request):
 # POST add new strains for admins
 # This is used in the admin collection tab
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])  # This WILL have to change once permissions are available for users
+@permission_classes([IsAuthenticated]) 
 def admin_add_bulk_strain(request):
-    # TODO: THIS NEEDS TO BE CHANGED FOR BULKIGN PROCESSING (its an array of strains)
-    upload = request.POST['strains']
+    # Decode the body to json for parsing
+    data = request.body.decode('utf-8')
+    body = json.loads(data)
+    upload = body['strains']
+
     for i in upload:
         serializer = StrainSerializer(data=i)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+
+    return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
 
 # PUT to update a strain
 # This is used in the admin collection tab
