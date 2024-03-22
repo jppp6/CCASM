@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { StrainDetailsDialog } from 'src/app/components/strain-details/strain-details.component';
+import { StrainDetailsDialog } from 'src/app/pages/browse/strain-details/strain-details.component';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import * as L from 'leaflet';
+import { EChartsOption } from 'echarts';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-statistics',
@@ -14,33 +19,101 @@ import * as L from 'leaflet';
 
 export class StatisticsComponent implements OnInit{
   map!: L.Map;
+  chartOption: EChartsOption | null = null;
+  chartType: 'province' | 'taxonomic' = 'province'; // Default chart type
+  subscriptions: Subscription[] = [];
+  provinceChartOption: EChartsOption | null = null;
+  taxonomicLevelChartOption: EChartsOption | null = null;
   strainsPerProvince: any[] = [];
   strainsPerTaxonomicLevel: any[] = [];
 
   constructor(
-    private statisticsService: CCASMService,
     private ccasmService: CCASMService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private http: HttpClient,
     ) {}
 
   ngOnInit(): void {
-    this.statisticsService.getStrainsPerProvince().subscribe(
+    this.subscriptions.push(
+      this.ccasmService.getStrainsPerProvince().subscribe(
       data => {
-        this.strainsPerProvince = data;
+        if (this.chartType === 'province') {
+          this.chartOption = this.getProvinceChartOption(data);
+        }
       },
-      error => {
-        console.error('Error fetching strains per province', error);
-      }
+        error => {
+          console.error('Error fetching strains per province', error);
+        }
+      )
     )
 
-    this.statisticsService.getStrainsPerTaxonomicLevel().subscribe(
-      data => {
-        this.strainsPerTaxonomicLevel = data;
-      },
-      error => {
-        console.error('Error fetching strains per taxonomic level', error);
-      }
+    this.subscriptions.push(
+      this.ccasmService.getStrainsPerTaxonomicLevel().subscribe(
+        data => {
+          if (this.chartType === 'taxonomic') {
+            this.chartOption = this.getRadialTreeOption(data);
+          }
+        },
+        error => {
+          console.error('Error fetching strains per taxonomic level', error);
+        }
+      )
     )
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe to prevent memory leaks
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  toggleChartType(type: 'province' | 'taxonomic'): void {
+    this.chartType = type;
+    // Based on the type, call the service to get the correct data and generate the corresponding chart
+    if (type === 'province') {
+      // Call the service method to get province data and update the chart option with a pie chart
+    } else if (type === 'taxonomic') {
+      // Call the service method to get taxonomic data and update the chart option with a radial tree
+    }
+  }
+
+  getProvinceChartOption(data: any): EChartsOption {
+    return {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' }
+      },
+      xAxis: {
+        type: 'category',
+        data: data.map((item: { province: any; }) => item.province)
+      },
+      yAxis: { type: 'value' },
+      series: [{
+        data: data.map((item: { strainCount: any; }) => item.strainCount),
+        type: 'bar'
+      }]
+    };
+  }
+
+  getRadialTreeOption(data: any): EChartsOption {
+    return {
+      tooltip: {
+        trigger: 'item',
+        triggerOn: 'mousemove',
+      },
+      series: [
+        {
+          type: 'tree',
+          data: [data], // The data needs to be in the correct format
+          top: '18%',
+          bottom: '14%',
+          layout: 'radial',
+          symbol: 'emptyCircle',
+          symbolSize: 7,
+          initialTreeDepth: 3,
+          animationDurationUpdate: 750,
+        },
+      ],
+    };
   }
   
   ngAfterViewInit(): void {

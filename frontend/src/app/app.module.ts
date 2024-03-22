@@ -47,6 +47,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AdminAddComponent } from './pages/admin/dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin/dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [
@@ -104,6 +105,9 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         HttpClientXsrfModule.withOptions({
             cookieName: 'csrftoken',
             headerName: 'X-CSRFTOKEN',
+        }),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
         }),
     ],
     providers: [],

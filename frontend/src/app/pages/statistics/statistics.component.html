@@ -1,24 +1,11 @@
 <div id="statistics-map" style="height: 70%"></div>
 
+<!-- Chart Selection Buttons -->
+<div class="chart-selection">
+  <button (click)="toggleChartType('province')">Show Province Data</button>
+  <button (click)="toggleChartType('taxonomic')">Show Taxonomic Lineage</button>
+</div>
 
-<div class="statistics-container">
-    <h2>Strains Per Province</h2>
-    <table *ngIf="strainsPerProvince.length > 0; else noDataTemplate">
-      <thead>
-        <tr>
-          <th>Province</th>
-          <th>Number of Strains</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let strain of strainsPerProvince">
-          <td>{{ strain.province }}</td>
-          <td>{{ strain.count }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <ng-template #noDataTemplate>
-      <p>No data available.</p>
-    </ng-template>
-  </div>
-  
+<!-- Chart Container (conditionally shown based on the selected chart type) -->
+<div *ngIf="chartType === 'province'" echarts [options]="provinceChartOption" class="chart-container"></div>
+<div *ngIf="chartType === 'taxonomic'" echarts [options]="taxonomicLevelChartOption" class="chart-container"></div>

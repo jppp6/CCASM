@@ -12,6 +12,12 @@ export class CCASMService {
 
     constructor(private http: HttpClient) {}
 
+    getStrains(): Observable<{ strains: Strain[] }> {
+        return this.http.get<{ strains: Strain[] }>(
+            this.url + '/strain/collection/'
+        );
+    }
+
     getStrainCollection(): Observable<{ strains: Strain[] }> {
         return this.http.get<{ strains: Strain[] }>(
             this.url + '/strain/collection/'
@@ -69,7 +75,7 @@ export class CCASMService {
         return this.http.post<void>(this.url + '/strain-deposit', deposit);
     }
 
-    getStrainsPerProvince(): Observable<any> {
+    getStrainsPerProvince(): Observable<any[]> {
         return this.http.get<any[]>(`${this.url}/strains-per-province`);
     }
     getStrainsPerTaxonomicLevel(): Observable<any[]> {
