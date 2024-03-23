@@ -24,17 +24,29 @@ class StrainSerializer(serializers.ModelSerializer):
         model = Strains
         fields = "__all__"
 
-
 class RequestsSerializer(serializers.ModelSerializer):
+    firstName = serializers.CharField(source="first_name")
+    lastName = serializers.CharField(source="last_name")
+    strainsRequested = serializers.CharField(source="strains_requested")
+    requestState = serializers.CharField(source="request_state")
+    requestCreationDate = serializers.DateTimeField(source="request_creation_date")
+
     class Meta:
         model = Requests
-        fields = "__all__"
-
+        fields = ['request_id','firstName', 'lastName', 'affiliation', 'email', 'message', 'strainsRequested', 'requestState', 'requestCreationDate']
 
 class DepositsSerializer(serializers.ModelSerializer):
+    firstName = serializers.CharField(source="first_name")
+    lastName = serializers.CharField(source="last_name")
+    depositExcel = serializers.CharField(source="deposit_excel")
+    depositState = serializers.CharField(source="deposit_state")
+    depositCreationDate = serializers.DateTimeField(source="deposit_creation_date")
+
     class Meta:
         model = Deposits
-        fields = "__all__"
+        fields = ['deposit_id','firstName', 'lastName', 'affiliation', 'email', 'message', 'depositExcel', 'depositState', 'depositCreationDate']
+
+# TODO: add remaining views in serializer as above
 
 
 
