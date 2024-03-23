@@ -1,11 +1,10 @@
 <div id="statistics-map" style="height: 70%"></div>
 
-<!-- Chart Selection Buttons -->
-<div class="chart-selection">
-  <button (click)="toggleChartType('province')">Show Province Data</button>
-  <button (click)="toggleChartType('taxonomic')">Show Taxonomic Lineage</button>
-</div>
+<select multiple (change)="onProvinceSelectionChange($event)">
+  <option *ngFor="let province of allProvinceData" [value]="province.province">
+    {{ province.province }}
+  </option>
+</select>
 
-<!-- Chart Container (conditionally shown based on the selected chart type) -->
-<div *ngIf="chartType === 'province'" echarts [options]="provinceChartOption" class="chart-container"></div>
-<div *ngIf="chartType === 'taxonomic'" echarts [options]="taxonomicLevelChartOption" class="chart-container"></div>
+<div echarts [options]="provincePieChartOption" class="chart-container" *ngIf="provincePieChartOption"></div>
+<div echarts [options]="provinceBarMekkoChartOption" class="chart-container" *ngIf="provinceBarMekkoChartOption"></div>

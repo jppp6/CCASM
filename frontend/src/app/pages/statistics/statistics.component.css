@@ -1,13 +1,5 @@
-.chart-selection {
-  margin: 20px 0;
-  text-align: center;
-}
-
 .chart-container {
-  height: 400px;
+  width: 100%;
+  height: 400px; /* Adjust based on your preference */
   margin-bottom: 20px;
-}
-
-.statistics-container {
-  margin-top: 20px;
 }

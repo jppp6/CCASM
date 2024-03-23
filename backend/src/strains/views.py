@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 from .models import Deposits, Requests, Strains, Webusers, Requestedstrains
 from .serializers import StrainSerializer, RequestsSerializer, RequestedStrainsSerializer, UserSerializer, MyTokenObtainPairSerializer, RegisterSerializer
@@ -172,14 +173,24 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
                 species - 6
                 
     """
+    TAXONOMIC_LEVEL = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species']
+
+    if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
+        return Response({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST)
+    
     strains = Strains.objects.all()
-
+    taxonomic_data = {}
     for strain in strains:
-        tax_lineage = strain.taxonomic_lineage.split(';')
-        
-        level = tax_lineage[taxonomic_level].strip()
-        pass
+        # Split the taxonomic lineage and strip whitespace
+        tax_lineage = [level.strip() for level in strain.taxonomic_lineage.split(';')]
+        if len(tax_lineage) > taxonomic_level:
+            tax_level = tax_lineage[taxonomic_level]
 
+            taxonomic_data[tax_level] = taxonomic_data.get(tax_level, 0) + 1
+    
+    taxonomic_data_list = [{'name': key, 'count': value} for key, value in taxonomic_data.items()]
+
+    return JsonResponse(taxonomic_data_list, safe=False)
 
 def get_strain_by_plant(request, plant_host:str):
     strains = Strains.objects.filter(host_plant_species=plant_host)

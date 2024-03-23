@@ -78,7 +78,7 @@ export class CCASMService {
     getStrainsPerProvince(): Observable<any[]> {
         return this.http.get<any[]>(`${this.url}/strains-per-province`);
     }
-    getStrainsPerTaxonomicLevel(): Observable<any[]> {
+    getStrainsPerTaxonomicLevel(taxonomicLevel: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.url}/strains-per-taxonomic-level`);
     }
 }
