@@ -70,7 +70,7 @@
             <div>{{msg || ""}}</div>
 
             <div class="file-up">
-                <input type="file" class="file-input" formControlName="depositExcel" (change)="onFileUpload($event)" required #deposit>
+                <input type="file" class="file-input" (change)="onFileUpload($event)" required #deposit>
 
                 <div class="file-upload">
 

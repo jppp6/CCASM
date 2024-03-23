@@ -24,6 +24,26 @@ export class Utils {
         }
     }
 
+    static camelCaseToSnakeCase = (input: any): any => {
+        if (typeof input !== 'object' || input === null) {
+            return input; // return as is if not an object
+        }
+    
+        if (Array.isArray(input)) {
+            return input.map((item) => this.camelCaseToSnakeCase(item)); // handle arrays
+        } else {
+            const snakeCasedObject: any = {};
+            for (const key in input) {
+                if (Object.prototype.hasOwnProperty.call(input, key)) {
+                    const snakeCaseKey = key.replace(/[A-Z]/g, (match) => '_' + match.toLowerCase());
+                    const snakeCaseValue = this.camelCaseToSnakeCase(input[key]);
+                    snakeCasedObject[snakeCaseKey] = snakeCaseValue;
+                }
+            }
+            return snakeCasedObject;
+        }
+    }; 
+
     static filterDuplicatesAndFalsy(values: string[]): string[] {
         return values
             .filter((v, i) => values.indexOf(v) === i)
