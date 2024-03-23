@@ -6,18 +6,19 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.core.validators import validate_comma_separated_integer_list
 
 
 class Deposits(models.Model):
     deposit_id = models.SmallAutoField(primary_key=True)
-    first_name = models.CharField(max_length=64, blank=True, null=True)
-    last_name = models.CharField(max_length=64, blank=True, null=True)
-    affiliation = models.CharField(max_length=64, blank=True, null=True)
-    email = models.CharField(max_length=64, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
     deposit_excel = models.TextField(blank=True, null=True)
     deposit_state = models.CharField(max_length=16, blank=True, null=True)
     deposit_creation_date = models.DateTimeField(blank=True, null=True)
+    first_name = models.CharField(max_length=64, blank=True, null=True)
+    last_name = models.CharField(max_length=64, blank=True, null=True)
+    affiliation = models.CharField(max_length=64, blank=True, null=True)
+    email = models.CharField(max_length=64, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -26,13 +27,14 @@ class Deposits(models.Model):
 
 class Requests(models.Model):
     request_id = models.SmallAutoField(primary_key=True)
+    message = models.TextField(blank=True, null=True)
+    request_state = models.CharField(max_length=16, blank=True, null=True)
+    request_creation_date = models.DateTimeField(blank=True, null=True)
     first_name = models.CharField(max_length=64, blank=True, null=True)
     last_name = models.CharField(max_length=64, blank=True, null=True)
     affiliation = models.CharField(max_length=64, blank=True, null=True)
     email = models.CharField(max_length=64, blank=True, null=True)
-    message = models.TextField(blank=True, null=True)
-    request_state = models.CharField(max_length=16, blank=True, null=True)
-    request_creation_date = models.DateTimeField(blank=True, null=True)
+    strains_requested = models.CharField(max_length=128, validators=[validate_comma_separated_integer_list])
 
     class Meta:
         managed = False
