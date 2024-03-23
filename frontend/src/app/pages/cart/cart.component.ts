@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { StrainCartService } from 'src/app/core/services/strain-cart.service';
@@ -6,6 +6,11 @@ import { Strain, StrainRequest } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import { CCASMService } from '../../core/services/ccasm.services';
 import { TermsComponent } from './terms/terms.component';
+import { Observable } from 'rxjs';
+import { CartStrainDialogueComponent } from './cart-strain-dialogue/cart-strain-dialogue.component';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-cart',
@@ -13,15 +18,14 @@ import { TermsComponent } from './terms/terms.component';
     styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
+
+    dataSource: MatTableDataSource<Strain> = new MatTableDataSource<Strain>([]);
+    obs: Observable<any> = new Observable<any>(); // Initialize obs
+    @ViewChild(MatPaginator) paginator!: MatPaginator; // Initialize paginator
+
     applyForm = this.fb.group({
-        firstName: [
-            '',
-            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
-        ],
-        lastName: [
-            '',
-            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
-        ],
+        firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],],
+        lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],],
         email: ['', [Validators.required, Validators.email]],
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
         message: [''],
@@ -31,20 +35,30 @@ export class CartComponent implements OnInit {
     services = inject(CCASMService);
     scs = inject(StrainCartService);
 
-    //dataSource = new MatTableDataSource<Strain>([]);
-    dataSource: Strain[] = [];
-
     constructor(
         private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private localStorageService: LocalStorageService,
     ) {
-        this.applyForm.valueChanges.subscribe(console.log);
+        this.applyForm.valueChanges.subscribe(val => {
+            console.log(val);
+            this.localStorageService.setItem('formData', JSON.stringify(val));
+        });
     }
 
     ngOnInit(): void {
-        //this.dataSource.data = this.scs.getSelectedStrains()
-        this.dataSource = this.scs.getSelectedStrains();
+        this.cdr.detectChanges();
+        this.dataSource.data = this.scs.getSelectedStrains();
+        this.dataSource.paginator = this.paginator;
+        this.obs = this.dataSource.connect();
+
+        const storedData = this.localStorageService.getItem('formData');
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          // Fill in from stored value;
+          this.applyForm.patchValue(parsedData);
+        }
     }
 
     msg = '';
@@ -53,9 +67,9 @@ export class CartComponent implements OnInit {
         //submit form logic here
         this.services.postRequest(sr).subscribe({
             // Success
-            next: () => {
+            next: (data) => {
                 this.msg = 'Request Sent!';
-                console.log('Post success');
+                console.log(data);
             },
             // Failure
             error: (error) => {
@@ -65,7 +79,19 @@ export class CartComponent implements OnInit {
         });
     }
 
+    num : string = '';
+
     build() {
+        
+        this.num = '';
+        this.dataSource.data.forEach((strain: Strain) => {
+            if (this.num === '') {
+                this.num = this.num.concat(String(strain.ccasmId));
+            } else {
+                this.num = this.num.concat(',', String(strain.ccasmId));
+            }
+        });
+
         const newStrainRequest: StrainRequest = {
             requestId: 1, //Temporary assignment
             firstName: this.applyForm.controls.firstName.value!,
@@ -73,7 +99,7 @@ export class CartComponent implements OnInit {
             affiliation: this.applyForm.controls.affiliation.value!,
             email: this.applyForm.controls.email.value!,
             message: this.applyForm.controls.message.value!,
-            strainsRequested: [],
+            strainsRequested: this.num,
             requestState: 'received',
             requestCreationDate: new Date(),
         };
@@ -82,9 +108,9 @@ export class CartComponent implements OnInit {
     }
 
     exportAll(): void {
-        if (this.dataSource.length > 0) {
+        if (this.dataSource.data.length > 0) {
             Utils.exportToCSV(
-                this.dataSource,
+                this.dataSource.data,
                 'CCASM-' + Utils.formatDate(new Date()) + '.csv'
             );
         }
@@ -95,10 +121,17 @@ export class CartComponent implements OnInit {
         this.dialog.open(TermsComponent, { width: '600px' });
     }
 
+    openStrainInformation(s : Observable<Strain>): void {
+        this.dialog.open(CartStrainDialogueComponent, {
+            width: '600px',
+            data: s,
+        });
+    }
+
     removeStrain(i: number): void {
         console.log('Removing strain id:' + i);
         this.scs.removeStrainById(i.toString());
-        this.dataSource = this.scs.getSelectedStrains();
+        this.dataSource.data = this.scs.getSelectedStrains();
         this.cdr.detectChanges();
     }
 
