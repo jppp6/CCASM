@@ -30,6 +30,7 @@ export class CartComponent implements OnInit {
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
         message: [''],
         checkbox: [false, [Validators.requiredTrue]],
+        cart: [false, [Validators.requiredTrue]]
     });
 
     services = inject(CCASMService);
@@ -59,6 +60,11 @@ export class CartComponent implements OnInit {
           // Fill in from stored value;
           this.applyForm.patchValue(parsedData);
         }
+
+        if (this.dataSource.data.length > 0) {
+            this.applyForm.controls['cart'].setValue(true);
+        }
+
     }
 
     msg = '';
@@ -132,6 +138,11 @@ export class CartComponent implements OnInit {
         console.log('Removing strain id:' + i);
         this.scs.removeStrainById(i.toString());
         this.dataSource.data = this.scs.getSelectedStrains();
+
+        if (this.dataSource.data.length === 0) {
+            this.applyForm.controls['cart'].setValue(false);
+        }
+
         this.cdr.detectChanges();
     }
 

@@ -89,6 +89,10 @@
                 <button type="button" class="terms" mat-stroked-button (click)="openTerms()">Terms of Services</button>
                 <mat-error class="terms" *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']">* Please read the <strong>terms of services</strong>.</mat-error>
             </div>
+
+            <div>
+                <mat-error class="terms" *ngIf="f.cart?.errors?.['required']">* You don't have anything in cart...</mat-error>
+            </div>
             
             <div name="info" class="disclaimer">
                 <label class="txt" style="font-style: italic;">
