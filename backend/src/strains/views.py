@@ -1,152 +1,164 @@
 from rest_framework import status
-from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-from django.http import JsonResponse
-
-from .models import Deposits, Requests, Strains, Webusers, Requestedstrains
-from .serializers import StrainSerializer, RequestsSerializer, RequestedStrainsSerializer, UserSerializer, MyTokenObtainPairSerializer, RegisterSerializer
-
-from django.contrib.auth.models import User
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from django.http import JsonResponse
+
+from .models import Deposits, Requests, Strains
+from .serializers import StrainSerializer, DepositsSerializer, RequestsSerializer, MyTokenObtainPairSerializer
+import json
+
+# Token generation
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# GENERAL USERS:
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
 
-# GET for all strains
-# Will return all entries in the Strain DB Table
-@api_view(['GET'])
-@permission_classes([AllowAny])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
-def get_strain_all(request):
-    strains = Strains.objects.all()
+# GET collection for any user
+# This is used in the browse page
+@api_view(["GET"])
+@permission_classes([AllowAny]) 
+def get_collection(request):
+    strains = Strains.objects.filter(
+        visible=True
+    )  # based on whatever column decides visibility
     serializer = StrainSerializer(strains, many=True)
-    return Response({'strains': serializer.data})
+    return JsonResponse({"strains": serializer.data})
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])         #This will NOT have to be changed (Also might be appreciated if theres an open API for other projects?)
-def get_strain_browse(request):
-    strains = Strains.objects.filter(visible=1) #based on whatever column decides visibility
-    serializer = StrainSerializer(strains, many=True)
-    return Response({'strains': serializer.data})
 
-# Single Strain request methods
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
-def strain_details(request, ccasm_id):
-    # See if exists
-    try:
-        strain = Strains.objects.get(pk=ccasm_id)
-    except Strains.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
-        seralizer = StrainSerializer(strain)
-        return Response(seralizer.data)
-    
-    elif request.method == 'PUT':
-        seralizer = StrainSerializer(strain, data=request.data)
-        if seralizer.is_valid():
-            seralizer.save()
-            return Response(seralizer.data)
-        return Response(seralizer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    elif request.method == 'DELETE':
-        strain.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
-def post_strain(request):
-    serializer = StrainSerializer(data=request.data)
+# POST new deposit for any user
+# This is used in the deposit page
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def post_deposit(request):
+    serializer = DepositsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-# This will do the bulk upload
-# This will need the django csv reader to work
-# @api_view("POST")
-# def post_csv(request):
-#     pass
-
-# Get all requests from users
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_requests_all(request):
-    requested = Requests.objects.all()
-    serializer = RequestsSerializer(requested, many=True)
-    return Response({'requests': serializer.data})
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# CRUD operations for requests from users
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
-def requests_details(request, request_id):
-    try:
-        requested = Requests.objects.get(pk=request_id)
-    except Requests.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
-        serializer = RequestsSerializer(requested)
-        return Response(serializer.data)
-    
-    elif request.method == 'PUT':
-        serializer = RequestsSerializer(requested, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-    elif request.method == 'DELETE':
-        requested.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-# Post for requests from users
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
+# POST new request for any user
+# This is used in the cart page
+@api_view(["POST"])
+@permission_classes([AllowAny])
 def post_request(request):
     serializer = RequestsSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# This needs some work to work nice with composite primary keys
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])         #This WILL have to change once permissions are available for users
-def requested_strains_details(request, request_id, ccasm_id):
-    try:
-        requested = Requestedstrains.objects.get(pk=request_id)
-    except Requestedstrains.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
-        serializer = RequestedStrainsSerializer(requested)
-        return Response(serializer.data)
-    
-    elif request.method == 'PUT':
-        serializer = RequestedStrainsSerializer(requested, data=request.data)
+
+# ADMIN USERS:
+
+
+# GET collection for admins
+# This is used in the admin collection tab
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])  
+def admin_get_collection(request):
+    strains = Strains.objects.all()
+    serializer = StrainSerializer(strains, many=True)
+    return JsonResponse({"strains": serializer.data})
+
+
+# POST add new strain for admins
+# This is used in the admin collection tab
+@api_view(["POST"])
+@permission_classes([IsAuthenticated]) 
+def admin_add_single_strain(request):
+    serializer = StrainSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# POST add new strains for admins
+# This is used in the admin collection tab
+@api_view(["POST"])
+@permission_classes([IsAuthenticated]) 
+def admin_add_bulk_strain(request):
+    # Decode the body to json for parsing
+    data = request.body.decode('utf-8')
+    body = json.loads(data)
+    upload = body['strains']
+
+    for i in upload:
+        serializer = StrainSerializer(data=i)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
 
-    elif request.method == 'DELETE':
-        requested.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+
+# PUT to update a strain
+# This is used in the admin collection tab
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def admin_update_strain(request, pk):
+    try:
+        strain = Strains.objects.get(pk=pk)
+    except Strains.DoesNotExist:
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
+    
+    serializer = StrainSerializer(strain, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data)
+
+# DEPOSITS
+
+# GET for deposited strains
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_get_deposits(request):
+    deposits = Deposits.objects.all()
+    serializer = DepositsSerializer(deposits, many=True)
+    return JsonResponse({'deposits': serializer.data})
+
+# PUT to update deposited strains status
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def admin_update_deposit(request, pk):
+    try:
+        deposit = Deposits.objects.get(pk=pk)
+    except Deposits.DoesNotExist:
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
+    
+    serializer = DepositsSerializer(deposit, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data)
+    
+
+# REQUESTS
+
+# GET for requested strains
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def admin_get_requests(request):
+    reqs = Requests.objects.all()
+    serializer = RequestsSerializer(reqs, many=True)
+    return JsonResponse({'requests': serializer.data})
+
+# PUT to update requested strains
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def admin_update_request(request, pk):
+    try:
+        req = Requests.objects.get(pk=pk)
+    except Requests.DoesNotExist:
+        return JsonResponse(status= status.HTTP_404_NOT_FOUND)
+    
+    serializer = RequestsSerializer(req, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data)
 
 
 # Generates the view based ona given province, terriroty or geographical location
@@ -155,7 +167,7 @@ def get_strains_by_province(request, province:str):
 
     strains = Strains.objects.filter(isolation_soil_province=province)
     serializer = StrainSerializer(strains, many=True)
-    return Response({'strains': serializer.data})
+    return JsonResponse(serializer.data)
 
 
 @api_view(['GET']) #TODO find an efficient way to do this
@@ -176,7 +188,7 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
     TAXONOMIC_LEVEL = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species']
 
     if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
-        return Response({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST)
     
     strains = Strains.objects.all()
     taxonomic_data = {}
@@ -195,12 +207,12 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
 def get_strain_by_plant(request, plant_host:str):
     strains = Strains.objects.filter(host_plant_species=plant_host)
     serializer = StrainSerializer(strains, many=True)
-    return Response({'strains': serializer.data})
+    return JsonResponse({'strains': serializer.data})
 
 def get_strains_isolation_protocol(request, iso_protocol:str):
     strains = Strains.objects.filter(isolation_protocol=iso_protocol)
     serializer = StrainSerializer(strains, many=True)
-    return Response({'strains': serializer.data})
+    return JsonResponse({'strains': serializer.data})
 
 #TODO stats for (i) number of people who have deposited to the collection; 
 #(ii) number of strain requests fulfilled; and 
