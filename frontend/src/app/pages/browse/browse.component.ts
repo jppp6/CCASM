@@ -92,7 +92,7 @@ export class BrowseComponent implements OnInit {
     complexSearch(searchParams: { [key: string]: string }): void {
         this.filteredStrains = this.allStrains.filter((s) =>
             Object.keys(searchParams).every((key) =>
-                (s as any)[key]
+                ((s as any)[key] || "")
                     .toString()
                     .toLowerCase()
                     .includes(searchParams[key])

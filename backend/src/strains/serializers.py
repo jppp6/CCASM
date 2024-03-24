@@ -83,5 +83,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
+class StrainByProvinceSerializer(serializers.Serializer):
+    isolation_soil_province = serializers.CharField()
+    strain_count = serializers.IntegerField()
 
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
 # TODO: add remaining views in serializer as above
+
+
+

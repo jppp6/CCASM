@@ -12,11 +12,6 @@ export class CCASMService {
 
     constructor(private http: HttpClient) {}
 
-    getStrains(): Observable<{ strains: Strain[] }> {
-        return this.http.get<{ strains: Strain[] }>(
-            this.url + '/strain/collection/'
-        );
-    }
 
     login(username: string, password: string): Observable<any> {
         return this.http.post<any>(this.url + '/login/', {
@@ -27,63 +22,64 @@ export class CCASMService {
 
     // GENERAL USER
     getCollection(): Observable<{ strains: Strain[] }> {
-        return this.http.get<{ strains: Strain[] }>(this.url + '/collection/');
+        return this.http.get<{ strains: Strain[] }>(this.url + '/api/collection/');
     }
 
     postDeposit(deposit: StrainDeposit): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/deposit/', deposit);
+        return this.http.post<void>(this.url + '/api//deposit/', deposit);
     }
 
     postRequest(request: StrainRequest): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/request/', request);
+        return this.http.post<void>(this.url + '/api/request/', request);
     }
 
     // ADMIN USER
     adminGetCollection(): Observable<{ strains: Strain[] }> {
         return this.http.get<{ strains: Strain[] }>(
-            this.url + '/admin/collection/'
+            this.url + '/api/admin/collection/'
         );
     }
 
     adminAddStrain(strain: Strain): Observable<void> {
-        return this.http.post<void>(this.url + '/admin/add-strain/', strain);
+        return this.http.post<void>(this.url + '/api/admin/add-strain/', strain);
     }
 
     adminAddStrains(strains: Strain[]): Observable<void> {
-        return this.http.post<void>(this.url + '/admin/add-strains/', strains);
+        return this.http.post<void>(this.url + '/api/admin/add-strains/', strains);
     }
 
     adminUpdateStrain(strain: Strain): Observable<void> {
-        return this.http.post<void>(this.url + '/admin/update-strain/', strain);
+        return this.http.post<void>(this.url + '/api/admin/update-strain/', strain);
     }
 
     adminGetDeposits(): Observable<{ deposits: StrainDeposit[] }> {
         return this.http.get<{ deposits: StrainDeposit[] }>(
-            this.url + '/admin/deposits/'
+            this.url + '/api/admin/deposits/'
         );
     }
     adminUpdateDeposit(deposit: StrainDeposit): Observable<void> {
         return this.http.post<void>(
-            this.url + '/admin/update-deposit/',
+            this.url + '/api/admin/update-deposit/',
             deposit
         );
     }
 
     adminGetRequests(): Observable<{ requests: StrainRequest[] }> {
         return this.http.get<{ requests: StrainRequest[] }>(
-            this.url + '/admin/requests/'
+            this.url + '/api/admin/requests/'
         );
     }
     adminUpdateRequest(deposit: StrainRequest): Observable<void> {
         return this.http.post<void>(
-            this.url + '/admin/update-request/',
+            this.url + '/api/admin/update-request/',
             deposit
         );
     }
 
     getStrainsPerProvince(): Observable<any[]> {
+        
         return this.http.get<any[]>(`${this.url}/strains-per-province`);
     }
     getStrainsPerTaxonomicLevel(taxonomicLevel: number): Observable<any[]> {

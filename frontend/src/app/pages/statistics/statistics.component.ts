@@ -61,6 +61,7 @@ export class StatisticsComponent implements OnInit{
     this.subscriptions.push(
       this.ccasmService.getStrainsPerProvince().subscribe(
       data => {
+        console.log(data)
         this.allProvinceData = data;
         this.updateCharts();
       },
@@ -203,7 +204,7 @@ export class StatisticsComponent implements OnInit{
   ngAfterViewInit(): void {
     this.initializeMap();
 
-    this.ccasmService.getStrains().subscribe((result) => {
+    this.ccasmService.getCollection().subscribe((result) => {
       this.addCircularMarkers(Utils.snackCaseToCamelCase(result.strains) as Strain[]);
     })
   }

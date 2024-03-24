@@ -5,9 +5,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
+from django.db.models import Count
 
 from .models import Deposits, Requests, Strains
-from .serializers import StrainSerializer, DepositsSerializer, RequestsSerializer, MyTokenObtainPairSerializer
+from .serializers import StrainSerializer, DepositsSerializer, RequestsSerializer, MyTokenObtainPairSerializer, StrainByProvinceSerializer
 import json
 
 # Token generation
@@ -159,20 +160,21 @@ def admin_update_request(request, pk):
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data)
-    
 
-# STATS
 
 # Generates the view based ona given province, terriroty or geographical location
 @api_view(['GET'])
-def get_strains_by_province(request, province:str):
-
-    strains = Strains.objects.filter(isolation_soil_province=province)
-    serializer = StrainSerializer(strains, many=True)
-    return JsonResponse(serializer.data)
+@permission_classes([AllowAny]) 
+def get_strains_by_province(request):
+    province_counts = Strains.objects.values('isolation_soil_province').annotate(strain_count=Count('ccasm_id'))
+    #strains = Strains.objects.filter(isolation_soil_province=request.data)
+    serializer = StrainByProvinceSerializer(province_counts, many=True)
+    #serializer = StrainSerializer(strains, many=True)
+    return JsonResponse({'provinces': serializer.data})
 
 
 @api_view(['GET']) #TODO find an efficient way to do this
+@permission_classes([AllowAny]) 
 def get_strains_by_taxonomic_level(request, taxonomic_level:int):
     """
         Retrieves strains by the number of 
@@ -221,3 +223,4 @@ def get_strains_isolation_protocol(request, iso_protocol:str):
 #(iii) number of citations. For these simple stats, 
 #I think it is best to just have them as short sentences,
 # and for the stats to be manually updated.
+    
