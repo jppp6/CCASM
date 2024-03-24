@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import * as csvtojson from 'csvtojson';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
@@ -45,10 +46,12 @@ export class AdminAddComponent {
     batchDataSource = new MatTableDataSource<Strain>([]);
     reader: FileReader = new FileReader();
 
-    constructor(private ccasmService: CCASMService) {
+    constructor(
+        private ccasmService: CCASMService,
+        private _snackBar: MatSnackBar
+    ) {
         this.reader.onload = async (event) => {
             const data: string = event?.target?.result as string;
-            console.log(data);
             this.batchDataSource.data = Utils.snackCaseToCamelCase(
                 await csvtojson().fromString(data)
             ) as Strain[];
@@ -58,11 +61,32 @@ export class AdminAddComponent {
     uploadData(t: 'individual' | 'batch'): void {
         if (t === 'individual') {
             const strain = this.individualData.value;
-            this.ccasmService.adminAddStrain(strain).subscribe((_) => {});
+            this.ccasmService.adminAddStrain(strain).subscribe((result) => {
+                if (result === 'success') {
+                    // flash a message
+                    this.individualData.reset();
+                    this._snackBar.open('Strain added successfully!', 'Close');
+                } else {
+                    // flash error message
+                    this._snackBar.open('Error adding strain', 'Close');
+                }
+            });
         } else {
             this.ccasmService
                 .adminAddStrains(this.batchDataSource.data)
-                .subscribe((_) => {});
+                .subscribe((result) => {
+                    if (result === 'success') {
+                        // flash a message
+                        this.batchDataSource.data = [];
+                        this._snackBar.open(
+                            'Strains added successfully!',
+                            'Close'
+                        );
+                    } else {
+                        this._snackBar.open('Error adding strains', 'Close');
+                        // flash error message
+                    }
+                });
         }
     }
 

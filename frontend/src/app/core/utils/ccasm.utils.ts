@@ -2,7 +2,11 @@ import { Strain } from './ccasm.types';
 
 export class Utils {
     static snackCaseToCamelCase(input: any): any {
-        if (typeof input !== 'object' || input === null) {
+        if (
+            typeof input !== 'object' ||
+            input === null ||
+            input instanceof Date
+        ) {
             return input; // return as is if not an object
         }
 
@@ -24,7 +28,11 @@ export class Utils {
         }
     }
     static camelCaseToSnakeCase(input: any): any {
-        if (typeof input !== 'object' || input === null) {
+        if (
+            typeof input !== 'object' ||
+            input === null ||
+            input instanceof Date
+        ) {
             return input; // return as is if not an object
         }
 

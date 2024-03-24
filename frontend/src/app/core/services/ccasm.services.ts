@@ -42,15 +42,15 @@ export class CCASMService {
         );
     }
 
-    adminAddStrain(strain: any): Observable<void> {
-        return this.http.post<void>(
+    adminAddStrain(strain: any): Observable<string> {
+        return this.http.post<string>(
             this.url + '/admin/add-strain/',
             Utils.camelCaseToSnakeCase(strain)
         );
     }
 
-    adminAddStrains(strains: Strain[]): Observable<void> {
-        return this.http.post<void>(this.url + '/admin/add-strains/', {
+    adminAddStrains(strains: Strain[]): Observable<string> {
+        return this.http.post<string>(this.url + '/admin/add-strains/', {
             strains: Utils.camelCaseToSnakeCase(strains),
         });
     }
