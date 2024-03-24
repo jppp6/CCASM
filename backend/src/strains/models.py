@@ -13,33 +13,31 @@ class Deposits(models.Model):
     deposit_id = models.SmallAutoField(primary_key=True)
     message = models.TextField(blank=True, null=True)
     deposit_excel = models.TextField(blank=True, null=True)
-    deposit_state = models.CharField(max_length=16, blank=True, null=True)
-    deposit_creation_date = models.DateTimeField(blank=True, null=True)
-    first_name = models.CharField(max_length=64, blank=True, null=True)
-    last_name = models.CharField(max_length=64, blank=True, null=True)
-    affiliation = models.CharField(max_length=64, blank=True, null=True)
-    email = models.CharField(max_length=64, blank=True, null=True)
+    deposit_state = models.CharField(max_length=16, blank=False, null=False)
+    deposit_creation_date = models.DateTimeField(blank=False, null=False)
+    first_name = models.CharField(max_length=64, blank=False, null=False)
+    last_name = models.CharField(max_length=64, blank=False, null=False)
+    affiliation = models.CharField(max_length=128, blank=False, null=False)
+    email = models.CharField(max_length=64, blank=False, null=False)
 
     class Meta:
         managed = False
         db_table = "deposits"
 
-
 class Requests(models.Model):
     request_id = models.SmallAutoField(primary_key=True)
     message = models.TextField(blank=True, null=True)
-    request_state = models.CharField(max_length=16, blank=True, null=True)
-    request_creation_date = models.DateTimeField(blank=True, null=True)
-    first_name = models.CharField(max_length=64, blank=True, null=True)
-    last_name = models.CharField(max_length=64, blank=True, null=True)
-    affiliation = models.CharField(max_length=64, blank=True, null=True)
+    request_state = models.CharField(max_length=16, blank=False, null=False)
+    request_creation_date = models.DateTimeField(blank=False, null=False)
+    first_name = models.CharField(max_length=64, blank=False, null=False)
+    last_name = models.CharField(max_length=64, blank=False, null=False)
+    affiliation = models.CharField(max_length=128, blank=False, null=False)
     email = models.CharField(max_length=64, blank=True, null=True)
-    strains_requested = models.CharField(max_length=128, validators=[validate_comma_separated_integer_list])
+    strains_requested = models.CharField(max_length=255, blank=True)
 
     class Meta:
         managed = False
         db_table = "requests"
-
 
 class Strains(models.Model):
     ccasm_id = models.SmallAutoField(primary_key=True)

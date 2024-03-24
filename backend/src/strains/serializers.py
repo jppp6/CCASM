@@ -24,18 +24,17 @@ class StrainSerializer(serializers.ModelSerializer):
         model = Strains
         fields = "__all__"
 
-
 class RequestsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Requests
         fields = "__all__"
-
 
 class DepositsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deposits
         fields = "__all__"
 
+# TODO: add remaining views in serializer as above
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -82,6 +81,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-
-# TODO: add remaining views in serializer as above

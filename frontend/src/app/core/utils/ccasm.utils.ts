@@ -27,6 +27,7 @@ export class Utils {
             return camelCasedObject;
         }
     }
+    
     static camelCaseToSnakeCase(input: any): any {
         if (
             typeof input !== 'object' ||

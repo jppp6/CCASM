@@ -46,7 +46,7 @@ export interface StrainRequest {
     affiliation: string;
     email: string;
     message: string;
-    strainsRequested: number[];
+    strainsRequested: string;
     requestState: 'received' | 'processed' | 'sent' | 'refused';
     requestCreationDate: Date;
 }
