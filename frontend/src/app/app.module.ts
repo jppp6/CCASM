@@ -35,6 +35,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -71,6 +72,7 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
     ],
     imports: [
         BrowserModule,
+        MatSnackBarModule,
         AppRoutingModule,
         MatProgressSpinnerModule,
         MatCheckboxModule,
