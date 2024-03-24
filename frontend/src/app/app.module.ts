@@ -47,6 +47,7 @@ import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [
@@ -99,6 +100,9 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
+        }),
     ],
     providers: [
         {
