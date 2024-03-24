@@ -1,14 +1,19 @@
-<div *ngIf="loadingStrains" class="flex-center h100">
-    <mat-spinner></mat-spinner>
+<div
+    *ngIf="allStrains.length === 0"
+    class="flex-center h100"
+    style="flex-direction: column"
+>
+    <strong>
+        CCASM is either loading the collection or was unable to get the
+        results...
+    </strong>
+    <br />
+    <span> Please refresh if issue persists. </span>
 </div>
 
-<div class="h100" style="padding: 32px" *ngIf="!loadingStrains">
+<div class="h100" style="padding: 32px" *ngIf="allStrains.length > 0">
     <div class="flex-box">
-        <button
-            mat-raised-button
-            (click)="exportAll()"
-            *ngIf="allStrains.length > 0"
-        >
+        <button mat-raised-button (click)="exportAll()">
             Download Entire Collection
         </button>
 
@@ -20,14 +25,14 @@
         </mat-radio-group>
     </div>
 
-    <ng-container *ngIf="searchType == 'simple' && allStrains.length > 0">
+    <ng-container *ngIf="searchType == 'simple'">
         <app-simple-search
             [options]="simpleOptions"
             (searchString)="simpleSearch($event)"
         ></app-simple-search>
     </ng-container>
 
-    <ng-container *ngIf="searchType == 'complex' && allStrains.length > 0">
+    <ng-container *ngIf="searchType == 'complex'">
         <app-complex-search
             [options]="complexOptions"
             (searchStrings)="complexSearch($event)"
