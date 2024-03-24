@@ -36,4 +36,6 @@ urlpatterns = [
     path("api/admin/update-request/<int:pk>", views.admin_update_request),
     path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("refreshToken/", TokenRefreshView.as_view(), name="token_refresh"),
+    path('strains-per-province/', views.get_strains_by_province),
+    path('strains-per-taxonomic-level/', views.get_strains_by_taxonomic_level),
 ]
