@@ -12,36 +12,33 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
 })
 export class AdminAddComponent {
     individualData = new FormGroup({
-        strainName: new FormControl('', Validators.required),
-        binomialClassification: new FormControl('', Validators.required),
-        taxonomicLineage: new FormControl('', Validators.required),
-        riskGroup: new FormControl('', Validators.required),
-        isPlantPathogen: new FormControl('', Validators.required),
-        colonyMorphology: new FormControl('', Validators.required),
-        hostPlantSpecies: new FormControl('', Validators.required),
-        isolationSource: new FormControl('', Validators.required),
-        isolationYear: new FormControl(
-            new Date().getFullYear(),
-            Validators.required
-        ),
-        isolationProtocol: new FormControl('', Validators.required),
-        isolationGrowthMedium: new FormControl('', Validators.required),
-        isolationGrowthTemperature: new FormControl(0, Validators.required),
-        isolationGrowthMediumComposition: new FormControl(
+        strainName: new FormControl<string>('', Validators.required),
+        binomialClassification: new FormControl<string>(
             '',
             Validators.required
         ),
-        isolationSoilPh: new FormControl(0, Validators.required),
-        isolationSoilOrganicMatter: new FormControl('', Validators.required),
-        isolationSoilTexture: new FormControl('', Validators.required),
-        isolationSoilProvince: new FormControl('', Validators.required),
-        longitude: new FormControl('', Validators.required),
-        latitude: new FormControl('', Validators.required),
-        genomeNcbiAssociation: new FormControl('', Validators.required),
-        genomeSize: new FormControl('', Validators.required),
-        notes: new FormControl('', Validators.required),
-        citation: new FormControl('', Validators.required),
-        photo: new FormControl(''),
+        taxonomicLineage: new FormControl<string>('', Validators.required),
+        riskGroup: new FormControl<number>(0),
+        isPlantPathogen: new FormControl<string>('1'),
+        colonyMorphology: new FormControl<string>(''),
+        hostPlantSpecies: new FormControl<string>(''),
+        isolationSource: new FormControl(''),
+        isolationYear: new FormControl(new Date().getFullYear()),
+        isolationProtocol: new FormControl<string>(''),
+        isolationGrowthMedium: new FormControl<string>(''),
+        isolationGrowthTemperature: new FormControl<number>(0),
+        isolationGrowthMediumComposition: new FormControl<string>(''),
+        isolationSoilPh: new FormControl<number>(0),
+        isolationSoilOrganicMatter: new FormControl<string>(''),
+        isolationSoilTexture: new FormControl<string>(''),
+        isolationSoilProvince: new FormControl<string>(''),
+        longitude: new FormControl<number>(0),
+        latitude: new FormControl<number>(0),
+        genomeNcbiAssociation: new FormControl<string>(''),
+        genomeSize: new FormControl<number>(0),
+        notes: new FormControl<string>(''),
+        citation: new FormControl<string>(''),
+        photo: new FormControl<string>(''),
         visible: new FormControl(true),
     });
 
@@ -51,7 +48,7 @@ export class AdminAddComponent {
     constructor(private ccasmService: CCASMService) {
         this.reader.onload = async (event) => {
             const data: string = event?.target?.result as string;
-
+            console.log(data);
             this.batchDataSource.data = Utils.snackCaseToCamelCase(
                 await csvtojson().fromString(data)
             ) as Strain[];
@@ -60,9 +57,12 @@ export class AdminAddComponent {
 
     uploadData(t: 'individual' | 'batch'): void {
         if (t === 'individual') {
-            // this.ccasmService.adminAddStrain(this.individualData.value);
+            const strain = this.individualData.value;
+            this.ccasmService.adminAddStrain(strain).subscribe((_) => {});
         } else {
-            // this.ccasmService.adminAddStrains(this.batchDataSource.data);
+            this.ccasmService
+                .adminAddStrains(this.batchDataSource.data)
+                .subscribe((_) => {});
         }
     }
 
