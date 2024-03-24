@@ -42,12 +42,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { AppRoutingModule } from './app-routing.module';
 import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [

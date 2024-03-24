@@ -1,10 +1,16 @@
-<div id="statistics-map" style="height: 70%"></div>
+<div id="statistics-map" style="height: 50%"></div>
 
-<select multiple (change)="onProvinceSelectionChange($event)">
-  <option *ngFor="let province of allProvinceData" [value]="province.province">
-    {{ province.province }}
-  </option>
-</select>
-
-<div echarts [options]="provincePieChartOption" class="chart-container" *ngIf="provincePieChartOption"></div>
-<div echarts [options]="provinceBarMekkoChartOption" class="chart-container" *ngIf="provinceBarMekkoChartOption"></div>
+<div
+    echarts
+    style="height: 30%; width: 50%"
+    [options]="provincePieChartOption"
+    class="chart-container"
+    *ngIf="provincePieChartOption"
+></div>
+<div
+    echarts
+    style="height: 30%; width: 50%"
+    [options]="provinceBarMekkoChartOption"
+    class="chart-container"
+    *ngIf="provinceBarMekkoChartOption"
+></div>
