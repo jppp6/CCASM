@@ -25,34 +25,16 @@ class StrainSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class RequestsSerializer(serializers.ModelSerializer):
-    firstName = serializers.CharField(source="first_name")
-    lastName = serializers.CharField(source="last_name")
-    strainsRequested = serializers.CharField(source="strains_requested")
-    requestState = serializers.CharField(source="request_state")
-    requestCreationDate = serializers.DateTimeField(source="request_creation_date")
-
     class Meta:
         model = Requests
-        fields = ['request_id','firstName', 'lastName', 'affiliation', 'email', 'message', 'strainsRequested', 'requestState', 'requestCreationDate']
+        fields = "__all__"
 
 class DepositsSerializer(serializers.ModelSerializer):
-    firstName = serializers.CharField(source="first_name")
-    lastName = serializers.CharField(source="last_name")
-    depositExcel = serializers.CharField(source="deposit_excel")
-    depositState = serializers.CharField(source="deposit_state")
-    depositCreationDate = serializers.DateTimeField(source="deposit_creation_date")
-
     class Meta:
         model = Deposits
-        fields = ['deposit_id','firstName', 'lastName', 'affiliation', 'email', 'message', 'depositExcel', 'depositState', 'depositCreationDate']
+        fields = "__all__"
 
 # TODO: add remaining views in serializer as above
-
-
-
-
-# TODO: add remaining views in serializer as above
-
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -99,6 +81,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-
-# TODO: add remaining views in serializer as above
