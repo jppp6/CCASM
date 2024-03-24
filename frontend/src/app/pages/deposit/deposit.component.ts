@@ -50,7 +50,7 @@ export class DepositComponent implements OnInit {
     }
 
     submitDeposit(sd: StrainDeposit) {
-        this.services.postDeposit(sd).subscribe({
+        this.services.postDeposit(Utils.camelCaseToSnakeCase(sd)).subscribe({
             // Success
             next: (data) => {
                 this.msg = 'Request Sent!';

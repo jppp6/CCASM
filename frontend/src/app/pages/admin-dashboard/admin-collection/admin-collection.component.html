@@ -39,7 +39,11 @@
         <ng-container matColumnDef="visible">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Visible</th>
             <td mat-cell *matCellDef="let row">
-                <mat-checkbox [checked]="row.visible" color="primary">
+                <mat-checkbox
+                    color="primary"
+                    [(ngModel)]="row.visible"
+                    (change)="toggleVisibility(row)"
+                >
                 </mat-checkbox>
             </td>
         </ng-container>
