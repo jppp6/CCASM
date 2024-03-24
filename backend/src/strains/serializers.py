@@ -37,11 +37,6 @@ class DepositsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-
-# TODO: add remaining views in serializer as above
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
