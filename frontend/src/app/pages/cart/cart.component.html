@@ -3,25 +3,30 @@
         <!-- Strain Cart -->
         <h1 class="cart">Strain Cart</h1>
 
-        <ng-container *ngIf="dataSource.length > 0; else emptyCart">
-            <mat-card *ngFor="let s of dataSource" style="background-color: #ececec">
+        <!-- Cart list -->
+        <ng-container *ngIf="dataSource.data.length > 0; else emptyCart">
+            <mat-card *ngFor="let strain of obs | async" (click)="openStrainInformation(strain)" style="background-color: #ececec">
                 <mat-card-title>
-                    <strong>CCASM ID:</strong> {{ s.ccasmId }}
-                    <strong>Binomial Classification:</strong> {{ s.binomialClassification }}
-                    <!-- ugly button rn will fix -->
-                    <button mat-icon-button (click)="removeStrain(s.ccasmId)">
-                        <mat-icon aria-label="Remove">delete</mat-icon>
-                    </button>
+                    <strong>CCASM ID:</strong> {{ strain.ccasmId }}
+                    <strong>Binomial Classification:</strong> {{ strain.binomialClassification }}
                 </mat-card-title>
                 <mat-card-content>
-                    <strong>Taxonomic Lineage:</strong> {{ s.taxonomicLineage }}
+                    <strong>Taxonomic Lineage:</strong> {{ strain.taxonomicLineage }}
                 </mat-card-content>
+                <!-- ugly button rn will fix -->
+                <button mat-icon-button (click)="removeStrain(strain.ccasmId)">
+                    <mat-icon aria-label="Remove">delete</mat-icon>
+                </button>
             </mat-card>
         </ng-container>
         
+        <!-- Empty message -->
         <ng-template #emptyCart>
             <p class="nothing">Nothing in cart...</p>
         </ng-template>
+
+        <!-- Paginator -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div> 
 
     <div name="main-div" class="right">    
@@ -81,8 +86,12 @@
             <!-- Legal stuff? -->
             <div>
                 <mat-checkbox formControlName="checkbox"></mat-checkbox>
-                <button type="button" class="terms" mat-stroked-button (click)="openTerms()">I've read the terms of service</button>
+                <button type="button" class="terms" mat-stroked-button (click)="openTerms()">Terms of Services</button>
                 <mat-error class="terms" *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']">* Please read the <strong>terms of services</strong>.</mat-error>
+            </div>
+
+            <div>
+                <mat-error class="terms" *ngIf="f.cart?.errors?.['required']">* You don't have anything in cart...</mat-error>
             </div>
             
             <div name="info" class="disclaimer">

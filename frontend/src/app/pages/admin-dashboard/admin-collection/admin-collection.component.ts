@@ -32,6 +32,10 @@ export class AdminCollectionComponent {
         this.dataSource.sort = this.sort;
     }
 
+    toggleVisibility(strain: Strain): void {
+        this.ccasmService.adminUpdateStrain(strain).subscribe((_) => {});
+    }
+
     openStrainEditor(strain: Strain): void {
         const dialogRef = this.dialog.open(AdminEditComponent, {
             width: '600px',
@@ -42,13 +46,16 @@ export class AdminCollectionComponent {
             if (!newStrain) {
                 return;
             }
-            const oldStrainIndex = this.dataSource.data.findIndex(
-                (s) => s.ccasmId === newStrain.ccasmId
-            );
-            if (oldStrainIndex >= 0) {
-                this.dataSource.data[oldStrainIndex] = { ...newStrain };
-                this.dataSource.data = this.dataSource.data; // Triggers the redraw
-            }
+
+            this.ccasmService.adminUpdateStrain(newStrain).subscribe((_) => {
+                const oldStrainIndex = this.dataSource.data.findIndex(
+                    (s) => s.ccasmId === newStrain.ccasmId
+                );
+                if (oldStrainIndex >= 0) {
+                    this.dataSource.data[oldStrainIndex] = { ...newStrain };
+                    this.dataSource.data = this.dataSource.data; // Triggers the redraw
+                }
+            });
         });
     }
 

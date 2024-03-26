@@ -35,10 +35,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -48,6 +50,7 @@ import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
 import { TermsComponent } from './pages/cart/terms/terms.component';
+import { CartStrainDialogueComponent } from './pages/cart/cart-strain-dialogue/cart-strain-dialogue.component';
 
 @NgModule({
     declarations: [
@@ -69,9 +72,11 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         TermsComponent,
         AdminEditComponent,
         AdminAddComponent,
+        CartStrainDialogueComponent,
     ],
     imports: [
         BrowserModule,
+        MatSnackBarModule,
         AppRoutingModule,
         MatProgressSpinnerModule,
         MatCheckboxModule,
@@ -100,9 +105,11 @@ import { TermsComponent } from './pages/cart/terms/terms.component';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
+        stats-integration
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
         }),
+        MatPaginatorModule,
     ],
     providers: [
         {

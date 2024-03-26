@@ -35,11 +35,10 @@
 
             <mat-form-field class="w100">
                 <mat-label>Is Plant Pathogen</mat-label>
-                <input
-                    matInput
-                    formControlName="isPlantPathogen"
-                    type="number"
-                />
+                <mat-select formControlName="isPlantPathogen">
+                    <mat-option value="1">True</mat-option>
+                    <mat-option value="0">False</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field class="w100">
@@ -93,7 +92,7 @@
                 <input
                     matInput
                     formControlName="isolationGrowthTemperature"
-                    type="text"
+                    type="number"
                 />
             </mat-form-field>
 
@@ -108,7 +107,11 @@
 
             <mat-form-field class="w100">
                 <mat-label>Isolation Soil PH</mat-label>
-                <input matInput formControlName="isolationSoilPh" type="text" />
+                <input
+                    matInput
+                    formControlName="isolationSoilPh"
+                    type="number"
+                />
             </mat-form-field>
 
             <mat-form-field class="w100">
@@ -186,8 +189,9 @@
         </form>
 
         <button
-            mat-button
-            *ngIf="individualData.valid"
+            mat-raised-button
+            color="primary"
+            [disabled]="!individualData.valid"
             (click)="uploadData('individual')"
         >
             Add to Collection

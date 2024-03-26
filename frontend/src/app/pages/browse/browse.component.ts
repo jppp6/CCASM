@@ -62,7 +62,7 @@ export class BrowseComponent implements OnInit {
                     this.allStrains.map((s) => s.isolationSource)
                 ),
                 riskGroup: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.riskGroup.toString())
+                    this.allStrains.map((s) => (s.riskGroup || '').toString())
                 ),
                 isolationSoilProvince: Utils.filterDuplicatesAndFalsy(
                     this.allStrains.map((s) => s.isolationSoilProvince)
@@ -92,7 +92,7 @@ export class BrowseComponent implements OnInit {
     complexSearch(searchParams: { [key: string]: string }): void {
         this.filteredStrains = this.allStrains.filter((s) =>
             Object.keys(searchParams).every((key) =>
-                ((s as any)[key] || "")
+                ((s as any)[key] || '')
                     .toString()
                     .toLowerCase()
                     .includes(searchParams[key])

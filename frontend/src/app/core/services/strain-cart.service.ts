@@ -7,8 +7,15 @@ import { Strain } from '../utils/ccasm.types';
 export class StrainCartService {
     cart: Strain[] = [];
 
-    addStrainToCart(s: Strain): void {
-        this.cart.push(s);
+    addStrainToCart(s: Strain): boolean {
+        if (this.isStrainAlreadyInCart(s.ccasmId)) {
+            console.log("Already in cart");
+            return false;
+        } else {
+            this.cart.push(s);
+        }
+
+        return true;
     }
 
     removeStrainById(strainId: string): boolean {
@@ -27,5 +34,9 @@ export class StrainCartService {
 
     clearCart(): void {
         this.cart = [];
+    }
+
+    private isStrainAlreadyInCart(strainId: number): boolean {
+        return this.cart.some((s) => s.ccasmId === strainId);
     }
 }

@@ -7,12 +7,17 @@
 
 .left {
     width: 50%;
+    align-items: left;
     padding-right: 10px;
+}
+
+.mat-paginator {
+    margin-top: 20px; /* Adjust the margin as needed */
 }
 
 mat-card {
     width: 90%;
-  }
+}
 
 .right {
     width: 50%;
@@ -44,6 +49,7 @@ hr {
 .terms {
     margin-bottom: 20px;
 }
+
 .aff {
     width: 100%;
 }
@@ -69,7 +75,7 @@ hr {
 
 button {
     margin-right: 1vw;
-    color: white;
+    color: gray;
     font-size: 15px;
     line-height: 18px;
     height: auto;

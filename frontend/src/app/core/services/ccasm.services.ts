@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProvinceData } from 'src/app/pages/statistics/statistics.component';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
+import { Utils } from '../utils/ccasm.utils';
 
 @Injectable({
     providedIn: 'root',
@@ -44,24 +45,23 @@ export class CCASMService {
         );
     }
 
-    adminAddStrain(strain: Strain): Observable<void> {
-        return this.http.post<void>(
-            this.url + '/api/admin/add-strain/',
-            strain
+    adminAddStrain(strain: any): Observable<string> {
+        return this.http.post<string>(
+            this.url + '/admin/add-strain/',
+            Utils.camelCaseToSnakeCase(strain)
         );
     }
 
-    adminAddStrains(strains: Strain[]): Observable<void> {
-        return this.http.post<void>(
-            this.url + '/api/admin/add-strains/',
-            strains
-        );
+    adminAddStrains(strains: Strain[]): Observable<string> {
+        return this.http.post<string>(this.url + '/admin/add-strains/', {
+            strains: Utils.camelCaseToSnakeCase(strains),
+        });
     }
 
     adminUpdateStrain(strain: Strain): Observable<void> {
-        return this.http.post<void>(
-            this.url + '/api/admin/update-strain/',
-            strain
+        return this.http.put<void>(
+            this.url + '/admin/update-strain/' + strain.ccasmId,
+            Utils.camelCaseToSnakeCase(strain)
         );
     }
 
@@ -71,9 +71,9 @@ export class CCASMService {
         );
     }
     adminUpdateDeposit(deposit: StrainDeposit): Observable<void> {
-        return this.http.post<void>(
-            this.url + '/api/admin/update-deposit/',
-            deposit
+        return this.http.put<void>(
+            this.url + '/admin/update-deposit/' + deposit.depositId,
+            Utils.camelCaseToSnakeCase(deposit)
         );
     }
 
@@ -82,10 +82,11 @@ export class CCASMService {
             this.url + '/api/admin/requests/'
         );
     }
-    adminUpdateRequest(deposit: StrainRequest): Observable<void> {
-        return this.http.post<void>(
-            this.url + '/api/admin/update-request/',
-            deposit
+
+    adminUpdateRequest(request: StrainRequest): Observable<void> {
+        return this.http.put<void>(
+            this.url + '/admin/update-request/' + request.requestId,
+            Utils.camelCaseToSnakeCase(request)
         );
     }
 
