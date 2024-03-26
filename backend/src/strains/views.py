@@ -13,6 +13,7 @@ from .serializers import (
     DepositsSerializer,
     RequestsSerializer,
     MyTokenObtainPairSerializer,
+    StrainByProvinceSerializer
 )
 import json
 
