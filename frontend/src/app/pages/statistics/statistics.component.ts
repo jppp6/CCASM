@@ -6,11 +6,18 @@ import { Subscription } from 'rxjs';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
+import { map } from 'rxjs/operators';
 import { StrainDetailsDialog } from 'src/app/pages/browse/strain-details/strain-details.component';
 
 export interface ProvinceData {
     strainCount: number;
     isolationSoilProvince: string;
+}
+
+export interface TaxonomicData {
+    name: string; // the name of the taxonomic level
+    value: number; // the count of strains in this taxonomic level
+    children?: TaxonomicData[]; // nested data for hierarchical visualization
 }
 
 @Component({
@@ -23,13 +30,14 @@ export class StatisticsComponent implements OnInit {
     subscriptions: Subscription[] = [];
     provincePieChartOption: EChartsOption | null = null; // Chart option
     provinceBarMekkoChartOption: EChartsOption | null = null; // Chart option
-    //taxonomicLevelChartOption: EChartsOption | null = null;
+    taxonomicTreeChartOption: EChartsOption | null = null;
     allProvinceData: ProvinceData[] = []; // Holds the complete province data from the server
 
     constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
 
     ngOnInit(): void {
         this.getProvinceData();
+        this.getTaxonomicData();
     }
 
     ngOnDestroy() {
@@ -48,6 +56,19 @@ export class StatisticsComponent implements OnInit {
                 },
                 (error) => {
                     console.error('Error fetching strains per province', error);
+                }
+            )
+        );
+    }
+
+    getTaxonomicData(): void{
+        this.subscriptions.push(
+            this.ccasmService.getTaxonomicData().subscribe(
+                (data: TaxonomicData[]) => {
+                    this.taxonomicTreeChartOption = this.getRadialTreeOption(data);
+                },
+                (error) => {
+                    console.error('Error fetching taxonomic levels', error);
                 }
             )
         );
@@ -125,6 +146,32 @@ export class StatisticsComponent implements OnInit {
         };
     }
 
+    getRadialTreeOption(data: TaxonomicData[]): EChartsOption {
+        return {
+            title: {
+                text: 'Taxonomic Lineage Distribution',
+                left: 'center',
+            },
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove',
+            },
+            series: [
+                {
+                type: 'tree',
+                data: data,
+                top: '1%',
+                bottom: '1%',
+                layout: 'radial',
+                symbol: 'emptyCircle',
+                symbolSize: 7,
+                initialTreeDepth: 3,
+                animationDurationUpdate: 750,
+                },
+            ],
+        };
+    }
+
     /**this.subscriptions.push(
       this.ccasmService.getStrainsPerTaxonomicLevel().subscribe(
         data => {
@@ -147,28 +194,6 @@ export class StatisticsComponent implements OnInit {
     } else if (type === 'taxonomic') {
       // Call the service method to get taxonomic data and update the chart option with a radial tree
     }
-  }**/
-
-    /**getRadialTreeOption(data: any): EChartsOption {
-    return {
-      tooltip: {
-        trigger: 'item',
-        triggerOn: 'mousemove',
-      },
-      series: [
-        {
-          type: 'tree',
-          data: [data], // The data needs to be in the correct format
-          top: '18%',
-          bottom: '14%',
-          layout: 'radial',
-          symbol: 'emptyCircle',
-          symbolSize: 7,
-          initialTreeDepth: 3,
-          animationDurationUpdate: 750,
-        },
-      ],
-    };
   }**/
 
     ngAfterViewInit(): void {

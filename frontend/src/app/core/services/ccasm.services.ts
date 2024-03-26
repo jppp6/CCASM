@@ -94,7 +94,18 @@ export class CCASMService {
             `${this.url}/strains-per-province`
         );
     }
+
     getStrainsPerTaxonomicLevel(taxonomicLevel: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.url}/strains-per-taxonomic-level`);
     }
+
+    getTaxonomicData(): Observable<TaxonomicData[]> {
+        return this.http.get<TaxonomicData[]>(`${this.url}/api/taxonomic-data/`);
+      }
 }
+
+export interface TaxonomicData {
+    name: string;
+    value: number;
+    children?: TaxonomicData[];
+  }
