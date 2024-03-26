@@ -215,7 +215,16 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
     if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
         return JsonResponse({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST)
     
-    strains = Strains.objects.all()
+    strains = Strains.objects.values('taxonomic_lineage') 
+    # strains is now a list of dictionaries structured like so:
+    # [
+    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
+    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
+    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
+    # More rows...
+    # ]
+    total_strains = len(strains)
+    print(total_strains)
     taxonomic_data = {}
     for strain in strains:
         # Split the taxonomic lineage and strip whitespace
@@ -224,7 +233,7 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
             tax_level = tax_lineage[taxonomic_level]
 
             taxonomic_data[tax_level] = taxonomic_data.get(tax_level, 0) + 1
-    
+    print(tax_lineage)
     taxonomic_data_list = [{'name': key, 'count': value} for key, value in taxonomic_data.items()]
 
     return JsonResponse(taxonomic_data_list, safe=False)
