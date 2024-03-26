@@ -1,7 +1,10 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { Observable } from 'rxjs';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain, StrainNode } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
@@ -17,12 +20,15 @@ export class BrowseComponent implements OnInit {
 
     treeControl = new NestedTreeControl<StrainNode>((node) => node.children);
     treeDataSource = new MatTreeNestedDataSource<StrainNode>();
+    showTree: boolean = true;
+    allStrains: Strain[] = [];
+
+    filteredStrains: MatTableDataSource<Strain> =
+        new MatTableDataSource<Strain>([]);
+    obs: Observable<Strain[]> = new Observable<Strain[]>();
+    @ViewChild(MatPaginator) paginator!: MatPaginator; // Initialize paginator
 
     searchType: 'simple' | 'complex' = 'simple';
-
-    filteredStrains: Strain[] | null = null;
-    allStrains: Strain[] = [];
-    loadingStrains: boolean = false;
 
     simpleOptions: string[] = [];
     complexOptions: {
@@ -42,13 +48,10 @@ export class BrowseComponent implements OnInit {
     };
 
     ngOnInit(): void {
-        this.loadingStrains = true;
-        this.ccasmService.getCollection().subscribe((result) => {
-            this.allStrains = Utils.snackCaseToCamelCase(
-                result.strains
-            ) as Strain[];
+        this.ccasmService.getCollection().subscribe((r) => {
+            this.allStrains = Utils.snackCaseToCamelCase(r.strains) as Strain[];
 
-            this.treeDataSource.data = this.buildTree(
+            this.treeDataSource.data = this._buildTree(
                 this.allStrains.map((s) => s.taxonomicLineage)
             );
 
@@ -74,23 +77,27 @@ export class BrowseComponent implements OnInit {
                     this.allStrains.map((s) => s.isolationProtocol)
                 ),
             };
-            this.loadingStrains = false;
+            this.filteredStrains.data = [];
+            this.filteredStrains.paginator = this.paginator;
+            this.obs = this.filteredStrains.connect();
         });
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.toLowerCase().replace('unclassified ', '');
-        if (searchString === '') {
-            this.filteredStrains = null;
-        } else {
-            this.filteredStrains = this.allStrains.filter((s) =>
-                s.binomialClassification.toLowerCase().includes(searchString)
-            );
-        }
+        searchString = searchString.replace('unclassified ', '');
+        this.filteredStrains.data =
+            searchString !== ''
+                ? this.allStrains.filter((s) =>
+                      s.binomialClassification
+                          .toLowerCase()
+                          .includes(searchString)
+                  )
+                : [];
+        this.showTree = false;
     }
 
     complexSearch(searchParams: { [key: string]: string }): void {
-        this.filteredStrains = this.allStrains.filter((s) =>
+        this.filteredStrains.data = this.allStrains.filter((s) =>
             Object.keys(searchParams).every((key) =>
                 ((s as any)[key] || '')
                     .toString()
@@ -98,12 +105,13 @@ export class BrowseComponent implements OnInit {
                     .includes(searchParams[key])
             )
         );
+        this.showTree = false;
     }
 
     exportFiltered(): void {
-        if (this.filteredStrains && this.filteredStrains.length > 0) {
+        if (this.filteredStrains.data.length > 0) {
             Utils.exportToCSV(
-                this.filteredStrains,
+                this.filteredStrains.data,
                 'CCASM-' + Utils.formatDate(new Date()) + '.csv'
             );
         }
@@ -118,10 +126,6 @@ export class BrowseComponent implements OnInit {
         }
     }
 
-    clearResults(): void {
-        this.filteredStrains = null;
-    }
-
     openStrainInformation(strain: Strain): void {
         this.dialog.open(StrainDetailsDialog, {
             width: '600px',
@@ -129,7 +133,7 @@ export class BrowseComponent implements OnInit {
         });
     }
 
-    buildTree(data: string[]): StrainNode[] {
+    private _buildTree(data: string[]): StrainNode[] {
         const nodes: StrainNode[] = [];
 
         data.forEach((entry) => {
@@ -149,14 +153,16 @@ export class BrowseComponent implements OnInit {
                     const child = currentNode.children.find(
                         (c: StrainNode) => c.name === p
                     );
-                    currentNode = child ? child : this.addChild(currentNode, p);
+                    currentNode = child
+                        ? child
+                        : this._addChild(currentNode, p);
                 }
             });
         });
         return nodes;
     }
 
-    addChild(node: StrainNode, childName: string): StrainNode {
+    private _addChild(node: StrainNode, childName: string): StrainNode {
         const child: StrainNode = { name: childName, children: [] };
         node.children.push(child);
         return child;
@@ -165,9 +171,8 @@ export class BrowseComponent implements OnInit {
     hasChild = (_: number, n: StrainNode): boolean =>
         !!n.children && n.children.length > 0;
 
-    recursiveCount(n: StrainNode): number {
-        return n.children.length > 0
+    recursiveCount = (n: StrainNode): number =>
+        n.children.length > 0
             ? n.children.reduce((c, i) => c + this.recursiveCount(i), 0)
             : 1;
-    }
 }

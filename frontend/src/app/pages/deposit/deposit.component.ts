@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { StrainDeposit } from 'src/app/core/utils/ccasm.types';
-import { CCASMService } from '../../core/services/ccasm.services';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
+import { CCASMService } from '../../core/services/ccasm.services';
 
 @Component({
     selector: 'app-deposit',
@@ -11,23 +11,35 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
 })
 export class DepositComponent implements OnInit {
     // More validators will be added later
+    filename = '';
+    msg = '';
+
     applyForm = this.fb.group({
-        firstName: ['',[Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-        lastName: ['',[Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+        firstName: [
+            '',
+            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
+        ],
+        lastName: [
+            '',
+            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
+        ],
         email: ['', [Validators.required, Validators.email]],
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
         message: [''],
         depositExcel: ['', Validators.required],
     });
+    reader: FileReader = new FileReader();
 
     services = inject(CCASMService);
     constructor(private fb: FormBuilder) {
         this.applyForm.valueChanges.subscribe(console.log);
+        this.reader.onload = async (event) => {
+            const data: string = event?.target?.result as string;
+            this.applyForm.patchValue({ depositExcel: JSON.stringify(data) });
+        };
     }
 
     ngOnInit(): void {}
-
-    msg = '';
 
     build() {
         // build the strainDeposit Object
@@ -64,25 +76,21 @@ export class DepositComponent implements OnInit {
         });
     }
 
-    filename = "";
-
-    onFileUpload(event: any) {
+    async onFileUpload(event: any) {
         // Current file upload * will add more
-        const file = event.target.files[0];
+        const file: File = event.target.files[0];
 
         if (file) {
-            
             this.filename = file.name;
+            this.reader.readAsText(file);
 
-            if (file.type === "text/csv") {
-                console.log("csv");
-                this.applyForm.patchValue( { depositExcel : file.name} );
+            // if (file.type === 'text/csv') {
+            //     console.log('csv');
+            //     //this.applyForm.patchValue( { depositExcel : file} );
+            // } else {
+            //     console.log('Not csv');
+            // }
 
-                //this.applyForm.patchValue( { depositExcel : file} );
-            } else {
-                console.log("Not csv");
-            }
-        
             // -TODO- Check the file fits csv format
         }
 

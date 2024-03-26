@@ -8,7 +8,7 @@ import { Utils } from '../utils/ccasm.utils';
     providedIn: 'root',
 })
 export class CCASMService {
-    // Make sure to change this to the Domain name when deployed
+    // TODO: Make sure to change this to the Domain name when deployed
     readonly url = 'http://localhost:8000/api';
 
     constructor(private http: HttpClient) {}
@@ -18,6 +18,10 @@ export class CCASMService {
             username: username,
             password: password,
         });
+    }
+
+    refreshToken(token: any): Observable<any> {
+        return this.http.post<any>(this.url + '/refreshToken/', { token });
     }
 
     // GENERAL USER
@@ -42,17 +46,20 @@ export class CCASMService {
         );
     }
 
-    adminAddStrain(strain: any): Observable<string> {
-        return this.http.post<string>(
+    adminAddStrain(strain: any): Observable<{ result: string }> {
+        return this.http.post<{ result: string }>(
             this.url + '/admin/add-strain/',
             Utils.camelCaseToSnakeCase(strain)
         );
     }
 
-    adminAddStrains(strains: Strain[]): Observable<string> {
-        return this.http.post<string>(this.url + '/admin/add-strains/', {
-            strains: Utils.camelCaseToSnakeCase(strains),
-        });
+    adminAddStrains(strains: Strain[]): Observable<{ result: string }> {
+        return this.http.post<{ result: string }>(
+            this.url + '/admin/add-strains/',
+            {
+                strains: Utils.camelCaseToSnakeCase(strains),
+            }
+        );
     }
 
     adminUpdateStrain(strain: Strain): Observable<void> {

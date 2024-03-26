@@ -4,12 +4,14 @@
     <mat-label>Binomial Classification</mat-label>
     <input
         type="text"
-        aria-label="Binomial Classification"
+        aria-label="Binomial Classification Search Box"
         matInput
         [formControl]="simpleSearch"
         [matAutocomplete]="auto"
         #trigger="matAutocompleteTrigger"
-        (keydown.enter)="$event.stopPropagation(); trigger.closePanel()"
+        (keydown.enter)="
+            $event.stopPropagation(); trigger.closePanel(); search()
+        "
     />
     <mat-autocomplete #auto="matAutocomplete" hideSingleSelectionIndicator>
         <mat-option
