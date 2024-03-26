@@ -164,7 +164,7 @@ def admin_update_request(request, pk):
 
 # Generates the view based ona given province, terriroty or geographical location
 @api_view(['GET'])
-@permission_classes([AllowAny]) 
+@permission_classes([AllowAny])  
 def get_strains_by_province(request):
     province_counts = Strains.objects.values('isolation_soil_province').annotate(strain_count=Count('ccasm_id'))
     #strains = Strains.objects.filter(isolation_soil_province=request.data)
@@ -208,11 +208,15 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
 
     return JsonResponse(taxonomic_data_list, safe=False)
 
+@api_view(['GET']) #TODO find an efficient way to do this
+@permission_classes([AllowAny])
 def get_strain_by_plant(request, plant_host:str):
     strains = Strains.objects.filter(host_plant_species=plant_host)
     serializer = StrainSerializer(strains, many=True)
     return JsonResponse({'strains': serializer.data})
 
+@api_view(['GET']) #TODO find an efficient way to do this
+@permission_classes([AllowAny])
 def get_strains_isolation_protocol(request, iso_protocol:str):
     strains = Strains.objects.filter(isolation_protocol=iso_protocol)
     serializer = StrainSerializer(strains, many=True)
