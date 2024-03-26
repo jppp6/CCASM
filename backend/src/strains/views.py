@@ -78,7 +78,6 @@ def admin_get_collection(request):
 # This is used in the admin collection tab
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-@permission_classes([IsAuthenticated]) 
 def admin_add_single_strain(request):
     serializer = StrainSerializer(data=request.data)
 
@@ -130,9 +129,6 @@ def admin_get_deposits(request):
     serializer = DepositsSerializer(deposits, many=True)
     return JsonResponse({"deposits": serializer.data})
 
-
-# PUT to update deposited strains status
-@api_view(["PUT"])
 # PUT to update deposited strains status
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -159,13 +155,7 @@ def admin_get_requests(request):
     reqs = Requests.objects.all()
     serializer = RequestsSerializer(reqs, many=True)
     return JsonResponse({"requests": serializer.data})
-    reqs = Requests.objects.all()
-    serializer = RequestsSerializer(reqs, many=True)
-    return JsonResponse({'requests': serializer.data})
 
-
-# PUT to update requested strains
-@api_view(["PUT"])
 # PUT to update requested strains
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from os import getenv
+from os.path import join
 from dotenv import load_dotenv
 from datetime import timedelta
 
@@ -25,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^^p8t38zmmvh4&kqzojyk1bkyw7#6ea#u-721k5wx^^xbov-y3"
+SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(getenv("DEBUG"))
 
 ALLOWED_HOSTS = []
 
@@ -149,7 +150,7 @@ DATABASES = {
         "PASSWORD": getenv("DEV_DB_PASS"),
         "HOST": getenv("DEV_DB_IP"),
         "PORT": "3306",
-        "OPTIONS": {"ssl": {"ca": getenv("SSL_CA")}},
+        "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
     },
     "CCASM_PROD": {
         "ENGINE": "django.db.backends.mysql",
@@ -158,7 +159,7 @@ DATABASES = {
         "PASSWORD": getenv("PROD_DB_PASS"),
         "HOST": getenv("PROD_DB_IP"),
         "PORT": "3306",
-        "OPTIONS": {"ssl": {getenv("SSL_CA")}},
+        "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
     },
 }
 
