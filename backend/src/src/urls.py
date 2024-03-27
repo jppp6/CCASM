@@ -38,6 +38,12 @@ urlpatterns = [
     path("refreshToken/", TokenRefreshView.as_view(), name="token_refresh"),
     path('strains-per-province/', views.get_strains_by_province),
     path('strains-per-host-plant-species/', views.get_strains_by_plant),
-    path('strains-per-taxonomic-level/', views.get_strains_by_taxonomic_linneage),
+    # path('strains-per-taxonomic-level/', views.get_strains_by_taxonomic_linneage),
+    path('strains-per-taxonomic-level/kingdom/', views.get_strains_by_taxonomic_level('0')),
+    path('strains-per-taxonomic-level/phylum/', views.get_strains_by_taxonomic_level('1')),
+    path('strains-per-taxonomic-level/class/', views.get_strains_by_taxonomic_level('2')),
+    path('strains-per-taxonomic-level/order/', views.get_strains_by_taxonomic_level('3')),
+    path('strains-per-taxonomic-level/family/', views.get_strains_by_taxonomic_level('4')),
+    path('strains-per-taxonomic-level/genus/', views.get_strains_by_taxonomic_level('5')),
     path('strains-per-isolation-protocol/', views.get_strains_by_isolation_protocol),
 ]

@@ -192,20 +192,27 @@ def get_strains_by_province(request):
 
 @api_view(['GET']) #TODO find an efficient way to do this
 @permission_classes([AllowAny]) 
-def get_strains_by_taxonomic_linneage(request):
+def get_strains_by_taxonomic_level(request, taxonomic_level:str):
+    """
+    In this context, the taxonomic_level should be a string representing the specific taxonomic level you want to query. 
+    This string corresponds to the position of the taxonomic level in the semicolon-separated taxonomic_lineage field stored in the database.
+    For example, if you want to query strains based on the "Phylum" level, you would pass '1' as the taxonomic_level. 
+    Similarly, if you want to query strains based on the "Class" level, you would pass '2', and so on.
+    So, in the get_strains_per_taxonomic_level function, the taxonomic_level parameter should be treated as a string.
+    """
     taxonomic_data = (
         Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value(1)))
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value(taxonomic_level)))
         .values('taxonomic_level')
-        .annotate(count=Count('ccasm_id'))
+        .annotate(strain_count=Count('ccasm_id'))
     )
 
     serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    serializer.is_valid(raise_exception=True)
+    # serializer.is_valid(raise_exception=True)
     return JsonResponse(serializer.data, safe=False)
 
 
-@api_view(['GET']) #TODO find an efficient way to do this
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def get_strains_by_plant(request):
     plants = (
@@ -216,6 +223,7 @@ def get_strains_by_plant(request):
     )
     serializer = StrainByHostPlantSerializer(plants, many=True)
     return JsonResponse({'plants': serializer.data})
+
 
 @api_view(['GET']) 
 @permission_classes([AllowAny])

@@ -115,4 +115,4 @@ class IsolationProtocolSerializer(serializers.Serializer):
 
 class TaxonomicDataSerializer(serializers.Serializer):
     taxonomic_level = serializers.CharField()
-    count = serializers.IntegerField()
+    strain_count = serializers.IntegerField()
