@@ -19,17 +19,17 @@
             </mat-option>
         </mat-autocomplete>
         <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation();
-        complexSearchForm.get('binomialClassification')?.reset()
-      "
-      *ngIf="complexSearchForm.get('binomialClassification')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
+            mat-icon-button
+            aria-label="Clear"
+            matSuffix
+            (click)="
+                $event.stopPropagation();
+                complexSearchForm.get('binomialClassification')?.setValue('')
+            "
+            *ngIf="complexSearchForm.get('binomialClassification')?.value"
+        >
+            <mat-icon>clear</mat-icon>
+        </button> -->
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
@@ -49,18 +49,6 @@
                 {{ option }}
             </mat-option>
         </mat-autocomplete>
-        <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation();
-        complexSearchForm.get('isolationSoilProvince')?.reset()
-      "
-      *ngIf="complexSearchForm.get('isolationSoilProvince')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
@@ -80,18 +68,6 @@
                 {{ option }}
             </mat-option>
         </mat-autocomplete>
-        <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation();
-        complexSearchForm.get('isolationSource')?.reset()
-      "
-      *ngIf="complexSearchForm.get('isolationSource')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
@@ -111,18 +87,6 @@
                 {{ option }}
             </mat-option>
         </mat-autocomplete>
-        <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation();
-        complexSearchForm.get('isolationSoilTexture')?.reset()
-      "
-      *ngIf="complexSearchForm.get('isolationSoilTexture')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
@@ -142,17 +106,6 @@
                 {{ option }}
             </mat-option>
         </mat-autocomplete>
-        <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation(); complexSearchForm.get('riskGroup')?.reset()
-      "
-      *ngIf="complexSearchForm.get('riskGroup')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
@@ -172,45 +125,7 @@
                 {{ option }}
             </mat-option>
         </mat-autocomplete>
-        <!-- <button
-      mat-icon-button
-      aria-label="Clear"
-      matSuffix
-      (click)="
-        $event.stopPropagation();
-        complexSearchForm.get('isolationProtocol')?.reset()
-      "
-      *ngIf="complexSearchForm.get('isolationProtocol')?.value"
-    >
-      <mat-icon>clear</mat-icon>
-    </button> -->
     </mat-form-field>
-    <!-- TODO: FIX -->
-    <!-- <mat-form-field class="complex-form-field">
-        <mat-label>Is Plant Pathogen</mat-label>
-        <mat-select formControlName="isPlantPathogen">
-            <mat-option>-- None --</mat-option>
-            <mat-option value="0">True</mat-option>
-            <mat-option value="1">False</mat-option>
-        </mat-select>
-        <button
-            mat-icon-button
-            aria-label="Clear"
-            matSuffix
-            (click)="
-                $event.stopPropagation();
-                complexSearchForm.get('isPlantPathogen')?.reset()
-            "
-            *ngIf="complexSearchForm.get('isPlantPathogen')?.value"
-        >
-            <mat-icon>clear</mat-icon>
-        </button>
-    </mat-form-field> -->
 </form>
-
-<!-- INCASE: We want a reset button -->
-<!-- <button mat-raised-button color="warn" (click)="complexSearchForm.reset()">
-  Clear
-</button> -->
 
 <button mat-raised-button color="primary" (click)="search()">Search</button>

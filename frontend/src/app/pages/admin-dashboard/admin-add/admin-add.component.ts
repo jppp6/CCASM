@@ -52,17 +52,19 @@ export class AdminAddComponent {
     ) {
         this.reader.onload = async (event) => {
             const data: string = event?.target?.result as string;
-            this.batchDataSource.data = Utils.snackCaseToCamelCase(
+            let parsedData = Utils.snackCaseToCamelCase(
                 await csvtojson().fromString(data)
             ) as Strain[];
+
+            this.batchDataSource.data = parsedData;
         };
     }
 
     uploadData(t: 'individual' | 'batch'): void {
         if (t === 'individual') {
             const strain = this.individualData.value;
-            this.ccasmService.adminAddStrain(strain).subscribe((result) => {
-                if (result === 'success') {
+            this.ccasmService.adminAddStrain(strain).subscribe((res) => {
+                if (res.result === 'success') {
                     // flash a message
                     this.individualData.reset();
                     this._snackBar.open('Strain added successfully!', 'Close');
@@ -74,8 +76,8 @@ export class AdminAddComponent {
         } else {
             this.ccasmService
                 .adminAddStrains(this.batchDataSource.data)
-                .subscribe((result) => {
-                    if (result === 'success') {
+                .subscribe((res) => {
+                    if (res.result === 'success') {
                         // flash a message
                         this.batchDataSource.data = [];
                         this._snackBar.open(

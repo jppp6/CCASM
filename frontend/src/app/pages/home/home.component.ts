@@ -20,13 +20,13 @@ export class HomeComponent implements AfterViewInit {
         this.initializeMap();
 
         this.ccasmService.getCollection().subscribe((result) => {
-            console.log('asdasdasdasdasd');
             this.addCircularMarkers(
                 Utils.snackCaseToCamelCase(result.strains) as Strain[]
             );
         });
     }
 
+    // Initialize the leaflet map
     initializeMap(): void {
         // Starting location and zoom
         const startingCoordinates: L.LatLngExpression = [57, -90];
@@ -52,15 +52,16 @@ export class HomeComponent implements AfterViewInit {
         tiles.addTo(this.map);
     }
 
+    // Iterate over the Strain collection and add a marker to the map for each
     addCircularMarkers(strains: Strain[]): void {
-        strains.forEach((s) => {
+        strains.forEach((s: Strain) => {
             if (!s.latitude || !s.longitude) {
                 return;
             }
 
             const marker = L.circleMarker(
                 // TODO FLIP BACK
-                { lat: s.longitude, lng: s.latitude },
+                { lat: s.latitude, lng: s.longitude },
                 { radius: 15 }
             );
 

@@ -19,7 +19,6 @@ export class ComplexSearchComponent {
         isolationSoilTexture: new FormControl<string>(''),
         riskGroup: new FormControl<string>(''),
         isolationProtocol: new FormControl<string>(''),
-        // isPlantPathogen: new FormControl<string>(''),
     });
 
     bcFiltered = this._createFilteredObservable('binomialClassification');
@@ -29,18 +28,13 @@ export class ComplexSearchComponent {
     rgFiltered = this._createFilteredObservable('riskGroup');
     iprotFiltered = this._createFilteredObservable('isolationProtocol');
 
-    private _createFilteredObservable(
-        controlName: string
-    ): Observable<string[]> {
-        const c = this.complexSearchForm.get(controlName);
+    private _createFilteredObservable(n: string): Observable<string[]> {
+        const c = this.complexSearchForm.get(n);
         if (c) {
-            return ((this as any)[`${controlName}Filtered`] =
-                c.valueChanges.pipe(
-                    startWith(''),
-                    map((v: string) =>
-                        this._filter(this.options[controlName], v)
-                    )
-                ));
+            return ((this as any)[`${n}Filtered`] = c.valueChanges.pipe(
+                startWith(''),
+                map((v: string) => this._filter(this.options[n], v))
+            ));
         } else {
             return new Observable<string[]>();
         }
@@ -64,7 +58,6 @@ export class ComplexSearchComponent {
 
         if (Object.keys(searchParams).length > 0) {
             this.searchStrings.emit(searchParams);
-            console.log(searchParams);
         }
     }
 
