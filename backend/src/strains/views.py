@@ -5,6 +5,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .models import Deposits, Requests, Strains
 from .serializers import (
@@ -13,14 +15,11 @@ from .serializers import (
     RequestsSerializer,
     MyTokenObtainPairSerializer,
 )
-import json
-
 
 # Token generation
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
-
 
 # GENERAL USERS:
 
@@ -42,10 +41,39 @@ def get_collection(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def post_deposit(request):
+    # Use the serializer to match request data
     serializer = DepositsSerializer(data=request.data)
+
     if serializer.is_valid():
+
+        # Get the variables to build message
+        first_name = serializer.validated_data.get('first_name')
+        last_name = serializer.validated_data.get('last_name')
+        email = serializer.validated_data.get('email')
+        message = serializer.validated_data.get('message')
+        affiliation = serializer.validated_data.get('affiliation')
+        
+        # Build email message
+        email_message = f"\nYou have a deposit request from {first_name} {last_name}\n\n" 
+        email_message += f"email: {email}\n\n"
+        email_message += f"Affiliation: {affiliation}\n\n"
+        email_message += f"Message: {message}\n\n"
+        
+        # Sent the email
+        send_mail ( 
+            subject="CCASM Deposit Notification",
+            message=email_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=['ccasm2024@gmail.com']
+        )
+        
+        # Save to database
         serializer.save()
+
+        # Success Response
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Error Response
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -54,10 +82,41 @@ def post_deposit(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def post_request(request):
+    # Use the serializer to match request data
     serializer = RequestsSerializer(data=request.data)
+    
     if serializer.is_valid():
+
+        # Get the variables to build message
+        first_name = serializer.validated_data.get('first_name')
+        last_name = serializer.validated_data.get('last_name')
+        email = serializer.validated_data.get('email')
+        strains_requested = serializer.validated_data.get('strains_requested')
+        message = serializer.validated_data.get('message')
+        affiliation = serializer.validated_data.get('affiliation')
+        
+        # Build email message
+        email_message = f"\nYou have a strain request from {first_name} {last_name}\n\n" 
+        email_message += f"They are requesting Strains ID: {strains_requested}\n\n"
+        email_message += f"email: {email}\n\n"
+        email_message += f"Affiliation: {affiliation}\n\n"
+        email_message += f"Message: {message}\n\n"
+        
+        # Sent the email
+        send_mail ( 
+            subject="CCASM Request Notification",
+            message=email_message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=['ccasm2024@gmail.com']
+        )
+        
+        # Save to database
         serializer.save()
+
+        # Success Response
         return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Error Response
     return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -132,8 +191,6 @@ def admin_get_deposits(request):
 
 
 # PUT to update deposited strains status
-@api_view(["PUT"])
-# PUT to update deposited strains status
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def admin_update_deposit(request, pk):
@@ -159,13 +216,8 @@ def admin_get_requests(request):
     reqs = Requests.objects.all()
     serializer = RequestsSerializer(reqs, many=True)
     return JsonResponse({"requests": serializer.data})
-    reqs = Requests.objects.all()
-    serializer = RequestsSerializer(reqs, many=True)
-    return JsonResponse({'requests': serializer.data})
 
 
-# PUT to update requested strains
-@api_view(["PUT"])
 # PUT to update requested strains
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
