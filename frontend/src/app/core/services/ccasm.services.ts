@@ -8,8 +8,11 @@ import { Utils } from '../utils/ccasm.utils';
     providedIn: 'root',
 })
 export class CCASMService {
-    // Make sure to change this to the Domain name when deployed
-    readonly url = 'http://localhost:8000/api';
+    // Change this to check on build 
+    dev: boolean = false 
+    readonly url = this.dev ? 
+        'hs-ccasm-d-w01.internal.azure.queensu.ca:8000/api' :
+        'localhost:8000/api';
 
     constructor(private http: HttpClient) {}
 
