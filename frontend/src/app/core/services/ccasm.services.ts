@@ -92,25 +92,25 @@ export class CCASMService {
 
     getStrainsPerProvince(): Observable<{ provinces: ProvinceData[] }> {
         return this.http.get<{ provinces: ProvinceData[] }>(
-            `${this.url}/strains-per-province`
+            `${this.url}/api/strains-per-province`
         );
     }
 
     getStrainsPerHostPlantSpecies(): Observable<{ plants: HostPlantData[] }> {
         return this.http.get<{ plants: HostPlantData[] }>(
-            `${this.url}/strains-per-host-plant-species`
+            `${this.url}/api/strains-per-host-plant-species`
         );
     }
 
 
     getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
-        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/strains-per-taxonomic-level/${taxonomicLevel}`);
+        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}`);
     }
     
 
     getStrainsPerIsolationProtocol(): Observable<{ protocol: IsolationProtocolData[] }> {
         return this.http.get<{ protocol: IsolationProtocolData[] }>(
-            `${this.url}/strains-per-isolation-protocol`
+            `${this.url}/api/strains-per-isolation-protocol`
         );
     }
 
