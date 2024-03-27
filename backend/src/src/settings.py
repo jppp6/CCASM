@@ -31,7 +31,7 @@ SECRET_KEY = getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(getenv("DEBUG", default=0))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getenv("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -142,26 +142,32 @@ WSGI_APPLICATION = "src.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "ccasmdb",
-        "USER": "ccasmadmin",
-        "PASSWORD": getenv("DEV_DB_PASS"),
-        "HOST": getenv("DEV_DB_IP"),
-        "PORT": "3306",
-        "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
-    },
-    "CCASM_PROD": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "CCASM_PROD01",
-        "USER": "ccasmadmin",
-        "PASSWORD": getenv("PROD_DB_PASS"),
-        "HOST": getenv("PROD_DB_IP"),
-        "PORT": "3306",
-        "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
-    },
-}
+if getenv("ENV") == "DEV":
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "ccasmdb",
+            "USER": "ccasmadmin",
+            "PASSWORD": getenv("DEV_DB_PASS"),
+            "HOST": getenv("DEV_DB_IP"),
+            "PORT": "3306",
+            "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
+        }
+    }
+
+if getenv("ENV") == "PROD":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "CCASM_PROD01",
+            "USER": "ccasmadmin",
+            "PASSWORD": getenv("PROD_DB_PASS"),
+            "HOST": getenv("PROD_DB_IP"),
+            "PORT": "3306",
+            "OPTIONS": {"ssl": {"ca": join(BASE_DIR, getenv("SSL_CA"))}},
+        },
+    }
 
 
 # Password validation
