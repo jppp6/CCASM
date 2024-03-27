@@ -105,7 +105,6 @@ import { CartStrainDialogueComponent } from './pages/cart/cart-strain-dialogue/c
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
-        stats-integration
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
         }),
