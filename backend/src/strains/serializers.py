@@ -111,3 +111,8 @@ class IsolationProtocolSerializer(serializers.Serializer):
     isolation_protocol = serializers.CharField()
     strain_count = serializers.IntegerField()
     # children = ChildIsolationProtocolSerializer(many=True, required=False)
+
+
+class TaxonomicDataSerializer(serializers.Serializer):
+    taxonomic_level = serializers.CharField()
+    count = serializers.IntegerField()

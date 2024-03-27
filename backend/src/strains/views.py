@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
-from django.db.models import Count, Q
+from django.db.models import Count, Func, F, Value
 
 from .models import Deposits, Requests, Strains
 from .serializers import *
@@ -192,60 +192,17 @@ def get_strains_by_province(request):
 
 @api_view(['GET']) #TODO find an efficient way to do this
 @permission_classes([AllowAny]) 
-def get_strains_by_taxonomic_level(request):
-    """
-        Retrieves strains by the number of 
-        @param taxonomic_level : int: starting from 0, ending at 6
-                corresponds to :
-                kingdom - 0
-                phylum - 1
-                class - 2
-                order - 3
-                family - 4
-                genus - 5
-                species - 6
-                
-    """
-    TAXONOMIC_LEVEL = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species']
+def get_strains_by_taxonomic_linneage(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value(1)))
+        .values('taxonomic_level')
+        .annotate(count=Count('ccasm_id'))
+    )
 
-    """ if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
-        return JsonResponse({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST) """
-    
-    strains = Strains.objects.values('taxonomic_lineage') 
-    # strains is now a list of dictionaries structured like so:
-    # [
-    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
-    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
-    #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
-    # More rows...
-    # ]
-    # an example taxonomic lineage is of the following :
-    # 'Bacteria; Pseudomonadota; Alphaproteobacteria; Hyphomicrobiales; Rhizobiaceae; Rhizobium; Rhizobium anhuiense'
-    total_strains = len(strains)
-    print(total_strains)
-    strain_lineage = []
-    taxonomic_data_counts = {} # hash map with unique taxonomc lineage names as unique keys and has their occurances as the value
-    for strain in strains: #iterate though each dictionary (strain) in the list of strains in the DB
-        # Split the taxonomic lineage and strip whitespace, add each taxonomic level name to a list
-        # e.g. output of tax_lineage = [Bacteria,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Rhizobiaceae,Rhizobium,Rhizobium anhuiense] as str
-        tax_lineage_list = [level.strip() for level in strain['taxonomic_lineage'].split(';')]
-        if len(tax_lineage_list) != 7:
-            continue
-        strain_lineage.append(tax_lineage_list)
-        
-    # convert the strain lineage lists to dictionaries with counts of each linneage name
-    for tax_list in strain_lineage:
-
-        for taxonomic_name in tax_list:
-            if taxonomic_name not in taxonomic_data_counts.keys():
-                taxonomic_data_counts[taxonomic_name] = 0
-            else:
-                taxonomic_data_counts[taxonomic_name] += 1
-    
-
-    print(tax_lineage_list)
-
-    return JsonResponse(taxonomic_data_counts, safe=False)
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
 
 
 @api_view(['GET']) #TODO find an efficient way to do this
