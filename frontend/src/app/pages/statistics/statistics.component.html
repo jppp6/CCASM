@@ -1,23 +1,54 @@
 <div id="statistics-map" style="height: 40%"></div>
 
-<div
-    echarts
-    style="height: 30%; width: 50%"
-    [options]="provincePieChartOption"
-    class="chart-container"
-    *ngIf="provincePieChartOption"
-></div>
-<div 
-    echarts
-    style="height: 30%; width: 50%"
-    [options]="provinceBarMekkoChartOption"
-    class="chart-container"
-    *ngIf="provinceBarMekkoChartOption"
-></div>
-<div
-    echarts
-    style="height: 40%; width: 100%"
-    [options]="taxonomicTreeChartOption"
-    class="chart-container"
-    *ngIf="taxonomicTreeChartOption"
-></div>
+<div class="chart-container">
+    <div
+        echarts
+        style="height: 30%; width: 50%"
+        [options]="provincePieChartOption"
+        class="chart-container-province-pie"
+        *ngIf="provincePieChartOption"
+    ></div>
+
+    <div 
+        echarts
+        style="height: 30%; width: 50%"
+        [options]="plantPieChartOption"
+        class="chart-container-plant-pie"
+        *ngIf="plantPieChartOption"
+    ></div>
+
+    <div 
+        echarts
+        style="height: 30%; width: 50%"
+        [options]="protocolPieChartOption"
+        class="chart-container-protocol-pie"
+        *ngIf="protocolPieChartOption"
+    ></div>
+
+    <div 
+        echarts
+        style="height: 30%; width: 50%"
+        [options]="provinceBarChartOption"
+        class="chart-container-province-bar"
+        *ngIf="provinceBarChartOption"
+    ></div>
+
+    <div 
+        echarts
+        style="height: 30%; width: 50%"
+        [options]="plantBarChartOption"
+        class="chart-container-plant-bar"
+        *ngIf="plantBarChartOption"
+    ></div>
+
+
+</div>
+
+
+<!-- <div class="right-stats">
+    
+</div> -->
+
+
+
+<!-- <button (click)="toggleChartType()">Toggle Chart Type</button> -->

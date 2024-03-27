@@ -8,16 +8,28 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import { map } from 'rxjs/operators';
 import { StrainDetailsDialog } from 'src/app/pages/browse/strain-details/strain-details.component';
+import { StringLiteral } from 'typescript';
 
 export interface ProvinceData {
     strainCount: number;
     isolationSoilProvince: string;
 }
 
+export interface HostPlantData {
+  hostPlantSpecies: string;
+  strainCount: number;
+}
+
 export interface TaxonomicData {
     name: string; // the name of the taxonomic level
     value: number; // the count of strains in this taxonomic level
     children?: TaxonomicData[]; // nested data for hierarchical visualization
+}
+
+export interface IsolationProtocolData {
+    isolationProtocol: string;
+    strainCount: number;
+    // children?: IsolationProtocolData[];
 }
 
 @Component({
@@ -29,15 +41,29 @@ export class StatisticsComponent implements OnInit {
     map!: L.Map;
     subscriptions: Subscription[] = [];
     provincePieChartOption: EChartsOption | null = null; // Chart option
-    provinceBarMekkoChartOption: EChartsOption | null = null; // Chart option
+    provinceBarChartOption: EChartsOption | null = null; // Chart option
+    plantPieChartOption: EChartsOption | null = null; // Chart option
+    plantBarChartOption: EChartsOption | null = null; // Chart option
     taxonomicTreeChartOption: EChartsOption | null = null;
+    // protocolTreemapOption: EChartsOption | null = null;
+    // protocolSunburstOption: EChartsOption | null = null;
+    // selectedChartType: 'treemap' | 'sunburst' = 'treemap';
+    protocolPieChartOption: EChartsOption | null = null;
     allProvinceData: ProvinceData[] = []; // Holds the complete province data from the server
+    allHostPlantData: HostPlantData[] = []; // holds all the host plant data
+    allIsolationProtocolData: IsolationProtocolData[] = [];
+    taxonomicLevels: string[] = ['Kingdom', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
+    taxonomicData: any = {}; // Store taxonomic data retrieved from backend
+    
 
     constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
 
     ngOnInit(): void {
         this.getProvinceData();
-        this.getTaxonomicData();
+        this.getHostPlantData();
+        // this.getTaxonomicData();
+        this.getIsolationProtocolData();
+        
     }
 
     ngOnDestroy() {
@@ -61,7 +87,23 @@ export class StatisticsComponent implements OnInit {
         );
     }
 
-    getTaxonomicData(): void{
+    getHostPlantData(): void {
+      this.subscriptions.push(
+          this.ccasmService.getStrainsPerHostPlantSpecies().subscribe(
+              (data) => {
+                  this.allHostPlantData = Utils.snackCaseToCamelCase(
+                      data.plants
+                  ) as HostPlantData[];
+                  this.updateCharts();
+              },
+              (error) => {
+                  console.error('Error fetching strains host plant data', error);
+              }
+          )
+      );
+  }
+
+  /*   getTaxonomicData(): void{
         this.subscriptions.push(
             this.ccasmService.getTaxonomicData().subscribe(
                 (data: TaxonomicData[]) => {
@@ -72,16 +114,49 @@ export class StatisticsComponent implements OnInit {
                 }
             )
         );
-    }
+    } */
+
+    getIsolationProtocolData(): void {
+      this.subscriptions.push(
+          this.ccasmService.getStrainsPerIsolationProtocol().subscribe(
+              (data) => {
+                  this.allIsolationProtocolData= Utils.snackCaseToCamelCase(
+                      data.protocol
+                  ) as IsolationProtocolData[];
+                  this.updateCharts();
+              },
+              (error) => {
+                  console.error('Error fetching isolation protocol data', error);
+              }
+          )
+      );
+  }
+    
 
     updateCharts(): void {
-        this.provincePieChartOption = this.getProvincePieChartOption(
-            this.allProvinceData
-        );
-        this.provinceBarMekkoChartOption = this.getProvinceBarMekkoChartOption(
-            this.allProvinceData
-        );
+      this.provincePieChartOption = this.getProvincePieChartOption(
+          this.allProvinceData
+      );
+      this.provinceBarChartOption = this.getProvinceBarChartOption(
+          this.allProvinceData
+      );
+      this.plantPieChartOption = this.getPlantPieChartOption(
+          this.allHostPlantData
+      );
+      this.plantBarChartOption = this.getPlantBarChartOption(
+        this.allHostPlantData
+      );
+      /* this.protocolTreemapOption = this.getProtocolTreemapOption(
+        this.allIsolationProtocolData
+      );
+      this.protocolSunburstOption = this.getProtocolSunburstOption(
+        this.allIsolationProtocolData
+      ); */
+      this.protocolPieChartOption = this.getProtocolPieChartOption(
+        this.allIsolationProtocolData
+      );
     }
+  
 
     getProvincePieChartOption(data: ProvinceData[]): EChartsOption {
         // Extract only the data for the selected provinces or all if none are selected
@@ -92,11 +167,12 @@ export class StatisticsComponent implements OnInit {
             },
             tooltip: {
                 trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
             },
-            legend: {
-                orient: 'vertical',
+            /* legend: {
+                orient: 'horizontal',
                 left: 'left',
-            },
+            }, */
             series: [
                 {
                     name: 'Provinces',
@@ -117,8 +193,9 @@ export class StatisticsComponent implements OnInit {
             ],
         };
     }
+    
 
-    getProvinceBarMekkoChartOption(data: ProvinceData[]): EChartsOption {
+    getProvinceBarChartOption(data: ProvinceData[]): EChartsOption {
         return {
             title: {
                 text: 'Strains Distribution by Province',
@@ -141,12 +218,84 @@ export class StatisticsComponent implements OnInit {
                 {
                     data: this.allProvinceData.map((item) => item.strainCount),
                     type: 'bar',
+                    label: {
+                      show: true,
+                      formatter: '{c}', // Display value on each bar
+                  },
                 },
             ],
         };
     }
 
-    getRadialTreeOption(data: TaxonomicData[]): EChartsOption {
+    getPlantPieChartOption(data: HostPlantData[]): EChartsOption {
+      // Extract only the data for the selected provinces or all if none are selected
+      return {
+          title: {
+              text: 'Strains Distribution by Host Plant Species',
+              left: 'center',
+          },
+          tooltip: {
+              trigger: 'item',
+              formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+          },
+          /* legend: {
+              orient: 'horizontal',
+              left: 'left',
+          }, */
+          series: [
+              {
+                  name: 'Host Plant Species',
+                  type: 'pie',
+                  radius: '50%',
+                  data: this.allHostPlantData.map((item) => ({
+                      value: item.strainCount,
+                      name: item.hostPlantSpecies,
+                  })),
+                  emphasis: {
+                      itemStyle: {
+                          shadowBlur: 10,
+                          shadowOffsetX: 0,
+                          shadowColor: 'rgba(0, 0, 0, 0.5)',
+                      },
+                  },
+              },
+          ],
+      };
+  }
+
+  getPlantBarChartOption(data: HostPlantData[]): EChartsOption {
+    return {
+        title: {
+            text: 'Strains Distribution by Host Plant Species',
+            left: 'center',
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: { type: 'shadow' },
+        },
+        xAxis: {
+            type: 'category',
+            data: this.allHostPlantData.map(
+                (item) => item.hostPlantSpecies
+            ),
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [
+            {
+                data: this.allHostPlantData.map((item) => item.strainCount),
+                type: 'bar',
+                label: {
+                  show: true,
+                  formatter: '{c}', // Display value on each bar
+              },
+            },
+        ],
+    };
+}
+
+    /* getRadialTreeOption(data: TaxonomicData[]): EChartsOption {
         return {
             title: {
                 text: 'Taxonomic Lineage Distribution',
@@ -170,7 +319,7 @@ export class StatisticsComponent implements OnInit {
                 },
             ],
         };
-    }
+    } */
 
     /**this.subscriptions.push(
       this.ccasmService.getStrainsPerTaxonomicLevel().subscribe(
@@ -196,6 +345,104 @@ export class StatisticsComponent implements OnInit {
     }
   }**/
 
+
+  getProtocolPieChartOption(data: IsolationProtocolData[]): EChartsOption {
+    // Extract only the data for the selected provinces or all if none are selected
+    return {
+        title: {
+            text: 'Strains Distribution by Isolation Protocol',
+            left: 'center',
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+        },
+        /* legend: {
+            orient: 'horizontal',
+            left: 'left',
+        }, */
+        series: [
+            {
+                name: 'Isolation Protocol',
+                type: 'pie',
+                radius: '50%',
+                data: this.allIsolationProtocolData.map((item) => ({
+                    value: item.strainCount,
+                    name: item.isolationProtocol,
+                })),
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                },
+            },
+        ],
+    };
+  }
+  /* getProtocolTreemapOption(data: any): EChartsOption {
+    return {
+        title: {
+          text: 'Strains Distribution by Isolation Protocol',
+          left: 'center',
+        },
+        series: [
+            {
+                type: 'treemap',
+                id: 'echarts-package-size',
+                animationDurationUpdate: 1000,
+                roam: false,
+                nodeClick: undefined,
+                data: data.IsolationProtocolData,
+                universalTransition: true,
+                label: {
+                    show: true,
+                },
+                breadcrumb: {
+                    show: false,
+                },
+            },
+        ],
+    };
+  }
+
+  getProtocolSunburstOption(data: any): EChartsOption {
+    return {
+        title: {
+          text: 'Strains Distribution by Isolation Protocol',
+          left: 'center',
+        },
+        series: [
+            {
+                type: 'sunburst',
+                id: 'echarts-package-size',
+                radius: ['20%', '90%'],
+                animationDurationUpdate: 1000,
+                nodeClick: undefined,
+                data: data.IsolationProtocolData.children,
+                universalTransition: true,
+                itemStyle: {
+                    borderWidth: 1,
+                    borderColor: 'rgba(255,255,255,.5)',
+                },
+                label: {
+                    show: false,
+                },
+            },
+        ],
+    };
+  } */
+
+  /* toggleChartType(): void {
+    // /* this.selectedChartType = this.selectedChartType === 'treemap' ? 'sunburst' : 'treemap';
+    const currentOption = this.selectedChartType === 'treemap' ? this.protocolTreemapOption : this.protocolSunburstOption;
+    // this.myChart.setOption(currentOption); */
+    // toggle manually if needed (remove timer)
+  // } */
+
+
+// MAP STUFF BELOW
     ngAfterViewInit(): void {
         this.initializeMap();
 

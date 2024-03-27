@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProvinceData } from 'src/app/pages/statistics/statistics.component';
+import { HostPlantData, IsolationProtocolData, ProvinceData } from 'src/app/pages/statistics/statistics.component';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 import { Utils } from '../utils/ccasm.utils';
 
@@ -96,13 +96,27 @@ export class CCASMService {
         );
     }
 
+    getStrainsPerHostPlantSpecies(): Observable<{ plants: HostPlantData[] }> {
+        return this.http.get<{ plants: HostPlantData[] }>(
+            `${this.url}/strains-per-host-plant-species`
+        );
+    }
+
+    // TODO
     getStrainsPerTaxonomicLevel(taxonomicLevel: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.url}/strains-per-taxonomic-level`);
     }
-
+    // TODO
     getTaxonomicData(): Observable<TaxonomicData[]> {
         return this.http.get<TaxonomicData[]>(`${this.url}/api/taxonomic-data/`);
-      }
+    }
+
+    getStrainsPerIsolationProtocol(): Observable<{ protocol: IsolationProtocolData[] }> {
+        return this.http.get<{ protocol: IsolationProtocolData[] }>(
+            `${this.url}/strains-per-isolation-protocol`
+        );
+    }
+
 }
 
 export interface TaxonomicData {
