@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/frontend\src\app\pages\statistics\statistics.component.css">
 <div id="statistics-map" style="height: 40%"></div>
 
 <div class="chart-container">
@@ -44,11 +45,6 @@
 
 </div>
 
-
-<!-- <div class="right-stats">
-    
-</div> -->
-
 <!-- Taxonomic Level Tab Widget -->
 <div class="tab-widget">
     <mat-tab-group>
@@ -91,5 +87,11 @@
     </mat-tab-group>
 </div>
 
-
-<!-- <button (click)="toggleChartType()">Toggle Chart Type</button> -->
+<footer id="statistics.component-footer" class="footer">
+    <mat-toolbar class="footer">
+        <a class="header-link" routerLink="/about" mat-button>About</a>
+        |
+        <a class="header-link" routerLink="/admin" mat-button>Admin</a>
+    </mat-toolbar>
+  </footer>
+  
