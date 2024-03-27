@@ -20,10 +20,10 @@ export interface HostPlantData {
   strainCount: number;
 }
 
+// TODO needs to be fixed
 export interface TaxonomicData {
     name: string; // the name of the taxonomic level
     value: number; // the count of strains in this taxonomic level
-    children?: TaxonomicData[]; // nested data for hierarchical visualization
 }
 
 export interface IsolationProtocolData {
@@ -45,15 +45,16 @@ export class StatisticsComponent implements OnInit {
     plantPieChartOption: EChartsOption | null = null; // Chart option
     plantBarChartOption: EChartsOption | null = null; // Chart option
     taxonomicTreeChartOption: EChartsOption | null = null;
-    // protocolTreemapOption: EChartsOption | null = null;
-    // protocolSunburstOption: EChartsOption | null = null;
+    taxonomicTreemapOption: EChartsOption | null = null;
+    taxonomicSunburstOption: EChartsOption | null = null;
+    taxonomicPieChartOption: EChartsOption | null = null;
     // selectedChartType: 'treemap' | 'sunburst' = 'treemap';
     protocolPieChartOption: EChartsOption | null = null;
     allProvinceData: ProvinceData[] = []; // Holds the complete province data from the server
     allHostPlantData: HostPlantData[] = []; // holds all the host plant data
     allIsolationProtocolData: IsolationProtocolData[] = [];
+    allTaxonomicData: TaxonomicData[] = []; // Store taxonomic data retrieved from backend
     taxonomicLevels: string[] = ['Kingdom', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
-    taxonomicData: any = {}; // Store taxonomic data retrieved from backend
     
 
     constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
@@ -63,7 +64,12 @@ export class StatisticsComponent implements OnInit {
         this.getHostPlantData();
         // this.getTaxonomicData();
         this.getIsolationProtocolData();
-        
+        this.getTaxonomicData('kingdom');
+        this.getTaxonomicData('phylum');
+        this.getTaxonomicData('class');
+        this.getTaxonomicData('order');
+        this.getTaxonomicData('family');
+        this.getTaxonomicData('genus');
     }
 
     ngOnDestroy() {
@@ -103,18 +109,21 @@ export class StatisticsComponent implements OnInit {
       );
   }
 
-  /*   getTaxonomicData(): void{
+     getTaxonomicData(taxonomicLevel: string): void{
         this.subscriptions.push(
-            this.ccasmService.getTaxonomicData().subscribe(
-                (data: TaxonomicData[]) => {
-                    this.taxonomicTreeChartOption = this.getRadialTreeOption(data);
+            this.ccasmService.getStrainsPerTaxonomicLevel(taxonomicLevel).subscribe(
+                (data) => {
+                    this.allTaxonomicData = Utils.snackCaseToCamelCase(
+                      data.name
+                  ) as TaxonomicData[];
+                  this.updateCharts(taxonomicLevel);
                 },
                 (error) => {
                     console.error('Error fetching taxonomic levels', error);
                 }
             )
         );
-    } */
+    }
 
     getIsolationProtocolData(): void {
       this.subscriptions.push(
@@ -133,7 +142,7 @@ export class StatisticsComponent implements OnInit {
   }
     
 
-    updateCharts(): void {
+    updateCharts(taxonomicLevel:string = ""): void {
       this.provincePieChartOption = this.getProvincePieChartOption(
           this.allProvinceData
       );
@@ -146,15 +155,20 @@ export class StatisticsComponent implements OnInit {
       this.plantBarChartOption = this.getPlantBarChartOption(
         this.allHostPlantData
       );
-      /* this.protocolTreemapOption = this.getProtocolTreemapOption(
+      /* this.taxonomicTreemapOption = this.getProtocolTreemapOption(
         this.allIsolationProtocolData
       );
-      this.protocolSunburstOption = this.getProtocolSunburstOption(
+      this.taxonomicSunburstOption = this.getProtocolSunburstOption(
         this.allIsolationProtocolData
       ); */
       this.protocolPieChartOption = this.getProtocolPieChartOption(
         this.allIsolationProtocolData
       );
+
+      this.taxonomicPieChartOption = this.getTaxonomicPieChartOption(
+        this.allTaxonomicData, taxonomicLevel 
+      );
+
     }
   
 
@@ -381,10 +395,48 @@ export class StatisticsComponent implements OnInit {
         ],
     };
   }
-  /* getProtocolTreemapOption(data: any): EChartsOption {
+
+  getTaxonomicPieChartOption(data: TaxonomicData[], level:string): EChartsOption {
+    // Extract only the data for the selected provinces or all if none are selected
     return {
         title: {
-          text: 'Strains Distribution by Isolation Protocol',
+            text: `Strains Distribution by ${level} Taxonomy`,
+            left: 'center',
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+        },
+        /* legend: {
+            orient: 'horizontal',
+            left: 'left',
+        }, */
+        series: [
+            {
+                name: `${level} Taxonomy`,
+                type: 'pie',
+                radius: '50%',
+                data: this.allTaxonomicData.map((item) => ({
+                    value: item.value,
+                    name: item.name,
+                })),
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                },
+            },
+        ],
+    };
+  }
+
+
+  /*  getTaxonomicTreemapOption(data: TaxonomicData, taxonomicLevel: string): EChartsOption {
+    return {
+        title: {
+          text: `Strains Distribution by ${taxonomicLevel} Taxonomy`,
           left: 'center',
         },
         series: [
@@ -394,7 +446,7 @@ export class StatisticsComponent implements OnInit {
                 animationDurationUpdate: 1000,
                 roam: false,
                 nodeClick: undefined,
-                data: data.IsolationProtocolData,
+                data: data.name,
                 universalTransition: true,
                 label: {
                     show: true,
@@ -406,11 +458,11 @@ export class StatisticsComponent implements OnInit {
         ],
     };
   }
-
-  getProtocolSunburstOption(data: any): EChartsOption {
+ */
+ /*  getTaxonomicSunburstOption(data: TaxonomicData): EChartsOption {
     return {
         title: {
-          text: 'Strains Distribution by Isolation Protocol',
+          text: `Strains Distribution by Taxonomy`,
           left: 'center',
         },
         series: [
@@ -420,7 +472,7 @@ export class StatisticsComponent implements OnInit {
                 radius: ['20%', '90%'],
                 animationDurationUpdate: 1000,
                 nodeClick: undefined,
-                data: data.IsolationProtocolData.children,
+                data: data,
                 universalTransition: true,
                 itemStyle: {
                     borderWidth: 1,
@@ -441,6 +493,13 @@ export class StatisticsComponent implements OnInit {
     // toggle manually if needed (remove timer)
   // } */
 
+  
+
+    /* setInterval(() => {
+        this.currentOption =
+            this.currentOption === treemapOption ? sunburstOption : treemapOption;
+    }, 3000);
+ */
 
 // MAP STUFF BELOW
     ngAfterViewInit(): void {
