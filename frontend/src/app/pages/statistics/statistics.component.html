@@ -49,6 +49,47 @@
     
 </div> -->
 
+<!-- Taxonomic Level Tab Widget -->
+<div class="tab-widget">
+    <mat-tab-group>
+        <mat-tab label="Kingdom">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'kingdom')"
+                class="chart-kingdom"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+        <mat-tab label="Phylum">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'phylum')"
+                class="chart-phylum"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+        <mat-tab label="Class">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'class')"
+                class="chart-class"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+        <mat-tab label="Order">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'order')"
+                class="chart-order"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+        <mat-tab label="Family">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'family')"
+                class="chart-family"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+        <mat-tab label="Genus">
+            <div echarts
+                [options]="getTaxonomicPieChartOption(allTaxonomicData,'genus')"
+                class="chart-genus"
+                *ngIf="taxonomicPieChartOption"></div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
 
 
 <!-- <button (click)="toggleChartType()">Toggle Chart Type</button> -->

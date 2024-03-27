@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HostPlantData, IsolationProtocolData, ProvinceData } from 'src/app/pages/statistics/statistics.component';
+import { HostPlantData, IsolationProtocolData, ProvinceData, TaxonomicData } from 'src/app/pages/statistics/statistics.component';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 import { Utils } from '../utils/ccasm.utils';
 
@@ -102,14 +102,11 @@ export class CCASMService {
         );
     }
 
-    // TODO
-    getStrainsPerTaxonomicLevel(taxonomicLevel: number): Observable<any[]> {
-        return this.http.get<any[]>(`${this.url}/strains-per-taxonomic-level`);
+
+    getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
+        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/strains-per-taxonomic-level/${taxonomicLevel}`);
     }
-    // TODO
-    getTaxonomicData(): Observable<TaxonomicData[]> {
-        return this.http.get<TaxonomicData[]>(`${this.url}/api/taxonomic-data/`);
-    }
+    
 
     getStrainsPerIsolationProtocol(): Observable<{ protocol: IsolationProtocolData[] }> {
         return this.http.get<{ protocol: IsolationProtocolData[] }>(
@@ -118,9 +115,3 @@ export class CCASMService {
     }
 
 }
-
-export interface TaxonomicData {
-    name: string;
-    value: number;
-    children?: TaxonomicData[];
-  }
