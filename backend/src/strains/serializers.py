@@ -91,4 +91,23 @@ class StrainByProvinceSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pass
-# TODO: add remaining views in serializer as above
+
+class StrainByHostPlantSerializer(serializers.Serializer):
+    host_plant_species = serializers.CharField()
+    strain_count = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+# class ChildIsolationProtocolSerializer(serializers.Serializer):
+#     name = serializers.CharField()
+#     value = serializers.IntegerField()
+
+class IsolationProtocolSerializer(serializers.Serializer):
+    isolation_protocol = serializers.CharField()
+    strain_count = serializers.IntegerField()
+    # children = ChildIsolationProtocolSerializer(many=True, required=False)

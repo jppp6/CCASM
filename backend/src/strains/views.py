@@ -5,16 +5,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from .models import Deposits, Requests, Strains
-from .serializers import (
-    StrainSerializer,
-    DepositsSerializer,
-    RequestsSerializer,
-    MyTokenObtainPairSerializer,
-    StrainByProvinceSerializer
-)
+from .serializers import *
 import json
 
 
@@ -187,16 +181,18 @@ def admin_update_request(request, pk):
 @api_view(['GET'])
 @permission_classes([AllowAny])  
 def get_strains_by_province(request):
-    province_counts = Strains.objects.values('isolation_soil_province').annotate(strain_count=Count('ccasm_id'))
-    #strains = Strains.objects.filter(isolation_soil_province=request.data)
+    province_counts = (
+        Strains.objects.exclude(isolation_soil_province__isnull=True)
+        .exclude(isolation_soil_province__exact='')
+        .values('isolation_soil_province').annotate(strain_count=Count('ccasm_id'))
+    )
     serializer = StrainByProvinceSerializer(province_counts, many=True)
-    #serializer = StrainSerializer(strains, many=True)
     return JsonResponse({'provinces': serializer.data})
 
 
 @api_view(['GET']) #TODO find an efficient way to do this
 @permission_classes([AllowAny]) 
-def get_strains_by_taxonomic_level(request, taxonomic_level:int):
+def get_strains_by_taxonomic_level(request):
     """
         Retrieves strains by the number of 
         @param taxonomic_level : int: starting from 0, ending at 6
@@ -212,8 +208,8 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
     """
     TAXONOMIC_LEVEL = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species']
 
-    if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
-        return JsonResponse({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST)
+    """ if taxonomic_level < 0 or taxonomic_level >= len(TAXONOMIC_LEVEL):
+        return JsonResponse({"error": "Invalid taxonomic level"}, status=status.HTTP_400_BAD_REQUEST) """
     
     strains = Strains.objects.values('taxonomic_lineage') 
     # strains is now a list of dictionaries structured like so:
@@ -223,34 +219,59 @@ def get_strains_by_taxonomic_level(request, taxonomic_level:int):
     #   {'taxonomic_lineage': 'Kingdom;Phylum;Class;Order;Family;Genus;Species'},
     # More rows...
     # ]
+    # an example taxonomic lineage is of the following :
+    # 'Bacteria; Pseudomonadota; Alphaproteobacteria; Hyphomicrobiales; Rhizobiaceae; Rhizobium; Rhizobium anhuiense'
     total_strains = len(strains)
     print(total_strains)
-    taxonomic_data = {}
-    for strain in strains:
-        # Split the taxonomic lineage and strip whitespace
-        tax_lineage = [level.strip() for level in strain.taxonomic_lineage.split(';')]
-        if len(tax_lineage) > taxonomic_level:
-            tax_level = tax_lineage[taxonomic_level]
+    strain_lineage = []
+    taxonomic_data_counts = {} # hash map with unique taxonomc lineage names as unique keys and has their occurances as the value
+    for strain in strains: #iterate though each dictionary (strain) in the list of strains in the DB
+        # Split the taxonomic lineage and strip whitespace, add each taxonomic level name to a list
+        # e.g. output of tax_lineage = [Bacteria,Pseudomonadota,Alphaproteobacteria,Hyphomicrobiales,Rhizobiaceae,Rhizobium,Rhizobium anhuiense] as str
+        tax_lineage_list = [level.strip() for level in strain['taxonomic_lineage'].split(';')]
+        if len(tax_lineage_list) != 7:
+            continue
+        strain_lineage.append(tax_lineage_list)
+        
+    # convert the strain lineage lists to dictionaries with counts of each linneage name
+    for tax_list in strain_lineage:
 
-            taxonomic_data[tax_level] = taxonomic_data.get(tax_level, 0) + 1
-    print(tax_lineage)
-    taxonomic_data_list = [{'name': key, 'count': value} for key, value in taxonomic_data.items()]
+        for taxonomic_name in tax_list:
+            if taxonomic_name not in taxonomic_data_counts.keys():
+                taxonomic_data_counts[taxonomic_name] = 0
+            else:
+                taxonomic_data_counts[taxonomic_name] += 1
+    
 
-    return JsonResponse(taxonomic_data_list, safe=False)
+    print(tax_lineage_list)
+
+    return JsonResponse(taxonomic_data_counts, safe=False)
+
 
 @api_view(['GET']) #TODO find an efficient way to do this
 @permission_classes([AllowAny])
-def get_strain_by_plant(request, plant_host:str):
-    strains = Strains.objects.filter(host_plant_species=plant_host)
-    serializer = StrainSerializer(strains, many=True)
-    return JsonResponse({'strains': serializer.data})
+def get_strains_by_plant(request):
+    plants = (
+        Strains.objects.exclude(host_plant_species__isnull=True)
+        .exclude(host_plant_species__exact='')
+        .values('host_plant_species')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+    serializer = StrainByHostPlantSerializer(plants, many=True)
+    return JsonResponse({'plants': serializer.data})
 
-@api_view(['GET']) #TODO find an efficient way to do this
+@api_view(['GET']) 
 @permission_classes([AllowAny])
-def get_strains_isolation_protocol(request, iso_protocol:str):
-    strains = Strains.objects.filter(isolation_protocol=iso_protocol)
-    serializer = StrainSerializer(strains, many=True)
-    return JsonResponse({'strains': serializer.data})
+def get_strains_by_isolation_protocol(request):
+    # Group strains by isolation protocol and count the number of strains for each protocol
+    strains_by_protocol = (
+        Strains.objects.exclude(isolation_protocol__isnull=True)
+            .exclude(isolation_protocol__exact='')
+            .values('isolation_protocol')
+            .annotate(strain_count=Count('ccasm_id'))
+    )
+    serializer = IsolationProtocolSerializer(strains_by_protocol, many=True)
+    return JsonResponse({'protocol': serializer.data})
 
 #TODO stats for (i) number of people who have deposited to the collection; 
 #(ii) number of strain requests fulfilled; and 
@@ -258,3 +279,23 @@ def get_strains_isolation_protocol(request, iso_protocol:str):
 #I think it is best to just have them as short sentences,
 # and for the stats to be manually updated.
     
+""" @api_view(['GET']) 
+@permission_classes([AllowAny])
+def get_strains_per_isolation_protocol(request):
+    # Group strains by isolation protocol and count the number of strains for each protocol
+    strains_by_protocol = (
+        Strains.objects.exclude(isolation_protocol__isnull=True)
+            .exclude(isolation_protocol__exact='')
+            .values('isolation_protocol')
+            .annotate(strain_count=Count('ccasm_id'))
+            .order_by('isolation_protocol')
+    )
+
+    # Structure the data into a list of dictionaries
+    isolation_protocol_data = [
+        {'name': strain['isolation_protocol'], 'value': strain['strain_count']}
+        for strain in strains_by_protocol
+    ]
+
+    # Return the data as JSON response
+    return JsonResponse({'protocol': isolation_protocol_data}) """
