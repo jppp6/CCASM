@@ -48,44 +48,45 @@
 <!-- Taxonomic Level Tab Widget -->
 <div class="tab-widget">
     <mat-tab-group>
-        <mat-tab label="Kingdom">
+        <mat-tab label="Kingdom" (click)="getTaxonomicData('kingdom')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'kingdom')"
+                [options]="taxonomicPieChartOption"
                 class="chart-kingdom"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
-        <mat-tab label="Phylum">
+        <mat-tab label="Phylum" (click)="getTaxonomicData('phylum')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'phylum')"
+                [options]="taxonomicPieChartOption"
                 class="chart-phylum"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
-        <mat-tab label="Class">
+        <mat-tab label="Class" (click)="getTaxonomicData('class')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'class')"
+                [options]="taxonomicPieChartOption"
                 class="chart-class"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
-        <mat-tab label="Order">
+        <mat-tab label="Order" (click)="getTaxonomicData('order')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'order')"
+                [options]="taxonomicPieChartOption"
                 class="chart-order"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
-        <mat-tab label="Family">
+        <mat-tab label="Family" (click)="getTaxonomicData('family')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'family')"
+                [options]="taxonomicPieChartOption"
                 class="chart-family"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
-        <mat-tab label="Genus">
+        <mat-tab label="Genus" (click)="getTaxonomicData('genus')">
             <div echarts
-                [options]="getTaxonomicPieChartOption(allTaxonomicData,'genus')"
+                [options]="taxonomicPieChartOption"
                 class="chart-genus"
                 *ngIf="taxonomicPieChartOption"></div>
         </mat-tab>
     </mat-tab-group>
 </div>
+
 
 <footer id="statistics.component-footer" class="footer">
     <mat-toolbar class="footer">
