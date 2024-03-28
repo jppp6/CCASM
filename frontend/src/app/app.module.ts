@@ -47,6 +47,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
@@ -102,6 +103,9 @@ import { AppRoutingModule } from './app-routing.module';
         MatDividerModule,
         ReactiveFormsModule,
         HttpClientModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
+        }),
         MatPaginatorModule,
     ],
     providers: [

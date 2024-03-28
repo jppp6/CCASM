@@ -5,16 +5,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
+from django.db.models import Count, Func, F, Value
+import json
 from django.core.mail import send_mail
 from django.conf import settings
 
 from .models import Deposits, Requests, Strains
-from .serializers import (
-    StrainSerializer,
-    DepositsSerializer,
-    RequestsSerializer,
-    MyTokenObtainPairSerializer,
-)
+from .serializers import *
 
 # Token generation
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -231,4 +228,166 @@ def admin_update_request(request, pk):
     if serializer.is_valid():
         serializer.save()
         return JsonResponse(serializer.data)
-    return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Generates the view based ona given province, terriroty or geographical location
+@api_view(['GET'])
+@permission_classes([AllowAny])  
+def get_strains_by_province(request):
+    province_counts = (
+        Strains.objects.exclude(isolation_soil_province__isnull=True)
+        .exclude(isolation_soil_province__exact='')
+        .values('isolation_soil_province').annotate(strain_count=Count('ccasm_id'))
+    )
+    serializer = StrainByProvinceSerializer(province_counts, many=True)
+    return JsonResponse({'provinces': serializer.data})
+
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_strains_by_plant(request):
+    plants = (
+        Strains.objects.exclude(host_plant_species__isnull=True)
+        .exclude(host_plant_species__exact='')
+        .values('host_plant_species')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+    serializer = StrainByHostPlantSerializer(plants, many=True)
+    return JsonResponse({'plants': serializer.data})
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny])
+def get_strains_by_isolation_protocol(request):
+    # Group strains by isolation protocol and count the number of strains for each protocol
+    strains_by_protocol = (
+        Strains.objects.exclude(isolation_protocol__isnull=True)
+            .exclude(isolation_protocol__exact='')
+            .values('isolation_protocol')
+            .annotate(strain_count=Count('ccasm_id'))
+    )
+    serializer = IsolationProtocolSerializer(strains_by_protocol, many=True)
+    return JsonResponse({'protocol': serializer.data})
+
+
+""" @api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_kingdom_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('0')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_phylum_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('1')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_class_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('2')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_order_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('3')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_family_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('4')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_genus_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('5')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    # serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False) """
+
+
+
+#TODO stats for (i) number of people who have deposited to the collection; 
+#(ii) number of strain requests fulfilled; and 
+#(iii) number of citations. For these simple stats, 
+#I think it is best to just have them as short sentences,
+# and for the stats to be manually updated.
+    
+""" @api_view(['GET']) 
+@permission_classes([AllowAny])
+def get_strains_per_isolation_protocol(request):
+    # Group strains by isolation protocol and count the number of strains for each protocol
+    strains_by_protocol = (
+        Strains.objects.exclude(isolation_protocol__isnull=True)
+            .exclude(isolation_protocol__exact='')
+            .values('isolation_protocol')
+            .annotate(strain_count=Count('ccasm_id'))
+            .order_by('isolation_protocol')
+    )
+
+    # Structure the data into a list of dictionaries
+    isolation_protocol_data = [
+        {'name': strain['isolation_protocol'], 'value': strain['strain_count']}
+        for strain in strains_by_protocol
+    ]
+
+    # Return the data as JSON response
+    return JsonResponse({'protocol': isolation_protocol_data}) """
