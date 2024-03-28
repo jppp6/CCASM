@@ -1,12 +1,3 @@
-#statistics.component-footer.footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
 .container {
     display: flex;
     justify-content: flex-start;
@@ -35,12 +26,4 @@
     box-sizing: border-box;
     min-height: 300px;
     margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-    .chart-container > div {
-        width: 100%;
-        padding: 10px;
-        min-height: 200px;
-    }
 }
