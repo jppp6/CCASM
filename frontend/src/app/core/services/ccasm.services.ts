@@ -13,7 +13,7 @@ import { Utils } from '../utils/ccasm.utils';
     providedIn: 'root',
 })
 export class CCASMService {
-    // Change this to check on build
+    // Test for goodluck Change this to check on build
     dev: boolean = false;
     readonly url = this.dev
         ? 'http://hs-ccasm-d-w01.internal.azure.queensu.ca:8000/api'
