@@ -104,7 +104,7 @@ export class CCASMService {
 
 
     getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
-        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}`);
+        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}/`);
     }
     
 

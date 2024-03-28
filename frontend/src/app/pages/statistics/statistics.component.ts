@@ -22,8 +22,8 @@ export interface HostPlantData {
 
 // TODO needs to be fixed
 export interface TaxonomicData {
-    name: string; // the name of the taxonomic level
-    value: number; // the count of strains in this taxonomic level
+    taxonomicLineage: string; // the name of the taxonomic level
+    strainCount: number; // the count of strains in this taxonomic level
 }
 
 export interface IsolationProtocolData {
@@ -81,10 +81,71 @@ export class StatisticsComponent implements OnInit {
         this.subscriptions.push(
             this.ccasmService.getStrainsPerProvince().subscribe(
                 (data) => {
-                    this.allProvinceData = Utils.snackCaseToCamelCase(
+                  const allProvinceData = 
+                    Utils.snackCaseToCamelCase(
                         data.provinces
-                    ) as ProvinceData[];
-                    this.updateCharts();
+                    ) as ProvinceData[]
+                    this.provincePieChartOption = {
+                        title: {
+                            text: 'Strains Distribution by Province',
+                            left: 'center',
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+                        },
+                        /* legend: {
+                            orient: 'horizontal',
+                            left: 'left',
+                        }, */
+                        series: [
+                            {
+                                name: 'Province/Territory',
+                                type: 'pie',
+                                radius: '50%',
+                                data: allProvinceData.map((item) => ({
+                                    value: item.strainCount,
+                                    name: item.isolationSoilProvince,
+                                })),
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                    },
+                                },
+                            },
+                        ],
+                    };
+                    this.provinceBarChartOption = {
+                      title: {
+                        text: 'Strains Distribution by Province',
+                        left: 'center',
+                      },
+                      tooltip: {
+                        trigger: 'axis',
+                        axisPointer: { type: 'shadow' },
+                      },
+                      xAxis: {
+                        type: 'category',
+                        data: allProvinceData.map(
+                            (item) => item.isolationSoilProvince
+                        ),
+                      },
+                      yAxis: {
+                        type: 'value',
+                      },
+                      series: [
+                          {
+                            data: allProvinceData.map((item) => item.strainCount),
+                            type: 'bar',
+                            label: {
+                              show: true,
+                              formatter: '{c}', // Display value on each bar
+                          },
+                        },
+                      ],
+                    };
                 },
                 (error) => {
                     console.error('Error fetching strains per province', error);
@@ -97,10 +158,71 @@ export class StatisticsComponent implements OnInit {
       this.subscriptions.push(
           this.ccasmService.getStrainsPerHostPlantSpecies().subscribe(
               (data) => {
-                  this.allHostPlantData = Utils.snackCaseToCamelCase(
+                const allHostPlantData = 
+                  Utils.snackCaseToCamelCase(
                       data.plants
-                  ) as HostPlantData[];
-                  this.updateCharts();
+                  ) as HostPlantData[]
+                  this.plantPieChartOption = {
+                      title: {
+                          text: 'Strains Distribution by Host Plant Species',
+                          left: 'center',
+                      },
+                      tooltip: {
+                          trigger: 'item',
+                          formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+                      },
+                      /* legend: {
+                          orient: 'horizontal',
+                          left: 'left',
+                      }, */
+                      series: [
+                          {
+                              name: 'Host Plant Species',
+                              type: 'pie',
+                              radius: '50%',
+                              data: allHostPlantData.map((item) => ({
+                                  value: item.strainCount,
+                                  name: item.hostPlantSpecies,
+                              })),
+                              emphasis: {
+                                  itemStyle: {
+                                      shadowBlur: 10,
+                                      shadowOffsetX: 0,
+                                      shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                  },
+                              },
+                          },
+                      ],
+                  };
+                  this.plantBarChartOption = {
+                    title: {
+                      text: 'Strains Distribution by Province',
+                      left: 'center',
+                    },
+                    tooltip: {
+                      trigger: 'axis',
+                      axisPointer: { type: 'shadow' },
+                    },
+                    xAxis: {
+                      type: 'category',
+                      data: allHostPlantData.map((item) => 
+                        item.hostPlantSpecies
+                      ),
+                    },
+                    yAxis: {
+                      type: 'value',
+                    },
+                    series: [
+                        {
+                          data: allHostPlantData.map((item) => item.strainCount),
+                          type: 'bar',
+                          label: {
+                            show: true,
+                            formatter: '{c}', // Display value on each bar
+                        },
+                      },
+                    ],
+                  };
               },
               (error) => {
                   console.error('Error fetching strains host plant data', error);
@@ -113,26 +235,90 @@ export class StatisticsComponent implements OnInit {
         this.subscriptions.push(
             this.ccasmService.getStrainsPerTaxonomicLevel(taxonomicLevel).subscribe(
                 (data) => {
-                    this.allTaxonomicData = Utils.snackCaseToCamelCase(
-                      data.name
-                  ) as TaxonomicData[];
-                  this.updateCharts(taxonomicLevel);
+                  const allTaxonomicData = 
+                      Utils.snackCaseToCamelCase(
+                        data.name
+                  ) as TaxonomicData[]
+                  this.taxonomicPieChartOption = {
+                    title: {
+                      text: `Strains Distribution by ${taxonomicLevel} Taxonomy`,
+                      left: 'center',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+                    },
+                    /* legend: {
+                        orient: 'horizontal',
+                        left: 'left',
+                    }, */
+                    series: [
+                        {
+                            name: `${taxonomicLevel} Taxonomy`,
+                            type: 'pie',
+                            radius: '50%',
+                            data: allTaxonomicData.map((item) => ({
+                                value: item.strainCount,
+                                name: item.taxonomicLineage,
+                            })),
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                },
+                            },
+                        },
+                    ],
+                  };
                 },
                 (error) => {
                     console.error('Error fetching taxonomic levels', error);
                 }
             )
-        );
+        );                           
     }
 
     getIsolationProtocolData(): void {
       this.subscriptions.push(
           this.ccasmService.getStrainsPerIsolationProtocol().subscribe(
               (data) => {
-                  this.allIsolationProtocolData= Utils.snackCaseToCamelCase(
+                const allIsolationProtocolData = 
+                    Utils.snackCaseToCamelCase(
                       data.protocol
-                  ) as IsolationProtocolData[];
-                  this.updateCharts();
+                    ) as IsolationProtocolData[]
+                    this.protocolPieChartOption = {
+                    title: {
+                        text: 'Strains Distribution by Isolation Protocol',
+                        left: 'center',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+                    },
+                    /* legend: {
+                        orient: 'horizontal',
+                        left: 'left',
+                    }, */
+                    series: [
+                        {
+                            name: 'Isolation Protocol',
+                            type: 'pie',
+                            radius: '50%',
+                            data: allIsolationProtocolData.map((item) => ({
+                                value: item.strainCount,
+                                name: item.isolationProtocol,
+                            })),
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                },
+                            },
+                        },
+                    ],
+                };
               },
               (error) => {
                   console.error('Error fetching isolation protocol data', error);
@@ -140,174 +326,7 @@ export class StatisticsComponent implements OnInit {
           )
       );
   }
-    
-
-    updateCharts(taxonomicLevel:string = ""): void {
-      this.provincePieChartOption = this.getProvincePieChartOption(
-          this.allProvinceData
-      );
-      this.provinceBarChartOption = this.getProvinceBarChartOption(
-          this.allProvinceData
-      );
-      this.plantPieChartOption = this.getPlantPieChartOption(
-          this.allHostPlantData
-      );
-      this.plantBarChartOption = this.getPlantBarChartOption(
-        this.allHostPlantData
-      );
-      /* this.taxonomicTreemapOption = this.getProtocolTreemapOption(
-        this.allIsolationProtocolData
-      );
-      this.taxonomicSunburstOption = this.getProtocolSunburstOption(
-        this.allIsolationProtocolData
-      ); */
-      this.protocolPieChartOption = this.getProtocolPieChartOption(
-        this.allIsolationProtocolData
-      );
-
-      this.taxonomicPieChartOption = this.getTaxonomicPieChartOption(
-        this.allTaxonomicData, taxonomicLevel 
-      );
-
-    }
   
-
-    getProvincePieChartOption(data: ProvinceData[]): EChartsOption {
-        // Extract only the data for the selected provinces or all if none are selected
-        return {
-            title: {
-                text: 'Strains Distribution by Province',
-                left: 'center',
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-            },
-            /* legend: {
-                orient: 'horizontal',
-                left: 'left',
-            }, */
-            series: [
-                {
-                    name: 'Provinces',
-                    type: 'pie',
-                    radius: '50%',
-                    data: this.allProvinceData.map((item) => ({
-                        value: item.strainCount,
-                        name: item.isolationSoilProvince,
-                    })),
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)',
-                        },
-                    },
-                },
-            ],
-        };
-    }
-    
-
-    getProvinceBarChartOption(data: ProvinceData[]): EChartsOption {
-        return {
-            title: {
-                text: 'Strains Distribution by Province',
-                left: 'center',
-            },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: { type: 'shadow' },
-            },
-            xAxis: {
-                type: 'category',
-                data: this.allProvinceData.map(
-                    (item) => item.isolationSoilProvince
-                ),
-            },
-            yAxis: {
-                type: 'value',
-            },
-            series: [
-                {
-                    data: this.allProvinceData.map((item) => item.strainCount),
-                    type: 'bar',
-                    label: {
-                      show: true,
-                      formatter: '{c}', // Display value on each bar
-                  },
-                },
-            ],
-        };
-    }
-
-    getPlantPieChartOption(data: HostPlantData[]): EChartsOption {
-      // Extract only the data for the selected provinces or all if none are selected
-      return {
-          title: {
-              text: 'Strains Distribution by Host Plant Species',
-              left: 'center',
-          },
-          tooltip: {
-              trigger: 'item',
-              formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-          },
-          /* legend: {
-              orient: 'horizontal',
-              left: 'left',
-          }, */
-          series: [
-              {
-                  name: 'Host Plant Species',
-                  type: 'pie',
-                  radius: '50%',
-                  data: this.allHostPlantData.map((item) => ({
-                      value: item.strainCount,
-                      name: item.hostPlantSpecies,
-                  })),
-                  emphasis: {
-                      itemStyle: {
-                          shadowBlur: 10,
-                          shadowOffsetX: 0,
-                          shadowColor: 'rgba(0, 0, 0, 0.5)',
-                      },
-                  },
-              },
-          ],
-      };
-  }
-
-  getPlantBarChartOption(data: HostPlantData[]): EChartsOption {
-    return {
-        title: {
-            text: 'Strains Distribution by Host Plant Species',
-            left: 'center',
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'shadow' },
-        },
-        xAxis: {
-            type: 'category',
-            data: this.allHostPlantData.map(
-                (item) => item.hostPlantSpecies
-            ),
-        },
-        yAxis: {
-            type: 'value',
-        },
-        series: [
-            {
-                data: this.allHostPlantData.map((item) => item.strainCount),
-                type: 'bar',
-                label: {
-                  show: true,
-                  formatter: '{c}', // Display value on each bar
-              },
-            },
-        ],
-    };
-}
 
     /* getRadialTreeOption(data: TaxonomicData[]): EChartsOption {
         return {
@@ -358,79 +377,6 @@ export class StatisticsComponent implements OnInit {
       // Call the service method to get taxonomic data and update the chart option with a radial tree
     }
   }**/
-
-
-  getProtocolPieChartOption(data: IsolationProtocolData[]): EChartsOption {
-    // Extract only the data for the selected provinces or all if none are selected
-    return {
-        title: {
-            text: 'Strains Distribution by Isolation Protocol',
-            left: 'center',
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-        },
-        /* legend: {
-            orient: 'horizontal',
-            left: 'left',
-        }, */
-        series: [
-            {
-                name: 'Isolation Protocol',
-                type: 'pie',
-                radius: '50%',
-                data: this.allIsolationProtocolData.map((item) => ({
-                    value: item.strainCount,
-                    name: item.isolationProtocol,
-                })),
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                },
-            },
-        ],
-    };
-  }
-
-  getTaxonomicPieChartOption(data: TaxonomicData[], level:string): EChartsOption {
-    // Extract only the data for the selected provinces or all if none are selected
-    return {
-        title: {
-            text: `Strains Distribution by ${level} Taxonomy`,
-            left: 'center',
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-        },
-        /* legend: {
-            orient: 'horizontal',
-            left: 'left',
-        }, */
-        series: [
-            {
-                name: `${level} Taxonomy`,
-                type: 'pie',
-                radius: '50%',
-                data: this.allTaxonomicData.map((item) => ({
-                    value: item.value,
-                    name: item.name,
-                })),
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                },
-            },
-        ],
-    };
-  }
 
 
   /*  getTaxonomicTreemapOption(data: TaxonomicData, taxonomicLevel: string): EChartsOption {
