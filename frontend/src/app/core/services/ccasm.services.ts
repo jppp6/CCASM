@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HostPlantData, IsolationProtocolData, ProvinceData, TaxonomicData } from 'src/app/pages/statistics/statistics.component';
+import {
+    HostPlantData,
+    IsolationProtocolData,
+    ProvinceData,
+} from 'src/app/pages/statistics/statistics.component';
 import { Strain, StrainDeposit, StrainRequest } from '../utils/ccasm.types';
 import { Utils } from '../utils/ccasm.utils';
 
@@ -9,8 +13,11 @@ import { Utils } from '../utils/ccasm.utils';
     providedIn: 'root',
 })
 export class CCASMService {
-    // TODO: Make sure to change this to the Domain name when deployed
-    readonly url = 'http://localhost:8000/api';
+    // Test for goodluck Change this to check on build
+    dev: boolean = false;
+    readonly url = this.dev
+        ? 'http://hs-ccasm-d-w01.internal.azure.queensu.ca:8000/api'
+        : 'http://localhost:8000/api';
 
     constructor(private http: HttpClient) {}
 
@@ -110,15 +117,15 @@ export class CCASMService {
     }
 
     // NEEDED for TAXONOMINC DATA
-   /*  getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
+    /*  getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
         return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}/`);
     } */
-    
 
-    getStrainsPerIsolationProtocol(): Observable<{ protocol: IsolationProtocolData[] }> {
+    getStrainsPerIsolationProtocol(): Observable<{
+        protocol: IsolationProtocolData[];
+    }> {
         return this.http.get<{ protocol: IsolationProtocolData[] }>(
             `${this.url}/api/strains-per-isolation-protocol`
         );
     }
-
 }
