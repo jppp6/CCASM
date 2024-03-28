@@ -1,1 +1,99 @@
-<p>statistics works!</p>
+<div id="statistics-map" style="height: 40vh;"></div>
+
+<div class="chart-container" style="display: grid; grid-template-columns: 25% 50%; grid-column-gap: 25%; width: 100%;">
+
+    <!-- Pie Chart for Province Distribution -->
+    <div 
+    *ngIf="provincePieChartOption" 
+    echarts [options]="provincePieChartOption" 
+    class="chart" 
+    style="height: 300px;">
+    </div>
+
+    <!-- Bar Chart for Province Distribution -->
+    <div 
+    *ngIf="provinceBarChartOption" 
+    echarts [options]="provinceBarChartOption" 
+    class="chart" 
+    style="height: 300px;">
+    </div>
+
+    <!-- Pie Chart for Host Plant Species -->
+    <div 
+    *ngIf="plantPieChartOption" 
+    echarts [options]="plantPieChartOption" 
+    class="chart" 
+    style="height: 300px;">
+    </div>
+
+    <!-- Bar Chart for Host Plant Species -->
+    <div 
+    *ngIf="plantBarChartOption" 
+    echarts [options]="plantBarChartOption" 
+    class="chart" 
+    style="height: 300px;">
+    </div>
+
+    <!-- Pie Chart for Isolation Protocol -->
+    <div 
+    *ngIf="protocolPieChartOption" 
+    echarts [options]="protocolPieChartOption" 
+    class="chart" 
+    style="height: 300px;">
+    </div>
+
+</div>
+
+<!-- Taxonomic Level Tab Widget -->
+<!-- <div class="tab-widget" style="padding-top: 20px">
+    <mat-tab-group>
+        <mat-tab label="Kingdom" (click)="getTaxonomicData('kingdom')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-kingdom"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+        <mat-tab label="Phylum" (click)="getTaxonomicData('phylum')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-phylum"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+        <mat-tab label="Class" (click)="getTaxonomicData('class')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-class"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+        <mat-tab label="Order" (click)="getTaxonomicData('order')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-order"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+        <mat-tab label="Family" (click)="getTaxonomicData('family')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-family"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+        <mat-tab label="Genus" (click)="getTaxonomicData('genus')">
+            <div echarts
+                [options]="taxonomicPieChartOption"
+                class="chart-genus"
+                *ngIf="taxonomicPieChartOption"
+                style="height: 400px;">
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div> -->

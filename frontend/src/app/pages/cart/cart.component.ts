@@ -1,16 +1,22 @@
-import { ChangeDetectorRef, Component, OnInit, inject, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    inject,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 import { StrainCartService } from 'src/app/core/services/strain-cart.service';
 import { Strain, StrainRequest } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import { CCASMService } from '../../core/services/ccasm.services';
-import { TermsComponent } from './terms/terms.component';
-import { Observable } from 'rxjs';
 import { CartStrainDialogueComponent } from './cart-strain-dialogue/cart-strain-dialogue.component';
-import { LocalStorageService } from 'src/app/core/services/local-storage.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { TermsComponent } from './terms/terms.component';
 
 @Component({
     selector: 'app-cart',
@@ -18,19 +24,24 @@ import { MatPaginator } from '@angular/material/paginator';
     styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-
     dataSource: MatTableDataSource<Strain> = new MatTableDataSource<Strain>([]);
     obs: Observable<any> = new Observable<any>(); // Initialize obs
     @ViewChild(MatPaginator) paginator!: MatPaginator; // Initialize paginator
 
     applyForm = this.fb.group({
-        firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],],
-        lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],],
+        firstName: [
+            '',
+            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
+        ],
+        lastName: [
+            '',
+            [Validators.required, Validators.pattern('^[a-zA-Z ]*$')],
+        ],
         email: ['', [Validators.required, Validators.email]],
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
         message: [''],
         checkbox: [false, [Validators.requiredTrue]],
-        cart: [false, [Validators.requiredTrue]]
+        cart: [false, [Validators.requiredTrue]],
     });
 
     services = inject(CCASMService);
@@ -40,10 +51,9 @@ export class CartComponent implements OnInit {
         private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
         public dialog: MatDialog,
-        private localStorageService: LocalStorageService,
+        private localStorageService: LocalStorageService
     ) {
-        this.applyForm.valueChanges.subscribe(val => {
-            console.log(val);
+        this.applyForm.valueChanges.subscribe((val) => {
             this.localStorageService.setItem('formData', JSON.stringify(val));
         });
     }
@@ -56,15 +66,14 @@ export class CartComponent implements OnInit {
 
         const storedData = this.localStorageService.getItem('formData');
         if (storedData) {
-          const parsedData = JSON.parse(storedData);
-          // Fill in from stored value;
-          this.applyForm.patchValue(parsedData);
+            const parsedData = JSON.parse(storedData);
+            // Fill in from stored value;
+            this.applyForm.patchValue(parsedData);
         }
 
         if (this.dataSource.data.length > 0) {
             this.applyForm.controls['cart'].setValue(true);
         }
-
     }
 
     msg = '';
@@ -85,10 +94,9 @@ export class CartComponent implements OnInit {
         });
     }
 
-    num : string = '';
+    num: string = '';
 
     build() {
-        
         this.num = '';
         this.dataSource.data.forEach((strain: Strain) => {
             if (this.num === '') {
@@ -127,7 +135,7 @@ export class CartComponent implements OnInit {
         this.dialog.open(TermsComponent, { width: '600px' });
     }
 
-    openStrainInformation(s : Observable<Strain>): void {
+    openStrainInformation(s: Observable<Strain>): void {
         this.dialog.open(CartStrainDialogueComponent, {
             width: '600px',
             data: s,

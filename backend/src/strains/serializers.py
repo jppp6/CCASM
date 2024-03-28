@@ -81,3 +81,39 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+class StrainByProvinceSerializer(serializers.Serializer):
+    isolation_soil_province = serializers.CharField()
+    strain_count = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+class StrainByHostPlantSerializer(serializers.Serializer):
+    host_plant_species = serializers.CharField()
+    strain_count = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+# class ChildIsolationProtocolSerializer(serializers.Serializer):
+#     name = serializers.CharField()
+#     value = serializers.IntegerField()
+
+class IsolationProtocolSerializer(serializers.Serializer):
+    isolation_protocol = serializers.CharField()
+    strain_count = serializers.IntegerField()
+    # children = ChildIsolationProtocolSerializer(many=True, required=False)
+
+
+# NEEDED for taxonomic data
+# class TaxonomicDataSerializer(serializers.Serializer):
+#     taxonomic_level = serializers.CharField()
+#     strain_count = serializers.IntegerField()

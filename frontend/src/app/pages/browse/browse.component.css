@@ -2,11 +2,6 @@
     background-color: #ececec;
     border-radius: 16px;
 }
-
-.strain-tree-invisible {
-    display: none;
-}
-
 .strain-tree ul,
 .strain-tree li {
     margin-top: 0;
@@ -28,4 +23,8 @@
    */
 .strain-tree div[role="group"] > .mat-tree-node {
     padding-left: 40px;
+}
+
+.hide {
+    display: none;
 }
