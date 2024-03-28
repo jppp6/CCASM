@@ -45,9 +45,9 @@ export class StatisticsComponent implements OnInit {
     plantPieChartOption: EChartsOption | null = null; // Chart option
     plantBarChartOption: EChartsOption | null = null; // Chart option
     taxonomicTreeChartOption: EChartsOption | null = null;
-    taxonomicTreemapOption: EChartsOption | null = null;
-    taxonomicSunburstOption: EChartsOption | null = null;
-    taxonomicPieChartOption: EChartsOption | null = null;
+    // taxonomicTreemapOption: EChartsOption | null = null; // NOT NEEDED
+    // taxonomicSunburstOption: EChartsOption | null = null; // NOT NEEDED BUT MAYBE IN FUTURE
+    // taxonomicPieChartOption: EChartsOption | null = null;
     // selectedChartType: 'treemap' | 'sunburst' = 'treemap';
     protocolPieChartOption: EChartsOption | null = null;
     allProvinceData: ProvinceData[] = []; // Holds the complete province data from the server
@@ -64,12 +64,12 @@ export class StatisticsComponent implements OnInit {
         this.getHostPlantData();
         // this.getTaxonomicData();
         this.getIsolationProtocolData();
-        this.getTaxonomicData('kingdom');
-        this.getTaxonomicData('phylum');
-        this.getTaxonomicData('class');
-        this.getTaxonomicData('order');
-        this.getTaxonomicData('family');
-        this.getTaxonomicData('genus');
+        // this.getTaxonomicData('kingdom');
+        // this.getTaxonomicData('phylum');
+        // this.getTaxonomicData('class');
+        // this.getTaxonomicData('order');
+        // this.getTaxonomicData('family');
+        // this.getTaxonomicData('genus');
     }
 
     ngOnDestroy() {
@@ -231,53 +231,54 @@ export class StatisticsComponent implements OnInit {
       );
   }
 
-     getTaxonomicData(taxonomicLevel: string): void{
-        this.subscriptions.push(
-            this.ccasmService.getStrainsPerTaxonomicLevel(taxonomicLevel).subscribe(
-                (data) => {
-                  const allTaxonomicData = 
-                      Utils.snackCaseToCamelCase(
-                        data.name
-                  ) as TaxonomicData[]
-                  this.taxonomicPieChartOption = {
-                    title: {
-                      text: `Strains Distribution by ${taxonomicLevel} Taxonomy`,
-                      left: 'center',
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-                    },
-                    /* legend: {
-                        orient: 'horizontal',
-                        left: 'left',
-                    }, */
-                    series: [
-                        {
-                            name: `${taxonomicLevel} Taxonomy`,
-                            type: 'pie',
-                            radius: '50%',
-                            data: allTaxonomicData.map((item) => ({
-                                value: item.strainCount,
-                                name: item.taxonomicLineage,
-                            })),
-                            emphasis: {
-                                itemStyle: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                                },
-                            },
-                        },
-                    ],
-                  };
-                },
-                (error) => {
-                    console.error('Error fetching taxonomic levels', error);
-                }
-            )
-        );                           
-    }
+    // GET TAXONOMIC DATA FUNCTION JUST NEEDS SOME PYTHON CHANGES IN VIEWS.PY
+    //  getTaxonomicData(taxonomicLevel: string): void{
+    //     this.subscriptions.push(
+    //         this.ccasmService.getStrainsPerTaxonomicLevel(taxonomicLevel).subscribe(
+    //             (data) => {
+    //               const allTaxonomicData = 
+    //                   Utils.snackCaseToCamelCase(
+    //                     data.name
+    //               ) as TaxonomicData[]
+    //               this.taxonomicPieChartOption = {
+    //                 title: {
+    //                   text: `Strains Distribution by ${taxonomicLevel} Taxonomy`,
+    //                   left: 'center',
+    //                 },
+    //                 tooltip: {
+    //                     trigger: 'item',
+    //                     formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+    //                 },
+    //                 /* legend: {
+    //                     orient: 'horizontal',
+    //                     left: 'left',
+    //                 }, */
+    //                 series: [
+    //                     {
+    //                         name: `${taxonomicLevel} Taxonomy`,
+    //                         type: 'pie',
+    //                         radius: '50%',
+    //                         data: allTaxonomicData.map((item) => ({
+    //                             value: item.strainCount,
+    //                             name: item.taxonomicLineage,
+    //                         })),
+    //                         emphasis: {
+    //                             itemStyle: {
+    //                                 shadowBlur: 10,
+    //                                 shadowOffsetX: 0,
+    //                                 shadowColor: 'rgba(0, 0, 0, 0.5)',
+    //                             },
+    //                         },
+    //                     },
+    //                 ],
+    //               };
+    //             },
+    //             (error) => {
+    //                 console.error('Error fetching taxonomic levels', error);
+    //             }
+    //         )
+    //     );                           
+    // }
 
     getIsolationProtocolData(): void {
       this.subscriptions.push(

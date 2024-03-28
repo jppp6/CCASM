@@ -11,12 +11,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 from .models import Deposits, Requests, Strains
-from .serializers import (
-    StrainSerializer,
-    DepositsSerializer,
-    RequestsSerializer,
-    MyTokenObtainPairSerializer,
-)
+from .serializers import *
 
 # Token generation
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -276,7 +271,7 @@ def get_strains_by_isolation_protocol(request):
     return JsonResponse({'protocol': serializer.data})
 
 
-@api_view(['GET']) 
+""" @api_view(['GET']) 
 @permission_classes([AllowAny]) 
 def get_strains_by_kingdom_level(request):
     taxonomic_data = (
@@ -366,7 +361,7 @@ def get_strains_by_genus_level(request):
 
     serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
     # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse(serializer.data, safe=False) """
 
 
 

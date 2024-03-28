@@ -109,10 +109,10 @@ export class CCASMService {
         );
     }
 
-
-    getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
+    // NEEDED for TAXONOMINC DATA
+   /*  getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
         return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}/`);
-    }
+    } */
     
 
     getStrainsPerIsolationProtocol(): Observable<{ protocol: IsolationProtocolData[] }> {
