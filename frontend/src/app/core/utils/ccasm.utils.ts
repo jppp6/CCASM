@@ -27,7 +27,7 @@ export class Utils {
             return camelCasedObject;
         }
     }
-    
+
     static camelCaseToSnakeCase(input: any): any {
         if (
             typeof input !== 'object' ||
@@ -57,10 +57,8 @@ export class Utils {
         }
     }
 
-    static filterDuplicatesAndFalsy(values: string[]): string[] {
-        return values
-            .filter((v, i) => values.indexOf(v) === i)
-            .filter((v) => !!v);
+    static filterDuplicatesAndFalsy(values: any[]): string[] {
+        return Array.from(new Set(values)).filter((v) => !!v);
     }
 
     static exportToCSV(data: Strain[], filename: string): void {

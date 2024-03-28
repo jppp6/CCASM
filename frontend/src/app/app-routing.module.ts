@@ -19,7 +19,7 @@ const routes: Routes = [
 
     { path: 'about', component: AboutComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'admin', component: DashboardComponent, canActivate: [authGuard] },
+    { path: 'admin', component: DashboardComponent, canActivate: [authGuard] }, // only logged in can activate component
 
     { path: '**', redirectTo: '/home' }, // any errors, redirect to page not found
 ];

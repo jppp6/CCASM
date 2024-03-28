@@ -1,22 +1,25 @@
 import { AppComponent } from './app.component';
+import { HeadersInterceptor } from './core/auth/headers.interceptor';
 import { AboutComponent } from './pages/about/about.component';
+import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
 import { AdminCollectionComponent } from './pages/admin-dashboard/admin-collection/admin-collection.component';
 import { AdminDepositsComponent } from './pages/admin-dashboard/admin-deposits/admin-deposits.component';
+import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
 import { AdminRequestsComponent } from './pages/admin-dashboard/admin-requests/admin-requests.component';
 import { DashboardComponent } from './pages/admin-dashboard/dashboard.component';
 import { BrowseComponent } from './pages/browse/browse.component';
 import { ComplexSearchComponent } from './pages/browse/complex-search/complex-search.component';
 import { SimpleSearchComponent } from './pages/browse/simple-search/simple-search.component';
+import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
+import { CartStrainDialogueComponent } from './pages/cart/cart-strain-dialogue/cart-strain-dialogue.component';
 import { CartComponent } from './pages/cart/cart.component';
+import { TermsComponent } from './pages/cart/terms/terms.component';
 import { DepositComponent } from './pages/deposit/deposit.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 
-import { StrainDetailsDialog } from './pages/browse/strain-details/strain-details.component';
-
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -32,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -40,17 +44,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { AppRoutingModule } from './app-routing.module';
-import { HeadersInterceptor } from './core/auth/headers.interceptor';
-import { AdminAddComponent } from './pages/admin-dashboard/admin-add/admin-add.component';
-import { AdminEditComponent } from './pages/admin-dashboard/admin-edit/admin-edit.component';
-import { TermsComponent } from './pages/cart/terms/terms.component';
-import { CartStrainDialogueComponent } from './pages/cart/cart-strain-dialogue/cart-strain-dialogue.component';
 
 @NgModule({
     declarations: [
