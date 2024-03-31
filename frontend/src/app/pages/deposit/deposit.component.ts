@@ -10,10 +10,10 @@ import { CCASMService } from '../../core/services/ccasm.services';
     styleUrls: ['./deposit.component.css'],
 })
 export class DepositComponent implements OnInit {
-    // More validators will be added later
     filename = '';
     msg = '';
 
+    // Form group
     applyForm = this.fb.group({
         firstName: [
             '',
@@ -28,19 +28,25 @@ export class DepositComponent implements OnInit {
         message: [''],
         depositExcel: ['', Validators.required],
     });
+
+    // File reader
     reader: FileReader = new FileReader();
 
+    // Services
     services = inject(CCASMService);
     constructor(private fb: FormBuilder) {
         this.applyForm.valueChanges.subscribe(console.log);
         this.reader.onload = async (event) => {
+            // Read file value and stringify it
             const data: string = event?.target?.result as string;
             this.applyForm.patchValue({ depositExcel: JSON.stringify(data) });
         };
     }
 
+    // On page load call
     ngOnInit(): void {}
 
+    // Submit deposit request
     build() {
         // build the strainDeposit Object
         const newStraindeposit: StrainDeposit = {
@@ -55,12 +61,11 @@ export class DepositComponent implements OnInit {
             depositCreationDate: new Date(),
         };
 
-        //const sd = Utils.camelCaseToSnakeCase(newStraindeposit);
-
         // POST request
         this.submitDeposit(newStraindeposit);
     }
 
+    // Handle post response
     submitDeposit(sd: StrainDeposit) {
         this.services.postDeposit(Utils.camelCaseToSnakeCase(sd)).subscribe({
             // Success
@@ -77,24 +82,20 @@ export class DepositComponent implements OnInit {
     }
 
     async onFileUpload(event: any) {
-        // Current file upload * will add more
+        // File upload
         const file: File = event.target.files[0];
 
+        // Check file is csv
         if (file) {
             this.filename = file.name;
-            this.reader.readAsText(file);
-
-            // if (file.type === 'text/csv') {
-            //     console.log('csv');
-            //     //this.applyForm.patchValue( { depositExcel : file} );
-            // } else {
-            //     console.log('Not csv');
-            // }
-
-            // -TODO- Check the file fits csv format
+            
+            if (file.type === 'text/csv') {
+                this.reader.readAsText(file);
+                console.log('csv');
+            } else {
+                console.log('Not csv');
+            }
         }
-
-        console.log('File Upload');
     }
 
     get f() {

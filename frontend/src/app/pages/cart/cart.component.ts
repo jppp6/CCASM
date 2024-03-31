@@ -28,6 +28,7 @@ export class CartComponent implements OnInit {
     obs: Observable<any> = new Observable<any>(); // Initialize obs
     @ViewChild(MatPaginator) paginator!: MatPaginator; // Initialize paginator
 
+    // form group
     applyForm = this.fb.group({
         firstName: [
             '',
@@ -44,6 +45,7 @@ export class CartComponent implements OnInit {
         cart: [false, [Validators.requiredTrue]],
     });
 
+    // Services 
     services = inject(CCASMService);
     scs = inject(StrainCartService);
 
@@ -58,6 +60,7 @@ export class CartComponent implements OnInit {
         });
     }
 
+    // On page initial load
     ngOnInit(): void {
         this.cdr.detectChanges();
         this.dataSource.data = this.scs.getSelectedStrains();
@@ -96,7 +99,10 @@ export class CartComponent implements OnInit {
 
     num: string = '';
 
+    // Submit strain request
     build() {
+        
+        // Build string of CCASM id's of the strains in cart
         this.num = '';
         this.dataSource.data.forEach((strain: Strain) => {
             if (this.num === '') {
@@ -105,7 +111,8 @@ export class CartComponent implements OnInit {
                 this.num = this.num.concat(',', String(strain.ccasmId));
             }
         });
-
+        
+        // Build strain request object
         const newStrainRequest: StrainRequest = {
             requestId: 1, //Temporary assignment
             firstName: this.applyForm.controls.firstName.value!,
@@ -118,9 +125,12 @@ export class CartComponent implements OnInit {
             requestCreationDate: new Date(),
         };
 
+        // POST
         this.submitRequest(newStrainRequest);
+        this.localStorageService.clear();
     }
 
+    // Save the strains in cart in a csv
     exportAll(): void {
         if (this.dataSource.data.length > 0) {
             Utils.exportToCSV(
@@ -130,11 +140,13 @@ export class CartComponent implements OnInit {
         }
     }
 
+    // Open the terms window
     openTerms(): void {
         this.applyForm.controls['checkbox'].setValue(true);
         this.dialog.open(TermsComponent, { width: '600px' });
     }
 
+    // Opens the strain info in a window
     openStrainInformation(s: Observable<Strain>): void {
         this.dialog.open(CartStrainDialogueComponent, {
             width: '600px',
@@ -142,6 +154,7 @@ export class CartComponent implements OnInit {
         });
     }
 
+    // Removes strain selected from cart
     removeStrain(i: number): void {
         console.log('Removing strain id:' + i);
         this.scs.removeStrainById(i.toString());
