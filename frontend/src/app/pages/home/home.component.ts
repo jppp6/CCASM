@@ -53,14 +53,15 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // Iterate over the Strain collection and add a marker to the map for each
+    numStrains: number = 0;
     addCircularMarkers(strains: Strain[]): void {
+        this.numStrains = strains.length;
         strains.forEach((s: Strain) => {
             if (!s.latitude || !s.longitude) {
                 return;
             }
 
             const marker = L.circleMarker(
-                // TODO FLIP BACK
                 { lat: s.latitude, lng: s.longitude },
                 { radius: 15 }
             );

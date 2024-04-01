@@ -3,44 +3,18 @@
 <div class="chart-container" style="display: grid; grid-template-columns: 33% 33% 33%; width: 100%;">
 
     <!-- Pie Chart for Province Distribution -->
-    <div 
-    *ngIf="provincePieChartOption" 
-    echarts [options]="provincePieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
-
+    <div echarts [options]="provincePieChartOption"></div>
     <!-- Bar Chart for Province Distribution -->
-    <div 
-    *ngIf="provinceBarChartOption" 
-    echarts [options]="provinceBarChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="provinceBarChartOption"></div>
 
     <!-- Pie Chart for Host Plant Species -->
-    <div 
-    *ngIf="plantPieChartOption" 
-    echarts [options]="plantPieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="plantPieChartOption"></div>
 
     <!-- Bar Chart for Host Plant Species -->
-    <div 
-    *ngIf="plantBarChartOption" 
-    echarts [options]="plantBarChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="plantBarChartOption"></div>
 
     <!-- Pie Chart for Isolation Protocol -->
-    <div 
-    *ngIf="protocolPieChartOption" 
-    echarts [options]="protocolPieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="protocolPieChartOption"></div>
 
 </div>
 
