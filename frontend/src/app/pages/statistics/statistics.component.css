@@ -25,5 +25,6 @@
     padding: 10px;
     box-sizing: border-box;
     min-height: 300px;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 }
