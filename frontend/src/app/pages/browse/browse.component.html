@@ -65,7 +65,7 @@
     >
         <mat-tree-node
             *matTreeNodeDef="let node"
-            (click)="simpleSearch(node.name)"
+            (click)="simpleSearch(node.name.toLowerCase())"
             matTreeNodeToggle
         >
             {{ node.name }}

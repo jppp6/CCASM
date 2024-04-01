@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(getenv("DEBUG", default=0))
+DEBUG = bool(int(getenv("DEBUG", default=0)))
 
 ALLOWED_HOSTS = getenv("ALLOWED_HOSTS").split(" ")
 
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
+CORS_ALLOWED_ORIGINS = getenv("CORS_ALLOWED_ORIGINS").split(" ")
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

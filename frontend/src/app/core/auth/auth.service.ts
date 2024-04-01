@@ -18,9 +18,11 @@ export class AuthService {
     // Redirect to the login page
     login(username: string, password: string): void {
         this.ccasmService.login(username, password).subscribe((res) => {
-            localStorage.setItem(this.authSecretKey, res.access);
-            this.isLoggedIn = true;
-            this.router.navigateByUrl('/admin');
+            if (res.access){
+                localStorage.setItem(this.authSecretKey, res.access);
+                this.isLoggedIn = true;
+                this.router.navigateByUrl('/admin');
+            }
         });
     }
 
@@ -43,7 +45,9 @@ export class AuthService {
             // Check if token is expired
             if (decodedToken.exp && decodedToken.exp < currentTime) {
                 // Token is expired
-                this.isLoggedIn = false;
+                console.log(token)
+                this.logout()
+
             } else {
                 this.isLoggedIn = true;
             }

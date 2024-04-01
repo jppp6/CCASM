@@ -14,9 +14,9 @@ import { Utils } from '../utils/ccasm.utils';
 })
 export class CCASMService {
     // Test for goodluck Change this to check on build
-    dev: boolean = false;
-    readonly url = this.dev
-        ? 'http://hs-ccasm-d-w01.internal.azure.queensu.ca:8000/api'
+    prod: boolean = true;
+    readonly url = this.prod
+        ? 'http://hs-ccasm-p-w01.internal.azure.queensu.ca:8000/api'
         : 'http://localhost:8000/api';
 
     constructor(private http: HttpClient) {}
@@ -35,24 +35,24 @@ export class CCASMService {
     // GENERAL USER
     getCollection(): Observable<{ strains: Strain[] }> {
         return this.http.get<{ strains: Strain[] }>(
-            this.url + '/api/collection/'
+            this.url + '/collection/'
         );
     }
 
     postDeposit(deposit: StrainDeposit): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/api//deposit/', deposit);
+        return this.http.post<void>(this.url + '/deposit/', deposit);
     }
 
     postRequest(request: StrainRequest): Observable<void> {
         // format the post into an http body
-        return this.http.post<void>(this.url + '/api/request/', request);
+        return this.http.post<void>(this.url + '/request/', request);
     }
 
     // ADMIN USER
     adminGetCollection(): Observable<{ strains: Strain[] }> {
         return this.http.get<{ strains: Strain[] }>(
-            this.url + '/api/admin/collection/'
+            this.url + '/admin/collection/'
         );
     }
 
@@ -81,7 +81,7 @@ export class CCASMService {
 
     adminGetDeposits(): Observable<{ deposits: StrainDeposit[] }> {
         return this.http.get<{ deposits: StrainDeposit[] }>(
-            this.url + '/api/admin/deposits/'
+            this.url + '/admin/deposits/'
         );
     }
     adminUpdateDeposit(deposit: StrainDeposit): Observable<void> {
@@ -93,7 +93,7 @@ export class CCASMService {
 
     adminGetRequests(): Observable<{ requests: StrainRequest[] }> {
         return this.http.get<{ requests: StrainRequest[] }>(
-            this.url + '/api/admin/requests/'
+            this.url + '/admin/requests/'
         );
     }
 
@@ -106,26 +106,26 @@ export class CCASMService {
 
     getStrainsPerProvince(): Observable<{ provinces: ProvinceData[] }> {
         return this.http.get<{ provinces: ProvinceData[] }>(
-            `${this.url}/api/strains-per-province`
+            `${this.url}/strains-per-province`
         );
     }
 
     getStrainsPerHostPlantSpecies(): Observable<{ plants: HostPlantData[] }> {
         return this.http.get<{ plants: HostPlantData[] }>(
-            `${this.url}/api/strains-per-host-plant-species`
+            `${this.url}/strains-per-host-plant-species`
         );
     }
 
     // NEEDED for TAXONOMINC DATA
     /*  getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
-        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/api/${taxonomicLevel}/`);
+        return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/${taxonomicLevel}/`);
     } */
 
     getStrainsPerIsolationProtocol(): Observable<{
         protocol: IsolationProtocolData[];
     }> {
         return this.http.get<{ protocol: IsolationProtocolData[] }>(
-            `${this.url}/api/strains-per-isolation-protocol`
+            `${this.url}/strains-per-isolation-protocol`
         );
     }
 }

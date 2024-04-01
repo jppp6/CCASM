@@ -1,12 +1,12 @@
 services:
   web:
     build:
-      context: ./backend/src
+      context: ./backend
     # command: python manage.py runserver 0.0.0.0:8000
     command: gunicorn src.wsgi:application --bind 0.0.0.0:8000
 
     volumes:
-      - ./src/:/src
+      - ./backend/src:/src
 
     ports:
       - 8000:8000
@@ -23,4 +23,4 @@ services:
 
     volumes:
       - ./frontend/conf.d/:/etc/nginx/conf.d/
-      - staticfiles:/home/app/staticfiles
+      # - staticfiles:/home/app/staticfiles

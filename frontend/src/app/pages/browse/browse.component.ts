@@ -84,7 +84,9 @@ export class BrowseComponent implements OnInit {
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.replace('unclassified ', '');
+        searchString = searchString.replace('unclassified ', '').toLowerCase();
+        console.log(`Searching for : ${searchString}`)
+        
         this.filteredStrains.data =
             searchString !== ''
                 ? this.allStrains.filter((s) =>
