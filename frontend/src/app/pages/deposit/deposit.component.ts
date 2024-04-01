@@ -88,13 +88,13 @@ export class DepositComponent implements OnInit {
         // Check file is csv
         if (file) {
             this.filename = file.name;
+            this.reader.readAsText(file);
             
-            if (file.type === 'text/csv') {
-                this.reader.readAsText(file);
-                console.log('csv');
-            } else {
-                console.log('Not csv');
-            }
+            // if (file.type === 'text/csv') {
+            //     console.log('csv');
+            // } else {
+            //     console.log('Not csv');
+            // }
         }
     }
 
