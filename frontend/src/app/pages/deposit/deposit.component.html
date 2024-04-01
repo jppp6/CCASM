@@ -6,6 +6,8 @@
         <!-- Title -->
         <h1 class="title">Deposit Strain Form</h1>
 
+        <h2>To upload your strains to the CCASM database, fill in this form to start the procedure.</h2>
+
         <!-- First line -->
         <div name = "first-last-email" class="first-line">
             <mat-form-field appearance="outline">
@@ -74,7 +76,7 @@
 
                 <div class="file-upload">
 
-                    {{filename || "file upload (xlsx,xls,csv)"}}
+                    {{filename || "file upload (csv)"}}
 
                     <button mat-mini-fab id="file" color="primary" class="upload-btn"
                     (click)="deposit.click()">
@@ -85,10 +87,11 @@
 
         </div>
         
+        <!-- Error handling for file upload -->
         <div>
             <label for="errors" class="file-error">
                 <div class="error" *ngIf="f.depositExcel?.invalid">
-                    <div *ngIf="f.depositExcel?.errors?.['pattern']">|File type(.csv|.xlsx|.xls) is required.|</div>
+                    <div *ngIf="f.depositExcel?.errors?.['required']">|File type(.csv) is required.|</div>
                 </div>
             </label>
         </div>
