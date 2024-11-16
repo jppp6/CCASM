@@ -1,46 +1,15 @@
 <div id="statistics-map" style="height: 40vh;"></div>
 
-<div class="chart-container" style="display: grid; grid-template-columns: 50% 50%; width: 100%;">
+<div class="chart-container" style="display: grid; grid-template-columns: 33% 33% 33%; width: 100%; margin-top: 24px">
 
     <!-- Pie Chart for Province Distribution -->
-    <div 
-    *ngIf="provincePieChartOption" 
-    echarts [options]="provincePieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
-
-    <!-- Bar Chart for Province Distribution -->
-    <div 
-    *ngIf="provinceBarChartOption" 
-    echarts [options]="provinceBarChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="provincePieChartOption"></div>
 
     <!-- Pie Chart for Host Plant Species -->
-    <div 
-    *ngIf="plantPieChartOption" 
-    echarts [options]="plantPieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
-
-    <!-- Bar Chart for Host Plant Species -->
-    <div 
-    *ngIf="plantBarChartOption" 
-    echarts [options]="plantBarChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="plantPieChartOption"></div>
 
     <!-- Pie Chart for Isolation Protocol -->
-    <div 
-    *ngIf="protocolPieChartOption" 
-    echarts [options]="protocolPieChartOption" 
-    class="chart" 
-    style="height: 300px;">
-    </div>
+    <div echarts [options]="protocolPieChartOption"></div>
 
 </div>
 
@@ -97,3 +66,4 @@
         </mat-tab>
     </mat-tab-group>
 </div> -->
+

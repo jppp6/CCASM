@@ -23,8 +23,14 @@
    */
 .strain-tree div[role="group"] > .mat-tree-node {
     padding-left: 40px;
+    cursor: pointer;
 }
 
 .hide {
     display: none;
 }
+
+mat-card {
+  cursor: pointer;
+}
+

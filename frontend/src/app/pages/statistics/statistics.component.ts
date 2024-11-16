@@ -87,8 +87,9 @@ export class StatisticsComponent implements OnInit {
                     ) as ProvinceData[]
                     this.provincePieChartOption = {
                         title: {
-                            text: 'Strains Distribution by Province',
+                            text: 'Strains per\nProvince/Territory',
                             left: 'center',
+                            top: 'center',
                         },
                         tooltip: {
                             trigger: 'item',
@@ -102,7 +103,7 @@ export class StatisticsComponent implements OnInit {
                             {
                                 name: 'Province/Territory',
                                 type: 'pie',
-                                radius: '50%',
+                                radius: ['70%', '90%'],
                                 data: allProvinceData.map((item) => ({
                                     value: item.strainCount,
                                     name: item.isolationSoilProvince,
@@ -114,12 +115,15 @@ export class StatisticsComponent implements OnInit {
                                         shadowColor: 'rgba(0, 0, 0, 0.5)',
                                     },
                                 },
+                                label: {
+                                    fontSize: 15,
+                                },
                             },
                         ],
                     };
                     this.provinceBarChartOption = {
                       title: {
-                        text: 'Strains Distribution by Province',
+                        text: 'Strains per Province/Territory',
                         left: 'center',
                       },
                       tooltip: {
@@ -164,9 +168,10 @@ export class StatisticsComponent implements OnInit {
                   ) as HostPlantData[]
                   this.plantPieChartOption = {
                       title: {
-                          text: 'Strains Distribution by Host Plant Species',
+                          text: 'Strains per\nAssociated Plant',
                           left: 'center',
-                      },
+                          top: 'center',
+                    },
                       tooltip: {
                           trigger: 'item',
                           formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
@@ -179,7 +184,7 @@ export class StatisticsComponent implements OnInit {
                           {
                               name: 'Host Plant Species',
                               type: 'pie',
-                              radius: '50%',
+                              radius: ['70%', '90%'],
                               data: allHostPlantData.map((item) => ({
                                   value: item.strainCount,
                                   name: item.hostPlantSpecies,
@@ -191,12 +196,15 @@ export class StatisticsComponent implements OnInit {
                                       shadowColor: 'rgba(0, 0, 0, 0.5)',
                                   },
                               },
+                            label: {
+                                fontSize: 15,
+                            },
                           },
                       ],
                   };
                   this.plantBarChartOption = {
                     title: {
-                      text: 'Strains Distribution by Province',
+                      text: 'Strains per Associated Plant',
                       left: 'center',
                     },
                     tooltip: {
@@ -290,9 +298,10 @@ export class StatisticsComponent implements OnInit {
                     ) as IsolationProtocolData[]
                     this.protocolPieChartOption = {
                     title: {
-                        text: 'Strains Distribution by Isolation Protocol',
+                        text: 'Strains per\nIsolation Protocol',
                         left: 'center',
-                    },
+                        top: 'center',
+                },
                     tooltip: {
                         trigger: 'item',
                         formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
@@ -305,7 +314,7 @@ export class StatisticsComponent implements OnInit {
                         {
                             name: 'Isolation Protocol',
                             type: 'pie',
-                            radius: '50%',
+                            radius: ['70%', '90%'],
                             data: allIsolationProtocolData.map((item) => ({
                                 value: item.strainCount,
                                 name: item.isolationProtocol,
@@ -316,6 +325,9 @@ export class StatisticsComponent implements OnInit {
                                     shadowOffsetX: 0,
                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
                                 },
+                            },
+                            label: {
+                                fontSize: 15,
                             },
                         },
                     ],
@@ -462,7 +474,7 @@ export class StatisticsComponent implements OnInit {
 
     initializeMap(): void {
         // Starting location and zoom
-        const startingCoordinates: L.LatLngExpression = [57, -90];
+        const startingCoordinates: L.LatLngExpression = [54, -90];
         const startingZoom: number = 4;
 
         // Google maps layers string
@@ -471,8 +483,8 @@ export class StatisticsComponent implements OnInit {
 
         // Map options
         const options: L.TileLayerOptions = {
-            maxZoom: 9,
-            minZoom: 3,
+            maxZoom: 4,
+            minZoom: 4,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
             attribution: 'Built using Google Maps',
         };
@@ -496,19 +508,12 @@ export class StatisticsComponent implements OnInit {
 
             const marker = L.circleMarker(
                 { lat: s.latitude, lng: s.longitude },
-                { radius: 15 }
+                { radius: 10 }
             );
             console.log(marker);
-
-            marker.on('click', () => {
-                // Open Strain details
-                this.dialog.open(StrainDetailsDialog, {
-                    width: '600px',
-                    data: s,
-                });
-            });
 
             marker.addTo(this.map);
         });
     }
 }
+

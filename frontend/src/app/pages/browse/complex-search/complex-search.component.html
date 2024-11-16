@@ -9,6 +9,10 @@
             matInput
             formControlName="binomialClassification"
             [matAutocomplete]="binomialClassification"
+            #trigger="matAutocompleteTrigger"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
         />
         <mat-autocomplete #binomialClassification="matAutocomplete">
             <mat-option
@@ -33,6 +37,68 @@
     </mat-form-field>
 
     <mat-form-field class="complex-form-field">
+        <mat-label>Full Taxonomic Lineage</mat-label>
+        <input
+            type="text"
+            aria-label="Search by Full Taxonomic Lineage"
+            matInput
+            formControlName="taxonomicLineage"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
+        />
+    </mat-form-field>
+
+    <mat-form-field class="complex-form-field">
+        <mat-label>CCASM ID</mat-label>
+        <input
+            type="text"
+            aria-label="Search by CCASM ID"
+            matInput
+            formControlName="ccasmId"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
+        />
+    </mat-form-field>
+
+    <mat-form-field class="complex-form-field">
+        <mat-label>Strain Name</mat-label>
+        <input
+            type="text"
+            aria-label="Search by strain name"
+            matInput
+            formControlName="strainName"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
+        />
+    </mat-form-field>
+
+    <mat-form-field class="complex-form-field">
+        <mat-label>Associated Plant Species </mat-label>
+        <input
+            type="text"
+            aria-label="Search by Associated Plant Species"
+            matInput
+            formControlName="hostPlantSpecies"
+            [matAutocomplete]="hostPlantSpecies"
+            #trigger="matAutocompleteTrigger"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
+        />
+        <mat-autocomplete #hostPlantSpecies="matAutocomplete">
+            <mat-option
+                *ngFor="let option of apsFiltered | async"
+                [value]="option"
+            >
+                {{ option }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="complex-form-field">
         <mat-label>Province</mat-label>
         <input
             type="text"
@@ -40,6 +106,10 @@
             matInput
             formControlName="isolationSoilProvince"
             [matAutocomplete]="isolationSoilProvince"
+            #trigger="matAutocompleteTrigger"
+            (keydown.enter)="
+                $event.stopPropagation(); trigger.closePanel(); search()
+            "
         />
         <mat-autocomplete #isolationSoilProvince="matAutocomplete">
             <mat-option
@@ -51,81 +121,7 @@
         </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field class="complex-form-field">
-        <mat-label>Isolation Source</mat-label>
-        <input
-            type="text"
-            aria-label="Search by Isolation Source"
-            matInput
-            formControlName="isolationSource"
-            [matAutocomplete]="isolationSource"
-        />
-        <mat-autocomplete #isolationSource="matAutocomplete">
-            <mat-option
-                *ngFor="let option of isFiltered | async"
-                [value]="option"
-            >
-                {{ option }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="complex-form-field">
-        <mat-label>Isolation Soil Texture</mat-label>
-        <input
-            type="text"
-            aria-label="Search by Isolation Soil Texture"
-            matInput
-            formControlName="isolationSoilTexture"
-            [matAutocomplete]="isolationSoilTexture"
-        />
-        <mat-autocomplete #isolationSoilTexture="matAutocomplete">
-            <mat-option
-                *ngFor="let option of istFiltered | async"
-                [value]="option"
-            >
-                {{ option }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="complex-form-field">
-        <mat-label>Risk Group </mat-label>
-        <input
-            type="text"
-            aria-label="Search by Risk Group"
-            matInput
-            formControlName="riskGroup"
-            [matAutocomplete]="riskGroup"
-        />
-        <mat-autocomplete #riskGroup="matAutocomplete">
-            <mat-option
-                *ngFor="let option of rgFiltered | async"
-                [value]="option"
-            >
-                {{ option }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="complex-form-field">
-        <mat-label>Isolation Protocol</mat-label>
-        <input
-            type="text"
-            aria-label="Search by name"
-            matInput
-            formControlName="isolationProtocol"
-            [matAutocomplete]="isolationProtocol"
-        />
-        <mat-autocomplete #isolationProtocol="matAutocomplete">
-            <mat-option
-                *ngFor="let option of iprotFiltered | async"
-                [value]="option"
-            >
-                {{ option }}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
 </form>
 
 <button mat-raised-button color="primary" (click)="search()">Search</button>
+

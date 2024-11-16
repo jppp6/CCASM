@@ -1,3 +1,10 @@
 .answer {
-  margin-left: 20px;
+    margin-left: 20px;
+}
+
+.button2 {
+    background: white;
+    color: black;
+    height: auto;
+    width: auto;
 }

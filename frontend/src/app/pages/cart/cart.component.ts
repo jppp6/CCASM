@@ -42,6 +42,7 @@ export class CartComponent implements OnInit {
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
         message: [''],
         checkbox: [false, [Validators.requiredTrue]],
+        checkTerms: [false, [Validators.requiredTrue]],
         cart: [false, [Validators.requiredTrue]],
     });
 
@@ -142,7 +143,7 @@ export class CartComponent implements OnInit {
 
     // Open the terms window
     openTerms(): void {
-        this.applyForm.controls['checkbox'].setValue(true);
+        this.applyForm.controls['checkTerms'].setValue(true);
         this.dialog.open(TermsComponent, { width: '600px' });
     }
 
@@ -171,3 +172,4 @@ export class CartComponent implements OnInit {
         return this.applyForm.controls;
     }
 }
+

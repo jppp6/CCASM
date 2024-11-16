@@ -1,8 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { StrainDeposit } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 import { CCASMService } from '../../core/services/ccasm.services';
+import { TermsComponent } from 'src/app/pages/cart/terms/terms.component';
 
 @Component({
     selector: 'app-deposit',
@@ -25,8 +27,10 @@ export class DepositComponent implements OnInit {
         ],
         email: ['', [Validators.required, Validators.email]],
         affiliation: ['', [Validators.required, Validators.minLength(3)]],
-        message: [''],
-        depositExcel: ['', Validators.required],
+        message: ['', [Validators.required, Validators.minLength(3)]],
+        depositExcel: [''],
+        checkbox: [false, [Validators.requiredTrue]],
+        checkTerms: [false, [Validators.requiredTrue]],
     });
 
     // File reader
@@ -34,13 +38,19 @@ export class DepositComponent implements OnInit {
 
     // Services
     services = inject(CCASMService);
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, public dialog: MatDialog) {
         this.applyForm.valueChanges.subscribe(console.log);
         this.reader.onload = async (event) => {
             // Read file value and stringify it
             const data: string = event?.target?.result as string;
             this.applyForm.patchValue({ depositExcel: JSON.stringify(data) });
         };
+    }
+
+    // Open the terms window
+    openTerms(): void {
+        this.applyForm.controls['checkTerms'].setValue(true);
+        this.dialog.open(TermsComponent, { width: '600px' });
     }
 
     // On page load call
@@ -102,3 +112,4 @@ export class DepositComponent implements OnInit {
         return this.applyForm.controls;
     }
 }
+

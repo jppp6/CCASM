@@ -29,7 +29,7 @@ export class HomeComponent implements AfterViewInit {
     // Initialize the leaflet map
     initializeMap(): void {
         // Starting location and zoom
-        const startingCoordinates: L.LatLngExpression = [57, -90];
+        const startingCoordinates: L.LatLngExpression = [54, -90];
         const startingZoom: number = 4;
 
         // Google maps layers string
@@ -38,8 +38,8 @@ export class HomeComponent implements AfterViewInit {
 
         // Map options
         const options: L.TileLayerOptions = {
-            maxZoom: 9,
-            minZoom: 3,
+            maxZoom: 4,
+            minZoom: 4,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
             attribution: 'Built using Google Maps',
         };
@@ -53,25 +53,18 @@ export class HomeComponent implements AfterViewInit {
     }
 
     // Iterate over the Strain collection and add a marker to the map for each
+    numStrains: number = 0;
     addCircularMarkers(strains: Strain[]): void {
+        this.numStrains = strains.length;
         strains.forEach((s: Strain) => {
             if (!s.latitude || !s.longitude) {
                 return;
             }
 
             const marker = L.circleMarker(
-                // TODO FLIP BACK
                 { lat: s.latitude, lng: s.longitude },
-                { radius: 15 }
+                { radius: 10 }
             );
-
-            marker.on('click', () => {
-                // Open Strain details
-                this.dialog.open(StrainDetailsDialog, {
-                    width: '600px',
-                    data: s,
-                });
-            });
 
             marker.addTo(this.map);
         });

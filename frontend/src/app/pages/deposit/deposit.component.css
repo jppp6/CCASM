@@ -10,20 +10,19 @@
     font-weight: bold;
     color: #333; /* Set the color */
     text-align: center; /* Center the text */
-    margin-bottom: 30px; /* Add some space below the title */
+    margin-bottom: 25px; /* Add some space below the title */
     text-transform: uppercase; /* Convert text to uppercase */
     letter-spacing: 2px; /* Add letter spacing */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
   }
 
 h2 {
     font-size: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 div {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .aff {
@@ -55,9 +54,17 @@ div {
 }
 
 button{
-    margin-right: 1vw;
     background: #4285F4;
     color: white;
+    font-size: 15px;
+    line-height: 18px;
+    height: auto;
+    width: auto;
+}
+
+.button2 {
+    background: white;
+    color: black;
     font-size: 15px;
     line-height: 18px;
     height: auto;
@@ -73,3 +80,8 @@ button{
 .file-input {
     display: none;
 }
+
+.terms {
+    margin-bottom: 20px;
+}
+

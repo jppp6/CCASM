@@ -7,15 +7,25 @@
         <span class="flex"></span>
 
         <div class="buttons-container">
-            <a class="header-link" routerLink="/browse" mat-button>Browse</a>
+            <a class="header-link" routerLink="/browse" mat-button>
+                <mat-icon>search</mat-icon>
+                Browse
+            </a>
             |
             <a class="header-link" routerLink="/statistics" mat-button>
+                <mat-icon>stacked_line_chart</mat-icon>
                 Statistics
             </a>
             |
-            <a class="header-link" routerLink="/deposit" mat-button>Deposit</a>
+            <a class="header-link" routerLink="/deposit" mat-button>
+                <mat-icon>download</mat-icon>
+                Deposit
+            </a>
             |
-            <a class="header-link" routerLink="/cart" mat-button>Cart</a>
+            <a class="header-link" routerLink="/cart" mat-button>
+                <mat-icon>shopping_cart</mat-icon>
+                Cart
+            </a>
         </div>
 
         <div class="menu-button">
@@ -23,17 +33,27 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="/browse">Browse</button>
+                <button mat-menu-item routerLink="/browse">
+                    <mat-icon>search</mat-icon>
+                    Browse
+                </button>
                 <button mat-menu-item routerLink="/statistics">
+                    <mat-icon>stacked_line_chart</mat-icon>
                     Statistics
                 </button>
-                <button mat-menu-item routerLink="/deposit">Deposit</button>
-                <button mat-menu-item routerLink="/cart">Cart</button>
+                <button mat-menu-item routerLink="/deposit">
+                    <mat-icon>download</mat-icon>
+                    Deposit
+                </button>
+                <button mat-menu-item routerLink="/cart">
+                    <mat-icon>shopping_cart</mat-icon>
+                    Cart
+                </button>
             </mat-menu>
         </div>
     </mat-toolbar>
 
-    <div style="flex: 1">
+    <div style="flex: 1 1 auto">
         <router-outlet></router-outlet>
     </div>
 

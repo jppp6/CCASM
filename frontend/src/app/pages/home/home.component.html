@@ -1,52 +1,98 @@
-<div id="home-map" style="height: 70%"></div>
+<div id="home-map" style="height: 40vh"></div>
 
-<div class="flex-box flex-row" style="height: 28%">
-    <mat-card class="flex" [appearance]="'outlined'" style="overflow-y: auto">
+<div class="flex-box flex-row" style="height: 45vh">
+    <mat-card class="flex" [appearance]="'outlined'" style="width: 70%">
         <mat-card-header>
             <mat-card-title>Welcome to CCASM</mat-card-title>
-            <mat-card-subtitle>
-                A collection of agricultural soil microbes collected around
-                Canada.
-            </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-            <img
-                style="margin-right: 16px"
-                mat-card-sm-image
-                src="assets/genome_canada.png"
-                alt="Genome Canada"
-            />
-            <img
-                style="margin-right: 16px"
-                mat-card-sm-image
-                src="assets/genome_prairie.png"
-                alt="Genome Prairie"
-            />
-            <img
-                mat-card-sm-image
-                src="assets/genome_ontario.png"
-                alt="Genome Ontario"
-            />
-        </mat-card-content>
-        <mat-card-footer>
+            <br />The Canadian Collection of Agricultural Soil Microbes (CCASM)
+            is a collection of bacteria isolated primarily from agricultural
+            fields across Canada. CCASM is hosted by Queen's University and the
+            University of Manitoba, which was designed to facilitate the sharing
+            of agricultural soil microbes across Canada.<br />
+            <br />
             <mat-card-actions>
                 <a routerLink="/browse" mat-raised-button>
                     Browse the Collection
                 </a>
             </mat-card-actions>
-        </mat-card-footer>
+            <br />
+            CCASM is hosted at Queen's University and the University of
+            Manitoba. Initial development of CCASM was supported by funding from
+            Genome Canada, the Government of Manitoba, and the Government of
+            Ontario.<br />
+            <br /><br />
+            <img
+                style="margin-right: 24px"
+                width="114px"
+                height="80px"
+                src="assets/queens_university.png"
+                alt="Queen's University logo"
+            />
+            <img
+                style="margin-right: 24px"
+                width="164px"
+                height="80px"
+                src="assets/university_manitoba.png"
+                alt="University of Manitoba logo"
+            />
+            <img
+                style="margin-right: 24px"
+                width="133px"
+                height="80px"
+                src="assets/genome_canada.png"
+                alt="Genome Canada logo"
+            />
+            <img
+                style="margin-right: 24px"
+                width="124px"
+                height="80px"
+                src="assets/genome_prairie.png"
+                alt="Genome Prairie logo"
+            />
+            <img
+                style="margin-right: 24px"
+                width="164px"
+                height="80px"
+                src="assets/genome_ontario.png"
+                alt="Ontario Genomics logo"
+            />
+            <img
+                width="177px"
+                height="80px"
+                src="assets/government.png"
+                alt="Government of Manitoba and Government of Ontario logos"
+            />
+        </mat-card-content>
     </mat-card>
 
-    <mat-card class="flex" [appearance]="'outlined'">
+    <mat-card class="flex" [appearance]="'outlined'" style="overflow-y: auto">
         <mat-card-header>
-            <mat-card-title>To be filled with statistics</mat-card-title>
+            <mat-card-title>Strains in Collection: 15</mat-card-title>
         </mat-card-header>
-        <mat-card-footer>
-            <mat-card-actions>
-                <a routerLink="/statistics" mat-raised-button>
-                    Check out Statistics
-                </a>
-            </mat-card-actions>
-        </mat-card-footer>
+        <mat-card-content>
+            Strains from British Columbia: 1<br />
+            Strains from Alberta: 2<br />
+            Strains from Saskatchewan: 0<br />
+            Strains from Manitoba: 1<br />
+            Strains from Ontario: 10<br />
+            Strains from Quebec: 1<br />
+            Strains from Newfoundland and Labrador: 0<br />
+            Strains from New Brunswick: 0<br />
+            Strains from Prince Edward Island: 0<br />
+            Strains from Nova Scotia: 0<br />
+            Strains from Yukon: 0<br />
+            Strains from Northwest Territories: 0<br />
+            Strains from Nunavut: 0<br />
+            <font size="-1"><i>(Last updated 9 August 2024)</i></font
+            ><br />
+            <br />
+        </mat-card-content>
+        <mat-card-actions>
+            <a routerLink="/statistics" mat-raised-button>
+                View all statistics
+            </a>
+        </mat-card-actions>
     </mat-card>
 </div>

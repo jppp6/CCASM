@@ -34,17 +34,17 @@ export class BrowseComponent implements OnInit {
     complexOptions: {
         binomialClassification: string[];
         isolationSoilProvince: string[];
-        isolationSource: string[];
-        isolationSoilTexture: string[];
-        riskGroup: string[];
-        isolationProtocol: string[];
+        ccasmId: string[];
+        taxonomicLineage: string[];
+        hostPlantSpecies: string[];
+        strainName: string[];
     } = {
         binomialClassification: [],
         isolationSoilProvince: [],
-        isolationSource: [],
-        isolationSoilTexture: [],
-        riskGroup: [],
-        isolationProtocol: [],
+        ccasmId: [],
+        taxonomicLineage: [],
+        hostPlantSpecies: [],
+        strainName: [],
     };
 
     ngOnInit(): void {
@@ -61,20 +61,20 @@ export class BrowseComponent implements OnInit {
 
             this.complexOptions = {
                 binomialClassification: this.simpleOptions,
-                isolationSource: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.isolationSource)
+                ccasmId: Utils.filterDuplicatesAndFalsy(
+                    this.allStrains.map((s) => s.ccasmId)
                 ),
-                riskGroup: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => (s.riskGroup || '').toString())
+                hostPlantSpecies: Utils.filterDuplicatesAndFalsy(
+                    this.allStrains.map((s) => (s.hostPlantSpecies || '').toString())
                 ),
                 isolationSoilProvince: Utils.filterDuplicatesAndFalsy(
                     this.allStrains.map((s) => s.isolationSoilProvince)
                 ),
-                isolationSoilTexture: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.isolationSoilTexture)
+                taxonomicLineage: Utils.filterDuplicatesAndFalsy(
+                    this.allStrains.map((s) => s.taxonomicLineage)
                 ),
-                isolationProtocol: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.isolationProtocol)
+                strainName: Utils.filterDuplicatesAndFalsy(
+                    this.allStrains.map((s) => s.strainName)
                 ),
             };
             this.filteredStrains.data = [];
@@ -84,7 +84,9 @@ export class BrowseComponent implements OnInit {
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.replace('unclassified ', '');
+        searchString = searchString.replace('unclassified ', '').toLowerCase();
+        console.log(`Searching for : ${searchString}`)
+        
         this.filteredStrains.data =
             searchString !== ''
                 ? this.allStrains.filter((s) =>
@@ -176,3 +178,4 @@ export class BrowseComponent implements OnInit {
             ? n.children.reduce((c, i) => c + this.recursiveCount(i), 0)
             : 1;
 }
+

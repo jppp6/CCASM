@@ -15,18 +15,18 @@ export class ComplexSearchComponent {
     complexSearchForm = new FormGroup({
         binomialClassification: new FormControl<string>(''),
         isolationSoilProvince: new FormControl<string>(''),
-        isolationSource: new FormControl<string>(''),
-        isolationSoilTexture: new FormControl<string>(''),
-        riskGroup: new FormControl<string>(''),
-        isolationProtocol: new FormControl<string>(''),
+        ccasmId: new FormControl<string>(''),
+        taxonomicLineage: new FormControl<string>(''),
+        hostPlantSpecies: new FormControl<string>(''),
+        strainName: new FormControl<string>(''),
     });
 
     bcFiltered = this._createFilteredObservable('binomialClassification');
     iprovFiltered = this._createFilteredObservable('isolationSoilProvince');
-    isFiltered = this._createFilteredObservable('isolationSource');
-    istFiltered = this._createFilteredObservable('isolationSoilTexture');
-    rgFiltered = this._createFilteredObservable('riskGroup');
-    iprotFiltered = this._createFilteredObservable('isolationProtocol');
+    idFiltered = this._createFilteredObservable('ccasmId');
+    tlFiltered = this._createFilteredObservable('taxonomicLineage');
+    apsFiltered = this._createFilteredObservable('hostPlantSpecies');
+    snFiltered = this._createFilteredObservable('strainName');
 
     private _createFilteredObservable(n: string): Observable<string[]> {
         const c = this.complexSearchForm.get(n);
@@ -65,3 +65,4 @@ export class ComplexSearchComponent {
         this.complexSearchForm.reset();
     }
 }
+

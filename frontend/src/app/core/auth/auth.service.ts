@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
 import { CCASMService } from '../services/ccasm.services';
 
 @Injectable({
@@ -18,9 +17,11 @@ export class AuthService {
     // Redirect to the login page
     login(username: string, password: string): void {
         this.ccasmService.login(username, password).subscribe((res) => {
-            localStorage.setItem(this.authSecretKey, res.access);
-            this.isLoggedIn = true;
-            this.router.navigateByUrl('/admin');
+            if (res.access) {
+                localStorage.setItem(this.authSecretKey, res.access);
+                this.isLoggedIn = true;
+                this.router.navigateByUrl('/admin');
+            }
         });
     }
 
@@ -38,15 +39,17 @@ export class AuthService {
         if (!token) {
             this.isLoggedIn = false;
         } else {
-            const decodedToken = jwtDecode(token);
-            const currentTime = Math.floor(Date.now() / 1000);
+            // const decodedToken = jwtDecode(token);
+            // const currentTime = Math.floor(Date.now() / 1000);
             // Check if token is expired
-            if (decodedToken.exp && decodedToken.exp < currentTime) {
-                // Token is expired
-                this.isLoggedIn = false;
-            } else {
-                this.isLoggedIn = true;
-            }
+            // if (decodedToken.exp && decodedToken.exp < currentTime) {
+            //     // Token is expired
+            //     console.log('expired')
+            //     this.logout()
+
+            // } else {
+            this.isLoggedIn = true;
+            // }
         }
         return this.isLoggedIn;
     }

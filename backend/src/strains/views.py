@@ -65,7 +65,7 @@ def post_deposit(request):
             subject="CCASM Deposit Notification",
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=["ccasm2024@gmail.com"],
+            recipient_list=["ccasm.collection@gmail.com"],
         )
 
         # Save to database
@@ -108,7 +108,7 @@ def post_request(request):
             subject="CCASM Request Notification",
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=["ccasm2024@gmail.com"],
+            recipient_list=["ccasm.collection@gmail.com"],
         )
 
         # Save to database

@@ -1,74 +1,269 @@
-<mat-expansion-panel style="margin-top: 32px">
-  <mat-expansion-panel-header>
-    <mat-panel-title> What is the purpose of CCASM?</mat-panel-title>
-  </mat-expansion-panel-header>
-  <p class="answer">
-    The ultimate goal of the Canadian Collection of Agricultural Soil Microbes
-    (CCASM) is to store microbe sample information collected by researchers
-    around Canada. Researchers have already foregone collecting data, and will
-    continue to do so in the future, but there is no centralized solution for
-    sharing, storing or managing this data. CCASM is meant to fill that gap by
-    creating a web portal where researchers can browse the catalog of samples as
-    well as request physical samples of the microbes.
-  </p>
+<mat-card class="flex" style="overflow-y: auto">
+    <mat-card-header>
+        <mat-card-title
+            >About the Canadian Collection of Agricultural Soil
+            Microbes</mat-card-title
+        >
+    </mat-card-header>
+    <mat-card-content>
+        <br />The Canadian Collection of Agricultural Soil Microbes (CCASM) is a
+        collection of bacteria isolated from sites across Canada. Most isolates
+        come either from the soils of agricultural fields or crop research
+        stations, although some come from other sites such as community or
+        backyard gardens, or soils containing wild relatives of crop species.
+        CCASM is hosted by Queen's University and the University of Manitoba,
+        and was designed to facilitate the sharing of agricultural soil microbes
+        across Canada. Answers to several common questions are provided
+        below.<br /><br />
+    </mat-card-content>
+</mat-card>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>What is the purpose of CCASM?</mat-panel-title>
+    </mat-expansion-panel-header>
+    <p class="answer">
+        CCASM is a bacterial culture collection developed for the purpose of
+        storing bacteria isolated from agricultural fields across Canada. Many
+        researchers have invested significant effort into isolating soil
+        bacteria; however, these collections are generally only maintained in
+        the researcher’s lab collection and are often not easily accessible by
+        others. CCASM was designed to facilitate the sharing of bacterial
+        samples across Canada, reducing duplication of efforts, and facilitating
+        the discovery of microbes with agricultural or other biotechnological
+        purposes by allowing researchers to screen already collected microbes
+        for phenotypes of interest.
+    </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>How do I browse the CCASM catalog?</mat-panel-title>
-  </mat-expansion-panel-header>
-
-  <p class="answer">
-    CCASM allows for users to easily access the catalog of samples by navigating
-    to the
-    <a routerLink="/browse" mat-stroked-button>Browse</a> section of the
-    website. Here, you can search for specific samples. You do not need to log
-    in to download strain data, just simply press download and a csv will be
-    generated.
-  </p>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >What micro-organisms can be deposited into CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        CCASM primarily stores bacteria (archaea are also welcomed) collected
+        from Canadian agricultural soils. Eukaryotic microbes, including
+        arbuscular mycorrhizal fungi, are outside the scope of CCASM. CCASM
+        primarily accepts soil microbes, including those isolated via direct
+        plating of soil dilutions or through nodule trapping; microbes isolated
+        from other crop tissues may also be considered for deposit following
+        discussion with the CCASM curators. Bacteria (or archaea) isolated from
+        non-agricultural sites are generally not appropriate for CCASM although
+        in rare cases such microbes may be accepted following discussion with
+        the CCASM curators. If unsure if your microbes are appropriate for
+        CCASM, please reach contact the CCASM curators via
+        <a
+            href="mailto:ccasm.collection@gmail.com"
+            class="button2"
+            mat-stroked-button
+            >ccasm.collection@gmail.com</a
+        >.
+    </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      How do I request physical samples of a CCASM microbe?
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-
-  <p class="answer">
-    If you find a sample you're interested in, you can request physical samples
-    by clicking on the sample's details page and selecting the "Add to Cart"
-    button. Once happy with selection, navigate to the cart page, where you will
-    fill out a form to start the requesting process.
-  </p>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >Are all micro-organisms in CCASM publicly
+            available?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        All strains listed on the CCASM website are publicly available for
+        delivery to researchers located in Canada.
+    </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      How do I deposit a strain to be added to CCASM?
-    </mat-panel-title>
-  </mat-expansion-panel-header>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >Are there limits on the acceptable use of micro-organisms ordered
+            from CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        All microbes available through CCASM are allowed to be freely used for
+        research purposes. Any commercial use of the material is excluded
+        without prior written consent of Queen’s University or the University of
+        Manitoba. Commercial use of products that are not regulated by the
+        Nagoya Protocol is when the products are used directly for the purpose
+        of profit generation or for a patent application. Internal use for
+        quality control and as reference material is not a commercial use,
+        unless the tests are performed for product approval and listed
+        accordingly in reports for approval. For orders of microorganisms,
+        commercial use is possible on a case-by-case basis with the consent of
+        CCASM management.
+    </p>
+</mat-expansion-panel>
 
-  <p class="answer">
-    If you have any strains that can be added to the collection, navigate to the
-    <a routerLink="/deposit" mat-stroked-button>Deposit</a> page. There you will
-    be prompted to fill out an excel document detailing the required
-    information. <br />*The outcome of this deposit is determined by the admin
-    team.
-  </p>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >How do I deposit a micro-organism into CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        To deposit a strain, first navigate to the
+        <a routerLink="/deposit" class="button2" mat-stroked-button>deposit</a>
+        page. Once there, complete and submit the form to initiate the process.
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>How do I browse the CCASM catalog?</mat-panel-title>
+    </mat-expansion-panel-header>
+    <p class="answer">
+        CCASM allows for users to easily access the catalog of samples, and the
+        associated metadata, by navigating to the
+        <a routerLink="/browse" class="button2" mat-stroked-button>browse</a>
+        page. Here, you can search for specific isolates or browse the full
+        collection. A login is not required (nor possible).
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >How do I order a micro-organism from CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        To order a strain, you need to first find the strain in the catalog via
+        the
+        <a routerLink="/browse" class="button2" mat-stroked-button>browse</a>
+        page. Once you click on the strain of interest, a page with metadata and
+        an “Add to Cart” button will pop-up. Click on the “Add to Cart” button
+        to add the strain to your cart. Once you have selected all strains of
+        interest, navigate to the
+        <a routerLink="/cart" class="button2" mat-stroked-button>cart</a> page,
+        and then complete and submit the form to initiate the process.
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >Who can order a micro-organism from CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        Currently, CCASM strains can only be delivered researchers residing and
+        working in Canada, and the strains can only be shipped to Canadian
+        addresses. International orders are currently not possible.
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >Are there fees associated with ordering or depositing strains in
+            CCASM?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        Yes. While funding was secured to establish CCASM, we do not have
+        ongoing funding to support its maintenance. Therefore, a small fee of
+        $100/strain is charged for each strain being deposited into CCASM and
+        for strain being delivered to a customer. Shipping fees are extra. Bulk
+        discounts may be available for large orders but are not guaranteed.
+        These fees help to ensure the continued viability of the collection.
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >I am a member of an ICT-CSAFS team. Do I get a
+            discount?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        Yes! During the duration of the ICT-CSAFS grants, deposits and access to
+        CCASM are free-of-charge for other ICT-CSAFS teams, if the
+        deposit/request relates to the ICT-CSAFS-funded research.
+    </p>
+</mat-expansion-panel>
+
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title
+            >Does CCASM offer genome sequencing as a service?</mat-panel-title
+        >
+    </mat-expansion-panel-header>
+    <p class="answer">
+        Although we have in-house genome sequencing capabilities, CCASM is not a
+        sequencing centre and so does not routinely offer genome sequencing as a
+        service. However, CCASM curators are happy to discuss the possibility of
+        sequencing bacterial (or archaeal) isolates that are being deposited to
+        CCAM on a case-by-case basis, either for a fee or in exchange for
+        authorship. Please contact the CCASM curators at
+        <a
+            href="mailto:ccasm.collection@gmail.com"
+            class="button2"
+            mat-stroked-button
+            >ccasm.collection@gmail.com</a
+        >
+        if this is something that you would like to discuss.
+    </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel style="margin-bottom: 32px">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      How do I get in contact with the CCASM team?
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <strong> You can contact the following admins: </strong>
-
-  <div class="answer">
-    George Colin diCenzo -
-    <a href="mailto:george@queensu.ca" mat-stroked-button>Contact by email</a>
-  </div>
+    <mat-expansion-panel-header>
+        <mat-panel-title>How do I get in contact with CCASM?</mat-panel-title>
+    </mat-expansion-panel-header>
+    <strong> You can contact the following admins: </strong>
+    <p class="answer">
+        You can contact the CCASM curators by email at
+        <a
+            href="mailto:ccasm.collection@gmail.com"
+            class="button2"
+            mat-stroked-button
+            >ccasm.collection@gmail.com</a
+        >.
+    </p>
 </mat-expansion-panel>
+
+<img
+    style="margin-right: 24px"
+    width="114px"
+    height="80px"
+    src="assets/queens_university.png"
+    alt="Queen's University logo"
+/>
+<img
+    style="margin-right: 24px"
+    width="164px"
+    height="80px"
+    src="assets/university_manitoba.png"
+    alt="University of Manitoba logo"
+/>
+<img
+    style="margin-right: 24px"
+    width="133px"
+    height="80px"
+    src="assets/genome_canada.png"
+    alt="Genome Canada logo"
+/>
+<img
+    style="margin-right: 24px"
+    width="124px"
+    height="80px"
+    src="assets/genome_prairie.png"
+    alt="Genome Prairie logo"
+/>
+<img
+    style="margin-right: 24px"
+    width="164px"
+    height="80px"
+    src="assets/genome_ontario.png"
+    alt="Ontario Genomics logo"
+/>
+<img
+    width="177px"
+    height="80px"
+    src="assets/government.png"
+    alt="Government of Manitoba and Government of Ontario logos"
+/>

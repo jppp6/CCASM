@@ -8,7 +8,7 @@
             <mat-card
                 *ngFor="let strain of obs | async"
                 (click)="openStrainInformation(strain)"
-                style="background-color: #ececec"
+                style="background-color: #ececec; cursor: pointer"
             >
                 <mat-card-title>
                     <strong>CCASM ID:</strong> {{ strain.ccasmId }}
@@ -42,7 +42,7 @@
         <!-- Title -->
         <h1 class="title">Request Strain Form</h1>
         <hr />
-        <h2>To request physical strain samples from the database, add your strains to the cart and fill in this form to start the procedure.</h2>
+        <h2>To request one or more isolates be shipped to you, please add the strains of interest to the cart, and then fill-in and submit this form to initiate the process.</h2>
 
         <!-- Main Form -->
         <form [formGroup]="applyForm" novalidate class="form">
@@ -54,7 +54,7 @@
                         type="one"
                         matInput
                         formControlName="firstName"
-                        placeholder="Ex. John"
+                        placeholder="First name"
                     />
                     <mat-error
                         *ngIf="f.firstName?.invalid && f.firstName?.errors?.['required']"
@@ -73,7 +73,7 @@
                         type="one"
                         matInput
                         formControlName="lastName"
-                        placeholder="Ex. Doe"
+                        placeholder="Last name"
                     />
                     <mat-error
                         *ngIf="f.lastName?.invalid && f.lastName?.errors?.['required']"
@@ -92,7 +92,7 @@
                         type="one"
                         matInput
                         formControlName="email"
-                        placeholder="Ex. email@test.com"
+                        placeholder="Email address"
                     />
                     <mat-error
                         *ngIf="f.email?.invalid && f.email?.errors?.['required']"
@@ -113,7 +113,7 @@
                         type="two"
                         matInput
                         formControlName="affiliation"
-                        placeholder="Ex. Professor at example University"
+                        placeholder="University or company name"
                     />
                     <mat-error
                         *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['required']"
@@ -130,47 +130,43 @@
             <!-- Message box -->
             <div name="Message">
                 <mat-form-field class="msg">
-                    <mat-label>Additional Information...</mat-label>
+                    <mat-label>Additional Information</mat-label>
                     <textarea
                         matInput
-                        rows="8"
-                        maxlength="400"
+                        rows="4"
+                        maxlength="10000"
                         formControlName="message"
-                        placeholder="Write here..."
+                        placeholder="If you would like to add any additional information, please do so here."
                     ></textarea>
                 </mat-form-field>
             </div>
 
             <!-- Legal stuff? -->
             <div>
-                <mat-checkbox formControlName="checkbox"></mat-checkbox>
-                <button
-                    type="button"
-                    class="terms"
-                    mat-stroked-button
-                    (click)="openTerms()"
-                >
-                    Terms of Services
-                </button>
-                <mat-error
-                    class="terms"
-                    *ngIf="f.checkbox?.invalid && f.checkbox?.errors?.['required']"
-                    >* Please read the
-                    <strong>terms of services</strong>.</mat-error
-                >
+                <mat-checkbox formControlName="checkTerms">
+                    I have read and agree to the
+                    <button
+                        type="button"
+                        class="button2"
+                        mat-stroked-button
+                        (click)="openTerms()"
+                    >
+                        Terms and Conditions
+                    </button>
+                </mat-checkbox>
             </div>
 
+            <div>
+                <mat-checkbox formControlName="checkbox">
+                    By submitting this form, you consent to receiving an email from the collection curators, asking for more information and who will provide instructions on how to receive your isolate(s). Submission of this form does not guarantee that your request will be fulfilled; only requests meeting the requirements (e.g., shipping to an address in Canada) will be fulfilled.                
+                </mat-checkbox>
+            </div>
+            <br>
+    
             <div>
                 <mat-error class="terms" *ngIf="f.cart?.errors?.['required']"
                     >* You don't have anything in cart...</mat-error
                 >
-            </div>
-
-            <div name="info" class="disclaimer">
-                <label class="txt" style="font-style: italic">
-                    *This request will put you in contact with one of us.
-                    Furthur communication will be needed
-                </label>
             </div>
 
             <!-- buttons/file upload -->
@@ -201,3 +197,4 @@
         </form>
     </div>
 </div>
+

@@ -6,27 +6,27 @@
         <!-- Title -->
         <h1 class="title">Deposit Strain Form</h1>
 
-        <h2>To upload your strains to the CCASM database, fill in this form to start the procedure.</h2>
+        <h2 style="text-align: center;">If you are interested in depositing your isolate(s) in CCASM, please fill-in and submit <br>this form to initiate the process.</h2>
 
         <!-- First line -->
         <div name = "first-last-email" class="first-line">
             <mat-form-field appearance="outline">
                 <mat-label>First name</mat-label>
-                <input type="one" matInput formControlName="firstName" placeholder="Ex. John" >
+                <input type="one" matInput formControlName="firstName" placeholder="First name" >
                     <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['required']">* First Name is <strong>required</strong></mat-error>
                     <mat-error *ngIf="f.firstName?.invalid && f.firstName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Last name</mat-label>
-                <input type="one" matInput formControlName="lastName" placeholder="Ex. Doe">
+                <input type="one" matInput formControlName="lastName" placeholder="Last name">
                     <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['required']">* Last Name is <strong>required</strong></mat-error>
                     <mat-error *ngIf="f.lastName?.invalid && f.lastName?.errors?.['pattern']">* Only <strong>alphabetic </strong>characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
-                <input type="one" matInput formControlName="email" placeholder="Ex. email@test.com">
+                <input type="one" matInput formControlName="email" placeholder="Email address">
                     <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['required']">* Email is <strong>required</strong>.</mat-error>
                     <mat-error *ngIf="f.email?.invalid && f.email?.errors?.['email']">* Email not <strong>valid</strong>.</mat-error>
             </mat-form-field>
@@ -38,7 +38,7 @@
             
             <mat-form-field class="aff" appearance="outline">
                 <mat-label>Affiliation</mat-label>
-                <input type="two" matInput formControlName="affiliation" placeholder="Ex. Professor at example University">
+                <input type="two" matInput formControlName="affiliation" placeholder="University or company name">
                     <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['required']">* Affiliation is <strong>required</strong>.</mat-error>
                     <mat-error *ngIf="f.affiliation?.invalid && f.affiliation?.errors?.['minlength']">* More than 3 characters <strong>needed</strong>.</mat-error>
             </mat-form-field>
@@ -48,16 +48,36 @@
         <!-- Message box -->
         <div name= "Message">
             <mat-form-field class="msg">
-                <mat-label>Additional Information...</mat-label>
-                <textarea matInput rows="8" maxlength="400" formControlName="message" placeholder="Write here..."></textarea>
-              </mat-form-field>
+                <mat-label>Description of isolates</mat-label>
+                <textarea matInput rows="4" maxlength="10000" formControlName="message" placeholder="Please provide a description of the isolates to be deposited in CCASM. In particular, please indicate their source (e.g., agricultural soil), how they were isolated (e.g., serial dilution and plating), and the general location from which they were isolated (e.g., Ontario)."></textarea>
+                    <mat-error *ngIf="f.message?.invalid && f.message?.errors?.['required']">* Description is <strong>required</strong>.</mat-error>
+                    <mat-error *ngIf="f.message?.invalid && f.message?.errors?.['minlength']">* More than 3 characters <strong>needed</strong>.</mat-error>
+          </mat-form-field>
         </div>
 
-        <div name="info" class="disclaimer">
-            <label class="txt" style="font-style: italic;">
-                *This request will put you in contact with one of us. Furthur communication will be needed.
-            </label>
+        <div>
+            <mat-checkbox formControlName="checkTerms">
+                I have read and agree to the
+                <button
+                    type="button"
+                    class="button2"
+                    mat-stroked-button
+                    (click)="openTerms()"
+                >
+                    Terms and Conditions
+                </button>
+            </mat-checkbox>
         </div>
+
+        <div>
+            <mat-checkbox formControlName="checkbox">
+                By submitting this form, you consent to receiving an email from the collection curators, asking<br>
+                for more information and who will provide instructions on how to submit your isolate(s). Submission<br>
+                of this form does not guarantee that your isolates will be accepted for deposit in CCASM; only <br>
+                strains meeting the requirements (e.g., isolated from a Canadian source) will be accepted.                
+            </mat-checkbox>
+        </div>
+        <br>
 
         <!-- buttons/file upload -->
         <div class="button">
@@ -71,30 +91,8 @@
             
             <div>{{msg || ""}}</div>
 
-            <div class="file-up">
-                <input type="file" class="file-input" (change)="onFileUpload($event)" required #deposit>
-
-                <div class="file-upload">
-
-                    {{filename || "file upload (csv)"}}
-
-                    <button mat-mini-fab id="file" color="primary" class="upload-btn"
-                    (click)="deposit.click()">
-                        <mat-icon>attach_file</mat-icon>
-                    </button>
-                </div>
-            </div>
-
         </div>
         
-        <!-- Error handling for file upload -->
-        <div>
-            <label for="errors" class="file-error">
-                <div class="error" *ngIf="f.depositExcel?.invalid">
-                    <div *ngIf="f.depositExcel?.errors?.['required']">|File type(.csv) is required.|</div>
-                </div>
-            </label>
-        </div>
-
     </form>    
 </div>
+

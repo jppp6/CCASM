@@ -13,6 +13,18 @@
 </div>
 
 <!-- Search  -->
+
+<div *ngIf="allStrains.length > 0">
+    <mat-card style="cursor: default">
+        <mat-card-header>
+            <mat-card-title style="cursor: text">Browse the Canadian Collection of Agricultural Soil Microbes (CCASM)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="cursor: text">
+            <br>This page can be used to search CCASM. The simple search will search just the binomial name (i.e., genus and species) field of each entry. The complex search can be used to additionally search the following fields: full taxonomic lineage, CCASM ID, strain name, associated plant species, and province of isolation. The binomical name, associated plant species, and province of isolation search fields include an optional dropdown menu. Upon selecting a strain of interest, there is an option to add the strain to the cart to facilitate ordering of the strain. It is also possible to download the metadata associated with the entire collection (via the button "Download Entire Collection") or the metadata associated with a search result (via the button "Download Filtered Collection" that will appear after performing a search). The metadata will download as a comma separated file (.CSV).<br><br>
+        </mat-card-content>
+    </mat-card>
+</div>
+
 <div style="padding: 32px 32px 0px 32px" *ngIf="allStrains.length > 0">
     <div class="flex-box">
         <button mat-raised-button (click)="exportAll()">
@@ -65,7 +77,7 @@
     >
         <mat-tree-node
             *matTreeNodeDef="let node"
-            (click)="simpleSearch(node.name)"
+            (click)="simpleSearch(node.name.toLowerCase())"
             matTreeNodeToggle
         >
             {{ node.name }}
@@ -125,3 +137,4 @@
     >
     </mat-paginator>
 </div>
+

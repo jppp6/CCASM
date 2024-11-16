@@ -34,7 +34,6 @@ h1 {
     margin-bottom: 20px; /* Add some space below the title */
     text-transform: uppercase; /* Convert text to uppercase */
     letter-spacing: 2px; /* Add letter spacing */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a subtle text shadow */
 }
 
 h2 {
@@ -87,6 +86,15 @@ button {
     width: auto;
 }
 
+.button2 {
+    background: white;
+    color: black;
+    font-size: 15px;
+    line-height: 18px;
+    height: auto;
+    width: auto;
+}
+
 .file-error {
     color: red;
     font-style: italic;
@@ -96,3 +104,4 @@ button {
 .file-input {
     display: none;
 }
+
