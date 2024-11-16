@@ -1,28 +1,25 @@
-<div id="home-map" style="height: 40vh"></div>
+<div class="h100">
+    <div class="map" id="home-map"></div>
 
-<div class="flex-box flex-row" style="height: 45vh">
-    <mat-card class="flex" [appearance]="'outlined'" style="width: 70%">
-        <mat-card-header>
-            <mat-card-title>Welcome to CCASM</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <br />The Canadian Collection of Agricultural Soil Microbes (CCASM)
-            is a collection of bacteria isolated primarily from agricultural
-            fields across Canada. CCASM is hosted by Queen's University and the
-            University of Manitoba, which was designed to facilitate the sharing
-            of agricultural soil microbes across Canada.<br />
-            <br />
-            <mat-card-actions>
-                <a routerLink="/browse" mat-raised-button>
-                    Browse the Collection
-                </a>
-            </mat-card-actions>
-            <br />
-            CCASM is hosted at Queen's University and the University of
-            Manitoba. Initial development of CCASM was supported by funding from
-            Genome Canada, the Government of Manitoba, and the Government of
-            Ontario.<br />
-            <br /><br />
+    <div class="layout-container">
+        <div class="intro">
+            <h2>Welcome to CCASM</h2>
+            <p>
+                The Canadian Collection of Agricultural Soil Microbes (CCASM) is
+                a collection of bacteria isolated primarily from agricultural
+                fields across Canada. CCASM is hosted by Queen's University and
+                the University of Manitoba, which was designed to facilitate the
+                sharing of agricultural soil microbes across Canada.
+            </p>
+            <a routerLink="/browse" mat-raised-button>
+                Browse the Collection
+            </a>
+            <p>
+                CCASM is hosted at Queen's University and the University of
+                Manitoba. Initial development of CCASM was supported by funding
+                from Genome Canada, the Government of Manitoba, and the
+                Government of Ontario.
+            </p>
             <img
                 style="margin-right: 24px"
                 width="114px"
@@ -64,35 +61,31 @@
                 src="assets/government.png"
                 alt="Government of Manitoba and Government of Ontario logos"
             />
-        </mat-card-content>
-    </mat-card>
+        </div>
 
-    <mat-card class="flex" [appearance]="'outlined'" style="overflow-y: auto">
-        <mat-card-header>
-            <mat-card-title>Strains in Collection: 15</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            Strains from British Columbia: 1<br />
-            Strains from Alberta: 2<br />
-            Strains from Saskatchewan: 0<br />
-            Strains from Manitoba: 1<br />
-            Strains from Ontario: 10<br />
-            Strains from Quebec: 1<br />
-            Strains from Newfoundland and Labrador: 0<br />
-            Strains from New Brunswick: 0<br />
-            Strains from Prince Edward Island: 0<br />
-            Strains from Nova Scotia: 0<br />
-            Strains from Yukon: 0<br />
-            Strains from Northwest Territories: 0<br />
-            Strains from Nunavut: 0<br />
-            <font size="-1"><i>(Last updated 9 August 2024)</i></font
-            ><br />
+        <div class="stats">
+            <h3>Strains per Province:</h3>
+            Strains from British Columbia: {{ fromProv.BC }} <br />
+            Strains from Alberta: {{ fromProv.AB }}<br />
+            Strains from Saskatchewan: {{ fromProv.SK }}<br />
+            Strains from Manitoba: {{ fromProv.MB }}<br />
+            Strains from Ontario: {{ fromProv.ON }}<br />
+            Strains from Quebec: {{ fromProv.QC }}<br />
+            Strains from Newfoundland and Labrador: {{ fromProv.NL }} <br />
+            Strains from New Brunswick: {{ fromProv.NB }}<br />
+            Strains from Prince Edward Island: {{ fromProv.PE }}<br />
+            Strains from Nova Scotia: {{ fromProv.NS }}<br />
+            Strains from Yukon: {{ fromProv.YT }}<br />
+            Strains from Northwest Territories: {{ fromProv.NT }}<br />
+            Strains from Nunavut: {{ fromProv.NU }}<br />
+            ---------------------------------<br />
+            Total in Collection: {{ fromProv.ALL }}<br />
             <br />
-        </mat-card-content>
-        <mat-card-actions>
             <a routerLink="/statistics" mat-raised-button>
-                View all statistics
-            </a>
-        </mat-card-actions>
-    </mat-card>
+                <mat-icon>search</mat-icon>
+                Go To Statistics</a
+            >
+            <br />
+        </div>
+    </div>
 </div>

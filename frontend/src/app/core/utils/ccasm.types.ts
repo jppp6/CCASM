@@ -16,7 +16,20 @@ export interface Strain {
     isolationSoilPh: number;
     isolationSoilOrganicMatter: string;
     isolationSoilTexture: string;
-    isolationSoilProvince: string;
+    isolationSoilProvince:
+        | 'AB'
+        | 'BC'
+        | 'MB'
+        | 'NB'
+        | 'NL'
+        | 'NS'
+        | 'NT'
+        | 'NU'
+        | 'ON'
+        | 'PE'
+        | 'QC'
+        | 'SK'
+        | 'YT';
     longitude: number;
     latitude: number;
     genomeNcbiAssociation: string;

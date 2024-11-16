@@ -1,6 +1,7 @@
 <div class="flex-column h100">
     <mat-toolbar>
         <a routerLink="/home" mat-button>
+            <mat-icon>biotech</mat-icon>
             Canadian Collection of Agricultural Soil Microbes
         </a>
 
@@ -53,7 +54,8 @@
         </div>
     </mat-toolbar>
 
-    <div style="flex: 1 1 auto">
+    <div style="flex: 1 1 auto; padding: 0 max(10%, 32px)">
+        <!-- Add padding here -->
         <router-outlet></router-outlet>
     </div>
 

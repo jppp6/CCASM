@@ -1,7 +1,21 @@
-#home-map {
-    height: 40vh;
-    margin-right: 10px;
-    margin-left: 10px;
-    padding-bottom: 20px;
-    width: 100;
+.map {
+    height: 300px;
+}
+
+.layout-container {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: auto 350px;
+    grid-template-rows: auto;
+    grid-template-areas: "intro stats";
+}
+
+@media screen and (max-width: 700px) {
+    .layout-container {
+        grid-template-columns: auto;
+        grid-template-rows: auto 350px;
+        grid-template-areas:
+            "info"
+            "stats";
+    }
 }
