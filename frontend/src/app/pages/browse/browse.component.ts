@@ -65,7 +65,9 @@ export class BrowseComponent implements OnInit {
                     this.allStrains.map((s) => s.ccasmId)
                 ),
                 hostPlantSpecies: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => (s.hostPlantSpecies || '').toString())
+                    this.allStrains.map((s) =>
+                        (s.hostPlantSpecies || '').toString()
+                    )
                 ),
                 isolationSoilProvince: Utils.filterDuplicatesAndFalsy(
                     this.allStrains.map((s) => s.isolationSoilProvince)
@@ -85,8 +87,8 @@ export class BrowseComponent implements OnInit {
 
     simpleSearch(searchString: string): void {
         searchString = searchString.replace('unclassified ', '').toLowerCase();
-        console.log(`Searching for : ${searchString}`)
-        
+        console.log(`Searching for : ${searchString}`);
+
         this.filteredStrains.data =
             searchString !== ''
                 ? this.allStrains.filter((s) =>
@@ -108,24 +110,6 @@ export class BrowseComponent implements OnInit {
             )
         );
         this.showTree = false;
-    }
-
-    exportFiltered(): void {
-        if (this.filteredStrains.data.length > 0) {
-            Utils.exportToCSV(
-                this.filteredStrains.data,
-                'CCASM-' + Utils.formatDate(new Date()) + '.csv'
-            );
-        }
-    }
-
-    exportAll(): void {
-        if (this.allStrains.length > 0) {
-            Utils.exportToCSV(
-                this.allStrains,
-                'CCASM-' + Utils.formatDate(new Date()) + '.csv'
-            );
-        }
     }
 
     openStrainInformation(strain: Strain): void {
@@ -161,6 +145,7 @@ export class BrowseComponent implements OnInit {
                 }
             });
         });
+        console.log(nodes);
         return nodes;
     }
 
@@ -178,4 +163,3 @@ export class BrowseComponent implements OnInit {
             ? n.children.reduce((c, i) => c + this.recursiveCount(i), 0)
             : 1;
 }
-
