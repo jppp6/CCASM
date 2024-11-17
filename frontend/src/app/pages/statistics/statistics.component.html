@@ -1,7 +1,14 @@
-<div id="statistics-map" style="height: 40vh;"></div>
+<div id="statistics-map" class="map"></div>
 
-<div class="chart-container" style="display: grid; grid-template-columns: 33% 33% 33%; width: 100%; margin-top: 24px">
-
+<div
+    class="chart-container"
+    style="
+        display: grid;
+        grid-template-columns: 33% 33% 33%;
+        width: 100%;
+        margin-top: 24px;
+    "
+>
     <!-- Pie Chart for Province Distribution -->
     <div echarts [options]="provincePieChartOption"></div>
 
@@ -10,7 +17,6 @@
 
     <!-- Pie Chart for Isolation Protocol -->
     <div echarts [options]="protocolPieChartOption"></div>
-
 </div>
 
 <!-- Taxonomic Level Tab Widget -->
@@ -66,4 +72,3 @@
         </mat-tab>
     </mat-tab-group>
 </div> -->
-

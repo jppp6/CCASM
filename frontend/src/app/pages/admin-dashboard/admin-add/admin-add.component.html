@@ -6,12 +6,18 @@
             </mat-checkbox>
 
             <mat-form-field class="w100">
-                <mat-label>Strain Name</mat-label>
+                <mat-label> CCASM ID </mat-label>
+                <input matInput formControlName="ccasmID" type="text" />
+                <mat-hint align="start"> ^ Format is CCASM-xxxxxx </mat-hint>
+            </mat-form-field>
+
+            <mat-form-field class="w100">
+                <mat-label> Strain Name </mat-label>
                 <input matInput formControlName="strainName" type="text" />
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Binomial Classification</mat-label>
+                <mat-label> Binomial Classification </mat-label>
                 <input
                     matInput
                     formControlName="binomialClassification"
@@ -20,38 +26,20 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Taxonomic Lineage</mat-label>
+                <mat-label> Taxonomic Lineage </mat-label>
                 <input
                     matInput
                     formControlName="taxonomicLineage"
                     type="text"
                 />
+                <mat-hint align="start">
+                    ^ Format is semi-colon seperated (ie: Kingdom; Phylum;
+                    Class; Order; Family; Genus; Species)
+                </mat-hint>
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Risk Group</mat-label>
-                <input matInput formControlName="riskGroup" type="number" />
-            </mat-form-field>
-
-            <mat-form-field class="w100">
-                <mat-label>Is Plant Pathogen</mat-label>
-                <mat-select formControlName="isPlantPathogen">
-                    <mat-option value="1">True</mat-option>
-                    <mat-option value="0">False</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="w100">
-                <mat-label>Colony Morphology</mat-label>
-                <input
-                    matInput
-                    formControlName="colonyMorphology"
-                    type="text"
-                />
-            </mat-form-field>
-
-            <mat-form-field class="w100">
-                <mat-label>Host Plant Species</mat-label>
+                <mat-label> Host Plant Species </mat-label>
                 <input
                     matInput
                     formControlName="hostPlantSpecies"
@@ -60,17 +48,17 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Source</mat-label>
+                <mat-label> Isolation Source </mat-label>
                 <input matInput formControlName="isolationSource" type="text" />
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Year</mat-label>
+                <mat-label> Isolation Year </mat-label>
                 <input matInput formControlName="isolationYear" type="number" />
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Protocol</mat-label>
+                <mat-label> Isolation Protocol </mat-label>
                 <input
                     matInput
                     formControlName="isolationProtocol"
@@ -79,7 +67,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Growth Medium</mat-label>
+                <mat-label> Isolation Growth Medium </mat-label>
                 <input
                     matInput
                     formControlName="isolationGrowthMedium"
@@ -88,7 +76,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Growth Temperature</mat-label>
+                <mat-label> Isolation Growth Temperature </mat-label>
                 <input
                     matInput
                     formControlName="isolationGrowthTemperature"
@@ -97,7 +85,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Growth Medium Composition</mat-label>
+                <mat-label> Isolation Growth Medium Composition </mat-label>
                 <input
                     matInput
                     formControlName="isolationGrowthMediumComposition"
@@ -106,7 +94,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Soil PH</mat-label>
+                <mat-label> Isolation Soil PH </mat-label>
                 <input
                     matInput
                     formControlName="isolationSoilPh"
@@ -115,7 +103,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Soil Organic Matter</mat-label>
+                <mat-label> Isolation Soil Organic Matter </mat-label>
                 <input
                     matInput
                     formControlName="isolationSoilOrganicMatter"
@@ -124,7 +112,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Soil Texture</mat-label>
+                <mat-label> Isolation Soil Texture </mat-label>
                 <input
                     matInput
                     formControlName="isolationSoilTexture"
@@ -133,7 +121,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Isolation Soil Province</mat-label>
+                <mat-label> Isolation Soil Province </mat-label>
                 <mat-select formControlName="isolationSoilProvince">
                     <mat-option
                         *ngFor="let p of provinceAbbreviations"
@@ -145,17 +133,45 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Longitude</mat-label>
+                <mat-label> Longitude </mat-label>
                 <input matInput formControlName="longitude" type="number" />
+                <mat-hint align="start">
+                    ^ Value between -180 and +180
+                </mat-hint>
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Latitude</mat-label>
+                <mat-label> Latitude </mat-label>
                 <input matInput formControlName="latitude" type="number" />
+                <mat-hint align="start">
+                    ^ Value between -180 and +180
+                </mat-hint>
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Genome NCBI Association</mat-label>
+                <mat-label> Risk Group </mat-label>
+                <input matInput formControlName="riskGroup" type="number" />
+            </mat-form-field>
+
+            <mat-form-field class="w100">
+                <mat-label> Is Plant Pathogen </mat-label>
+                <mat-select formControlName="isPlantPathogen">
+                    <mat-option value="1"> True </mat-option>
+                    <mat-option value="0"> False </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w100">
+                <mat-label> Colony Morphology </mat-label>
+                <input
+                    matInput
+                    formControlName="colonyMorphology"
+                    type="text"
+                />
+            </mat-form-field>
+
+            <mat-form-field class="w100">
+                <mat-label> Genome NCBI Association </mat-label>
                 <input
                     matInput
                     formControlName="genomeNcbiAssociation"
@@ -164,17 +180,18 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Genome Size</mat-label>
+                <mat-label> Genome Size </mat-label>
                 <input matInput formControlName="genomeSize" type="number" />
+                <span matTextSuffix> Mb </span>
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Notes</mat-label>
+                <mat-label> Notes </mat-label>
                 <textarea matInput formControlName="notes" rows="4"></textarea>
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Citation</mat-label>
+                <mat-label> Citation </mat-label>
                 <textarea
                     matInput
                     formControlName="citation"
@@ -183,7 +200,7 @@
             </mat-form-field>
 
             <mat-form-field class="w100">
-                <mat-label>Photo</mat-label>
+                <mat-label> Photo </mat-label>
                 <input matInput formControlName="photo" type="text" />
             </mat-form-field>
         </form>
@@ -192,9 +209,9 @@
             mat-raised-button
             color="primary"
             [disabled]="!individualData.valid"
-            (click)="uploadData('individual')"
+            (submit)="uploadDataIndividual()"
         >
-            Add to Collection
+            Add Strain to Collection
         </button>
     </mat-tab>
 
@@ -221,7 +238,7 @@
         />
 
         <button mat-stroked-button (click)="deposit.click()">
-            <mat-icon>attach_file</mat-icon>Load Data
+            <mat-icon>attach_file</mat-icon> Load Data
         </button>
 
         <button
@@ -229,15 +246,15 @@
             (click)="batchDataSource.data = []"
             *ngIf="batchDataSource.data.length > 0"
         >
-            <mat-icon>clear</mat-icon>Clear Data
+            <mat-icon>clear</mat-icon> Clear Data
         </button>
 
         <button
             mat-stroked-button
-            (click)="uploadData('batch')"
+            (click)="uploadDataBatch()"
             *ngIf="batchDataSource.data.length > 0"
         >
-            <mat-icon>upload</mat-icon>Add to Collection
+            <mat-icon>upload</mat-icon> Add to Collection
         </button>
 
         <table mat-table [dataSource]="batchDataSource" matSort>

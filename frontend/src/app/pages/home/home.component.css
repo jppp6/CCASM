@@ -1,19 +1,27 @@
 .map {
     height: 300px;
 }
+.intro {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.stats {
+    padding-left: 16px;
+    padding-right: 16px;
+}
 
 .layout-container {
     display: grid;
-    gap: 8px;
-    grid-template-columns: auto 350px;
+    grid-template-columns: auto 360px;
     grid-template-rows: auto;
     grid-template-areas: "intro stats";
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1000px) {
     .layout-container {
         grid-template-columns: auto;
-        grid-template-rows: auto 350px;
+        grid-template-rows: auto 360px;
         grid-template-areas:
             "info"
             "stats";

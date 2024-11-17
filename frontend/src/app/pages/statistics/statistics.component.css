@@ -6,12 +6,8 @@
     margin-left: 10px;
 }
 
-#statistics-map {
-    height: 40vh;
-    margin-right: 10px;
-    margin-left: 10px;
-    padding-bottom: 20px;
-    width: 100;
+.map {
+    height: 300px;
 }
 
 .chart-container {

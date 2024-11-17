@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
     styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-    view: 'requests' | 'deposits' | 'collection' | 'add' | 'select' = 'select';
+    view: 'requests' | 'deposits' | 'collection' | 'add' | 'select' = 'add';
 
     constructor(private authService: AuthService) {}
 
