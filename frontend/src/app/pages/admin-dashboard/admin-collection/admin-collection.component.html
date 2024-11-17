@@ -5,7 +5,8 @@
         [(ngModel)]="filterValue"
         (keyup)="applyFilter(filterValue)"
         placeholder="Ex. processed"
-    /><button
+    />
+    <button
         matSuffix
         mat-icon-button
         *ngIf="filterValue"
@@ -30,9 +31,22 @@
         <ng-container matColumnDef="edit" sticky>
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-                <button mat-stroked-button (click)="openStrainEditor(row)">
-                    Edit
-                </button>
+                <div class="flex-box">
+                    <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="openStrainEditor(row)"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        mat-raised-button
+                        color="warn"
+                        (click)="deleteStrain(row)"
+                    >
+                        Delete
+                    </button>
+                </div>
             </td>
         </ng-container>
 

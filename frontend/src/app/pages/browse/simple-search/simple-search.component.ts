@@ -9,17 +9,13 @@ import { Observable, map, startWith } from 'rxjs';
 })
 export class SimpleSearchComponent {
     @Output() searchString = new EventEmitter<string>();
-    @Input() options: string[] = [];
+    @Input({ required: true }) options: string[] = [];
 
     simpleSearch = new FormControl<string>('');
-    filteredOptions: Observable<string[]> = this._createFilteredObservable();
-
-    private _createFilteredObservable(): Observable<string[]> {
-        return this.simpleSearch.valueChanges.pipe(
-            startWith(''),
-            map((v) => this._filter(v || ''))
-        );
-    }
+    filteredOptions: Observable<string[]> = this.simpleSearch.valueChanges.pipe(
+        startWith(''),
+        map((v) => this._filter(v || ''))
+    );
 
     private _filter(v: string): string[] {
         v = v.toLowerCase();
@@ -27,7 +23,7 @@ export class SimpleSearchComponent {
     }
 
     // Emits to parent component (browse) the search string
-    search() {
+    search(): void {
         if (this.simpleSearch.value) {
             this.searchString.emit(this.simpleSearch.value.toLowerCase());
         }

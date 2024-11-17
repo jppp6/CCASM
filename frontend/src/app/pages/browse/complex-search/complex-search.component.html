@@ -55,6 +55,7 @@
             type="text"
             aria-label="Search by CCASM ID"
             matInput
+            placeholder="CCASM-xxxxxx"
             formControlName="ccasmId"
             (keydown.enter)="
                 $event.stopPropagation(); trigger.closePanel(); search()
@@ -120,8 +121,6 @@
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>
-
 </form>
 
 <button mat-raised-button color="primary" (click)="search()">Search</button>
-
