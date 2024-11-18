@@ -4,7 +4,7 @@
         matInput
         [(ngModel)]="filterValue"
         (keyup)="applyFilter(filterValue)"
-        placeholder="Ex. processed"
+        placeholder="Ex. Rhizobium anhuienses"
     />
     <button
         matSuffix
@@ -16,7 +16,9 @@
     </button>
 </mat-form-field>
 
-<mat-card style="overflow-x: auto; overflow-y: auto">
+<br />
+
+<div style="overflow-x: auto; overflow-y: auto">
     <table mat-table [dataSource]="dataSource" matSort>
         <tr
             mat-header-row
@@ -271,4 +273,4 @@
             </td>
         </tr>
     </table>
-</mat-card>
+</div>

@@ -40,6 +40,25 @@ export interface Strain {
     visible: boolean;
 }
 
+export interface StrainLocation {
+    isolationSoilProvince:
+        | 'AB'
+        | 'BC'
+        | 'MB'
+        | 'NB'
+        | 'NL'
+        | 'NS'
+        | 'NT'
+        | 'NU'
+        | 'ON'
+        | 'PE'
+        | 'QC'
+        | 'SK'
+        | 'YT';
+    longitude: number;
+    latitude: number;
+}
+
 export interface StrainDeposit {
     depositId: number;
     firstName: string;
@@ -48,7 +67,7 @@ export interface StrainDeposit {
     email: string;
     message: string;
     depositExcel: string;
-    depositState: 'received' | 'processed' | 'added' | 'refused' | 'archived';
+    depositState: 'received' | 'processed' | 'added' | 'refused';
     depositCreationDate: Date;
 }
 
@@ -60,7 +79,7 @@ export interface StrainRequest {
     email: string;
     message: string;
     strainsRequested: string;
-    requestState: 'received' | 'processed' | 'sent' | 'refused' | 'archived';
+    requestState: 'received' | 'processed' | 'sent' | 'refused';
     requestCreationDate: Date;
 }
 

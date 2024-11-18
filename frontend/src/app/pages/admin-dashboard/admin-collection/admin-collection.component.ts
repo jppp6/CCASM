@@ -1,27 +1,36 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    inject,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
+import { ConfirmationDialog } from 'src/app/core/utils/confirmation.dialog';
 import { AdminEditComponent } from '../admin-edit/admin-edit.component';
 
 @Component({
     selector: 'app-admin-collection',
     templateUrl: './admin-collection.component.html',
-    styleUrls: ['./admin-collection.component.css'],
 })
-export class AdminCollectionComponent {
+export class AdminCollectionComponent implements OnInit, AfterViewInit {
     dataSource = new MatTableDataSource<Strain>([]);
     filterValue: string = '';
 
     @ViewChild(MatSort) sort!: MatSort;
 
-    constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
+    private _ccasmService = inject(CCASMService);
+    private _snackBar = inject(MatSnackBar);
+    private _dialog = inject(MatDialog);
 
     ngOnInit(): void {
-        this.ccasmService.adminGetCollection().subscribe((data) => {
+        this._ccasmService.adminGetCollection().subscribe((data) => {
             this.dataSource.data = Utils.snackCaseToCamelCase(
                 data.strains
             ) as Strain[];
@@ -32,35 +41,71 @@ export class AdminCollectionComponent {
         this.dataSource.sort = this.sort;
     }
 
-    toggleVisibility(strain: Strain): void {
-        this.ccasmService.adminUpdateStrain(strain).subscribe((_) => {});
+    toggleVisibility(s: Strain): void {
+        this._ccasmService.adminUpdateStrain(s).subscribe((res) => {
+            if (res.status) {
+                this._snackBar.open('SUCCESS: Visibility toggled', 'Close', {
+                    duration: 3000,
+                });
+            } else {
+                this._snackBar.open('ERROR: Visibility toggled', 'Close', {
+                    duration: 3000,
+                });
+            }
+        });
     }
 
-    openStrainEditor(strain: Strain): void {
-        const dialogRef = this.dialog.open(AdminEditComponent, {
+    openStrainEditor(s: Strain): void {
+        const dialogRef = this._dialog.open(AdminEditComponent, {
             width: '600px',
-            data: { ...strain },
+            data: { ...s },
         });
 
-        dialogRef.afterClosed().subscribe((newStrain) => {
+        dialogRef.afterClosed().subscribe((newStrain: Strain) => {
             if (!newStrain) {
                 return;
             }
 
-            this.ccasmService.adminUpdateStrain(newStrain).subscribe((_) => {
-                const oldStrainIndex = this.dataSource.data.findIndex(
-                    (s) => s.ccasmId === newStrain.ccasmId
-                );
-                if (oldStrainIndex >= 0) {
-                    this.dataSource.data[oldStrainIndex] = { ...newStrain };
-                    this.dataSource.data = this.dataSource.data; // Triggers the redraw
+            this._ccasmService.adminUpdateStrain(newStrain).subscribe((res) => {
+                if (res.status) {
+                    this.dataSource.data = this.dataSource.data.map((s) =>
+                        s.ccasmId === newStrain.ccasmId ? newStrain : s
+                    );
+                    this._snackBar.open('SUCCESS: Strain updated', 'Close', {
+                        duration: 3000,
+                    });
+                } else {
+                    this._snackBar.open('ERROR: Strain not updated', 'Close', {
+                        duration: 3000,
+                    });
                 }
             });
         });
     }
 
-    deleteStrain(strain: Strain): void {
-        return;
+    deleteStrain(s: Strain): void {
+        const dialogRef = this._dialog.open(ConfirmationDialog);
+
+        dialogRef.afterClosed().subscribe((confirmation) => {
+            if (!confirmation) {
+                return;
+            }
+
+            this._ccasmService.adminDeleteStrain(s).subscribe((res) => {
+                if (res.status) {
+                    this.dataSource.data = this.dataSource.data.filter(
+                        (strain: Strain) => strain.ccasmId !== s.ccasmId
+                    );
+                    this._snackBar.open('SUCCESS: Strain deleted', 'Close', {
+                        duration: 3000,
+                    });
+                } else {
+                    this._snackBar.open('ERROR: Strain not deleted', 'Close', {
+                        duration: 3000,
+                    });
+                }
+            });
+        });
     }
 
     applyFilter(event: string): void {

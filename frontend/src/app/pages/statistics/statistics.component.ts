@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    inject,
+    OnDestroy,
+    OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EChartsOption } from 'echarts';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
-import { Strain } from 'src/app/core/utils/ccasm.types';
+import { StrainLocation } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 
 export interface ProvinceData {
@@ -34,7 +40,7 @@ export interface IsolationProtocolData {
     templateUrl: './statistics.component.html',
     styleUrls: ['./statistics.component.css'],
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
     map!: L.Map;
     subscriptions: Subscription[] = [];
     provincePieChartOption: EChartsOption | null = null; // Chart option
@@ -60,10 +66,18 @@ export class StatisticsComponent implements OnInit {
         'Genus',
         'Species',
     ];
+    private ccasmService = inject(CCASMService);
+    public dialog = inject(MatDialog);
 
-    constructor(private ccasmService: CCASMService, public dialog: MatDialog) {}
+    ngAfterViewInit(): void {
+        this._initializeMap();
+    }
 
     ngOnInit(): void {
+        this.ccasmService.getMap().subscribe((r) => {
+            const s = Utils.snackCaseToCamelCase(r.data) as StrainLocation[];
+            this.addCircularMarkers(s);
+        });
         this.getProvinceData();
         this.getHostPlantData();
         // this.getTaxonomicData();
@@ -467,17 +481,6 @@ export class StatisticsComponent implements OnInit {
     }, 3000);
  */
 
-    // MAP STUFF BELOW
-    ngAfterViewInit(): void {
-        this._initializeMap();
-
-        this.ccasmService.getCollection().subscribe((result) => {
-            this.addCircularMarkers(
-                Utils.snackCaseToCamelCase(result.strains) as Strain[]
-            );
-        });
-    }
-
     private _initializeMap(): void {
         // Starting location and zoom
         const startingCoordinates: L.LatLngExpression = [54, -90];
@@ -506,7 +509,7 @@ export class StatisticsComponent implements OnInit {
         tiles.addTo(this.map);
     }
 
-    addCircularMarkers(strains: Strain[]): void {
+    addCircularMarkers(strains: StrainLocation[]): void {
         strains.forEach((s) => {
             if (!s.latitude || !s.longitude) {
                 return;
