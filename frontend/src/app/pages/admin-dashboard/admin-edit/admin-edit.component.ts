@@ -6,7 +6,7 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
 @Component({
     selector: 'admin-strain-edit',
     template: `
-        <h2 mat-dialog-title>Editing Strain: {{ data.ccasmId }}</h2>
+        <h2 mat-dialog-title>Editing Strain: {{ data.strainId }}</h2>
 
         <mat-dialog-content>
             <mat-form-field class="w100">

@@ -109,7 +109,7 @@ export class AdminAddComponent implements OnInit {
 
     individualData = new FormGroup({
         visible: new FormControl<boolean>(true, Validators.required),
-        ccasmID: new FormControl<string>('CCASM-', [
+        ccasmId: new FormControl<string>('CCASM-', [
             Validators.required,
             Validators.pattern(/^CCASM-\d{6}$/),
         ]),

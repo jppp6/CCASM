@@ -34,17 +34,11 @@ export class BrowseComponent implements OnInit {
     complexOptions: {
         binomialClassification: string[];
         isolationSoilProvince: string[];
-        ccasmId: string[];
-        taxonomicLineage: string[];
         hostPlantSpecies: string[];
-        strainName: string[];
     } = {
         binomialClassification: [],
         isolationSoilProvince: [],
-        ccasmId: [],
-        taxonomicLineage: [],
         hostPlantSpecies: [],
-        strainName: [],
     };
 
     ngOnInit(): void {
@@ -61,9 +55,6 @@ export class BrowseComponent implements OnInit {
 
             this.complexOptions = {
                 binomialClassification: this.simpleOptions,
-                ccasmId: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.ccasmId)
-                ),
                 hostPlantSpecies: Utils.filterDuplicatesAndFalsy(
                     this.allStrains.map((s) =>
                         (s.hostPlantSpecies || '').toString()
@@ -71,12 +62,6 @@ export class BrowseComponent implements OnInit {
                 ),
                 isolationSoilProvince: Utils.filterDuplicatesAndFalsy(
                     this.allStrains.map((s) => s.isolationSoilProvince)
-                ),
-                taxonomicLineage: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.taxonomicLineage)
-                ),
-                strainName: Utils.filterDuplicatesAndFalsy(
-                    this.allStrains.map((s) => s.strainName)
                 ),
             };
             this.filteredStrains.data = [];
@@ -86,8 +71,7 @@ export class BrowseComponent implements OnInit {
     }
 
     simpleSearch(searchString: string): void {
-        searchString = searchString.replace('unclassified ', '').toLowerCase();
-        console.log(`Searching for : ${searchString}`);
+        searchString = searchString.toLowerCase();
 
         this.filteredStrains.data =
             searchString !== ''
@@ -100,14 +84,30 @@ export class BrowseComponent implements OnInit {
         this.showTree = false;
     }
 
-    complexSearch(searchParams: { [key: string]: string }): void {
-        this.filteredStrains.data = this.allStrains.filter((s) =>
-            Object.keys(searchParams).every((key) =>
-                ((s as any)[key] || '')
-                    .toString()
+    complexSearch(searchParams: {
+        binomialClassification: string;
+        isolationSoilProvince: string;
+        ccasmId: string;
+        taxonomicLineage: string;
+        hostPlantSpecies: string;
+        strainName: string;
+    }): void {
+        this.filteredStrains.data = this.allStrains.filter(
+            (s) =>
+                s.binomialClassification
                     .toLowerCase()
-                    .includes(searchParams[key])
-            )
+                    .includes(searchParams.binomialClassification) &&
+                s.isolationSoilProvince
+                    .toLowerCase()
+                    .includes(searchParams.isolationSoilProvince) &&
+                s.ccasmId.toLowerCase().includes(searchParams.ccasmId) &&
+                s.taxonomicLineage
+                    .toLowerCase()
+                    .includes(searchParams.taxonomicLineage) &&
+                s.hostPlantSpecies
+                    .toLowerCase()
+                    .includes(searchParams.hostPlantSpecies) &&
+                s.strainName.toLowerCase().includes(searchParams.strainName)
         );
         this.showTree = false;
     }
@@ -125,8 +125,9 @@ export class BrowseComponent implements OnInit {
         data.forEach((entry) => {
             let currentNode: StrainNode | undefined = undefined;
 
-            const parts = entry.split('; ');
+            const parts = entry.split(';');
             parts.forEach((p) => {
+                p = p.trim();
                 if (!currentNode) {
                     const existingNode = nodes.find((node) => node.name === p);
                     if (!existingNode) {
@@ -145,7 +146,6 @@ export class BrowseComponent implements OnInit {
                 }
             });
         });
-        console.log(nodes);
         return nodes;
     }
 

@@ -7,7 +7,7 @@
 
             <mat-form-field class="w100">
                 <mat-label> CCASM ID </mat-label>
-                <input matInput formControlName="ccasmID" type="text" />
+                <input matInput formControlName="ccasmId" type="text" />
                 <mat-hint align="start"> ^ Format is CCASM-xxxxxx </mat-hint>
             </mat-form-field>
 
@@ -203,16 +203,16 @@
                 <mat-label> Photo </mat-label>
                 <input matInput formControlName="photo" type="text" />
             </mat-form-field>
-        </form>
 
-        <button
-            mat-raised-button
-            color="primary"
-            [disabled]="!individualData.valid"
-            (submit)="uploadDataIndividual()"
-        >
-            Add Strain to Collection
-        </button>
+            <button
+                mat-raised-button
+                color="primary"
+                [disabled]="!individualData.valid"
+                (click)="uploadDataIndividual()"
+            >
+                Add Strain to Collection
+            </button>
+        </form>
     </mat-tab>
 
     <mat-tab label="Batch">

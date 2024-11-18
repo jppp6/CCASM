@@ -1,5 +1,6 @@
 export interface Strain {
-    ccasmId: number;
+    strainId: number;
+    ccasmId: string;
     strainName: string;
     binomialClassification: string;
     taxonomicLineage: string;

@@ -64,6 +64,11 @@
             </td>
         </ng-container>
 
+        <ng-container matColumnDef="strainId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.strainId }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="ccasmId">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>CCASM ID</th>
             <td mat-cell *matCellDef="let row">{{ row.ccasmId }}</td>

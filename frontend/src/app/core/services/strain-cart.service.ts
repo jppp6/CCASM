@@ -8,8 +8,8 @@ export class StrainCartService {
     cart: Strain[] = [];
 
     addStrainToCart(s: Strain): boolean {
-        if (this.isStrainAlreadyInCart(s.ccasmId)) {
-            console.log("Already in cart");
+        if (this.isStrainAlreadyInCart(s.strainId)) {
+            console.log('Already in cart');
             return false;
         } else {
             this.cart.push(s);
@@ -18,13 +18,13 @@ export class StrainCartService {
         return true;
     }
 
-    removeStrainById(strainId: string): boolean {
-        const strain = this.cart.find((s) => s.ccasmId.toString() === strainId);
+    removeStrainById(id: string): boolean {
+        const strain = this.cart.find((s) => s.strainId.toString() === id);
         if (!strain) {
             return false;
         }
 
-        this.cart = this.cart.filter((s) => s.ccasmId.toString() !== strainId);
+        this.cart = this.cart.filter((s) => s.strainId.toString() !== id);
         return true;
     }
 
@@ -36,7 +36,7 @@ export class StrainCartService {
         this.cart = [];
     }
 
-    private isStrainAlreadyInCart(strainId: number): boolean {
-        return this.cart.some((s) => s.ccasmId === strainId);
+    private isStrainAlreadyInCart(id: number): boolean {
+        return this.cart.some((s) => s.strainId === id);
     }
 }

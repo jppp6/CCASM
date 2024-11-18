@@ -72,14 +72,14 @@ export class CCASMService {
 
     adminUpdateStrain(s: Strain): Observable<{ status: boolean }> {
         return this.http.put<{ status: boolean }>(
-            this.url + '/admin/update-strain/' + s.ccasmId,
+            this.url + '/admin/update-strain/' + s.strainId,
             Utils.camelCaseToSnakeCase(s)
         );
     }
 
     adminDeleteStrain(strain: Strain): Observable<{ status: boolean }> {
         return this.http.delete<{ status: boolean }>(
-            this.url + '/admin/delete-strain/' + strain.ccasmId
+            this.url + '/admin/delete-strain/' + strain.strainId
         );
     }
 

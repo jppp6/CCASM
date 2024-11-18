@@ -69,7 +69,7 @@ export class AdminCollectionComponent implements OnInit, AfterViewInit {
             this._ccasmService.adminUpdateStrain(newStrain).subscribe((res) => {
                 if (res.status) {
                     this.dataSource.data = this.dataSource.data.map((s) =>
-                        s.ccasmId === newStrain.ccasmId ? newStrain : s
+                        s.strainId === newStrain.strainId ? newStrain : s
                     );
                     this._snackBar.open('SUCCESS: Strain updated', 'Close', {
                         duration: 3000,
@@ -94,7 +94,7 @@ export class AdminCollectionComponent implements OnInit, AfterViewInit {
             this._ccasmService.adminDeleteStrain(s).subscribe((res) => {
                 if (res.status) {
                     this.dataSource.data = this.dataSource.data.filter(
-                        (strain: Strain) => strain.ccasmId !== s.ccasmId
+                        (strain: Strain) => strain.strainId !== s.strainId
                     );
                     this._snackBar.open('SUCCESS: Strain deleted', 'Close', {
                         duration: 3000,
@@ -117,6 +117,7 @@ export class AdminCollectionComponent implements OnInit, AfterViewInit {
     readonly displayedColumns: string[] = [
         'edit',
         'visible',
+        'strainId',
         'ccasmId',
         'strainName',
         'binomialClassification',
