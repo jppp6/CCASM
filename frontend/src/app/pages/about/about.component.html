@@ -1,26 +1,26 @@
-<mat-card class="flex" style="overflow-y: auto">
-    <mat-card-header>
-        <mat-card-title
-            >About the Canadian Collection of Agricultural Soil
-            Microbes</mat-card-title
-        >
-    </mat-card-header>
-    <mat-card-content>
-        <br />The Canadian Collection of Agricultural Soil Microbes (CCASM) is a
+<br />
+
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            About the Canadian Collection of Agricultural Soil Microbes
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p class="answer">
+        The Canadian Collection of Agricultural Soil Microbes (CCASM) is a
         collection of bacteria isolated from sites across Canada. Most isolates
         come either from the soils of agricultural fields or crop research
         stations, although some come from other sites such as community or
         backyard gardens, or soils containing wild relatives of crop species.
         CCASM is hosted by Queen's University and the University of Manitoba,
         and was designed to facilitate the sharing of agricultural soil microbes
-        across Canada. Answers to several common questions are provided
-        below.<br /><br />
-    </mat-card-content>
-</mat-card>
+        across Canada. Answers to several common questions are provided below.
+    </p>
+</mat-expansion-panel>
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title>What is the purpose of CCASM?</mat-panel-title>
+        <mat-panel-title> What is the purpose of CCASM? </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         CCASM is a bacterial culture collection developed for the purpose of
@@ -36,11 +36,11 @@
     </p>
 </mat-expansion-panel>
 
-<mat-expansion-panel>
+<mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >What micro-organisms can be deposited into CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            What micro-organisms can be deposited into CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         CCASM primarily stores bacteria (archaea are also welcomed) collected
@@ -56,19 +56,20 @@
         CCASM, please reach contact the CCASM curators via
         <a
             href="mailto:ccasm.collection@gmail.com"
-            class="button2"
             mat-stroked-button
-            >ccasm.collection@gmail.com</a
-        >.
+            style="height: 20px"
+        >
+            <mat-icon>email</mat-icon> ccasm.collection&#64;gmail.com
+        </a>
+        .
     </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >Are all micro-organisms in CCASM publicly
-            available?</mat-panel-title
-        >
+        <mat-panel-title>
+            Are all micro-organisms in CCASM publicly available?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         All strains listed on the CCASM website are publicly available for
@@ -78,10 +79,10 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >Are there limits on the acceptable use of micro-organisms ordered
-            from CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            Are there limits on the acceptable use of micro-organisms ordered
+            from CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         All microbes available through CCASM are allowed to be freely used for
@@ -100,25 +101,29 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >How do I deposit a micro-organism into CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            How do I deposit a micro-organism into CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         To deposit a strain, first navigate to the
-        <a routerLink="/deposit" class="button2" mat-stroked-button>deposit</a>
+        <a routerLink="/deposit" mat-stroked-button style="height: 20px">
+            <mat-icon>download</mat-icon> Deposit
+        </a>
         page. Once there, complete and submit the form to initiate the process.
     </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title>How do I browse the CCASM catalog?</mat-panel-title>
+        <mat-panel-title> How do I browse the CCASM catalog? </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         CCASM allows for users to easily access the catalog of samples, and the
         associated metadata, by navigating to the
-        <a routerLink="/browse" class="button2" mat-stroked-button>browse</a>
+        <a routerLink="/browse" mat-stroked-button style="height: 20px">
+            <mat-icon>search</mat-icon> Browse
+        </a>
         page. Here, you can search for specific isolates or browse the full
         collection. A login is not required (nor possible).
     </p>
@@ -126,28 +131,32 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >How do I order a micro-organism from CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            How do I order a micro-organism from CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         To order a strain, you need to first find the strain in the catalog via
         the
-        <a routerLink="/browse" class="button2" mat-stroked-button>browse</a>
+        <a routerLink="/browse" mat-stroked-button style="height: 20px">
+            <mat-icon>search</mat-icon> Browse
+        </a>
         page. Once you click on the strain of interest, a page with metadata and
         an “Add to Cart” button will pop-up. Click on the “Add to Cart” button
         to add the strain to your cart. Once you have selected all strains of
         interest, navigate to the
-        <a routerLink="/cart" class="button2" mat-stroked-button>cart</a> page,
-        and then complete and submit the form to initiate the process.
+        <a routerLink="/cart" mat-stroked-button style="height: 20px">
+            <mat-icon>shopping_cart</mat-icon> cart
+        </a>
+        page, and then complete and submit the form to initiate the process.
     </p>
 </mat-expansion-panel>
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >Who can order a micro-organism from CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            Who can order a micro-organism from CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         Currently, CCASM strains can only be delivered researchers residing and
@@ -158,10 +167,10 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >Are there fees associated with ordering or depositing strains in
-            CCASM?</mat-panel-title
-        >
+        <mat-panel-title>
+            Are there fees associated with ordering or depositing strains in
+            CCASM?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         Yes. While funding was secured to establish CCASM, we do not have
@@ -175,10 +184,9 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >I am a member of an ICT-CSAFS team. Do I get a
-            discount?</mat-panel-title
-        >
+        <mat-panel-title>
+            I am a member of an ICT-CSAFS team. Do I get a discount?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         Yes! During the duration of the ICT-CSAFS grants, deposits and access to
@@ -189,9 +197,9 @@
 
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title
-            >Does CCASM offer genome sequencing as a service?</mat-panel-title
-        >
+        <mat-panel-title>
+            Does CCASM offer genome sequencing as a service?
+        </mat-panel-title>
     </mat-expansion-panel-header>
     <p class="answer">
         Although we have in-house genome sequencing capabilities, CCASM is not a
@@ -202,29 +210,33 @@
         authorship. Please contact the CCASM curators at
         <a
             href="mailto:ccasm.collection@gmail.com"
-            class="button2"
             mat-stroked-button
-            >ccasm.collection@gmail.com</a
+            style="height: 20px"
         >
+            <mat-icon>email</mat-icon> ccasm.collection&#64;gmail.com
+        </a>
         if this is something that you would like to discuss.
     </p>
 </mat-expansion-panel>
 
-<mat-expansion-panel style="margin-bottom: 32px">
+<mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title>How do I get in contact with CCASM?</mat-panel-title>
+        <mat-panel-title> How do I get in contact with CCASM? </mat-panel-title>
     </mat-expansion-panel-header>
     <strong> You can contact the following admins: </strong>
     <p class="answer">
         You can contact the CCASM curators by email at
         <a
             href="mailto:ccasm.collection@gmail.com"
-            class="button2"
             mat-stroked-button
-            >ccasm.collection@gmail.com</a
-        >.
+            style="height: 20px"
+        >
+            <mat-icon>email</mat-icon> ccasm.collection&#64;gmail.com
+        </a>
+        .
     </p>
 </mat-expansion-panel>
+<br />
 
 <img
     style="margin-right: 24px"

@@ -59,6 +59,10 @@ export class AdminCollectionComponent {
         });
     }
 
+    deleteStrain(strain: Strain): void {
+        return;
+    }
+
     applyFilter(event: string): void {
         const filterVal = event.toLowerCase();
         this.dataSource.filter = filterVal.trim();

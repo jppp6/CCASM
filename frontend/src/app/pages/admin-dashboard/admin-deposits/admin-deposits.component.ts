@@ -14,7 +14,13 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
 })
 export class AdminDepositsComponent implements OnInit, AfterViewInit {
     dataSource = new MatTableDataSource<StrainDeposit>([]);
-    depositStates: string[] = ['received', 'processed', 'added', 'refused'];
+    depositStates: string[] = [
+        'received',
+        'processed',
+        'added',
+        'refused',
+        'archived',
+    ];
     displayedColumns: string[] = [
         'depositId',
         'firstName',

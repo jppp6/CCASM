@@ -1,6 +1,7 @@
 .footer {
     display: flex;
     justify-content: center;
+    min-height: 64px;
     flex-shrink: 0; /* Prevent footer from shrinking */
 }
 

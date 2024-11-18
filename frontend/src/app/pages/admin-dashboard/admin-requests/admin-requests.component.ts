@@ -12,7 +12,13 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
 })
 export class AdminRequestsComponent implements OnInit, AfterViewInit {
     dataSource = new MatTableDataSource<StrainRequest>([]);
-    requestStates: string[] = ['received', 'processed', 'sent', 'refused'];
+    requestStates: string[] = [
+        'received',
+        'processed',
+        'sent',
+        'refused',
+        'archived',
+    ];
     displayedColumns: string[] = [
         'requestId',
         'firstName',

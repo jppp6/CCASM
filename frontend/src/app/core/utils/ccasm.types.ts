@@ -48,7 +48,7 @@ export interface StrainDeposit {
     email: string;
     message: string;
     depositExcel: string;
-    depositState: 'received' | 'processed' | 'added' | 'refused';
+    depositState: 'received' | 'processed' | 'added' | 'refused' | 'archived';
     depositCreationDate: Date;
 }
 
@@ -60,7 +60,7 @@ export interface StrainRequest {
     email: string;
     message: string;
     strainsRequested: string;
-    requestState: 'received' | 'processed' | 'sent' | 'refused';
+    requestState: 'received' | 'processed' | 'sent' | 'refused' | 'archived';
     requestCreationDate: Date;
 }
 
