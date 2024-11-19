@@ -19,7 +19,7 @@ import { Utils } from '../utils/ccasm.utils';
 })
 export class CCASMService {
     // Test for goodluck Change this to check on build
-    prod: boolean = false;
+    prod: boolean = true;
     readonly url = this.prod
         ? 'http://hs-ccasm-p-w01.internal.azure.queensu.ca:8000/api'
         : 'http://localhost:8000/api';
