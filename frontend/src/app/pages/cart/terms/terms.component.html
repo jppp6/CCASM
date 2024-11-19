@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>CCASM Terms and Conditions</h1>
 
-<mat-dialog-content>
+<mat-dialog-content #dialogContent class="dialog=content">
     <!-- Add terms here! -->
     <div>
         <h2 mat-dialog-title>1. Scope</h2>
@@ -188,6 +188,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+    <button mat-button [disabled]="!scrolledToBottom" (click)="acceptTerms()">Accept</button>
     <button mat-button mat-dialog-close>Return</button>
 </mat-dialog-actions>
 

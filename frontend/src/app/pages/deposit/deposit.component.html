@@ -56,17 +56,15 @@
         </div>
 
         <div>
-            <mat-checkbox formControlName="checkTerms">
-                I have read and agree to the
-                <button
-                    type="button"
-                    class="button2"
-                    mat-stroked-button
-                    (click)="openTerms()"
+            <span>I have read and agree to the    </span>
+            <button formControlName="checkTerms"
+                type="button"
+                class="button2"
+                mat-stroked-button
+                (click)="openTerms()"
                 >
-                    Terms and Conditions
-                </button>
-            </mat-checkbox>
+                Terms and Conditions
+            </button>
         </div>
 
         <div>
@@ -88,10 +86,21 @@
             [disabled]="applyForm.invalid"
             (click)="build()"
             color="primary"><mat-icon>done</mat-icon>Submit</button>
-            
-            <div>{{msg || ""}}</div>
 
+            <button
+            name="func"
+            mat-raised-button
+            type="button"
+            color="primary"
+            (click)="downloadCSV()"
+            >
+            <mat-icon>download</mat-icon>Get Template CSV
+            </button>
+
+            <div>{{ msg || "" }}</div>
+        
         </div>
+
         
     </form>    
 </div>

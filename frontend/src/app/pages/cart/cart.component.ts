@@ -143,8 +143,12 @@ export class CartComponent implements OnInit {
 
     // Open the terms window
     openTerms(): void {
-        this.applyForm.controls['checkTerms'].setValue(true);
-        this.dialog.open(TermsComponent, { width: '600px' });
+        const dialogRef = this.dialog.open(TermsComponent, { width: '600px' });
+
+        dialogRef.componentInstance.accepted.subscribe(() => {
+            this.applyForm.controls['checkTerms'].setValue(true); // Set checkTerms to true when accepted
+            dialogRef.close(); // Close the dialog after acceptance
+        });
     }
 
     // Opens the strain info in a window

@@ -49,8 +49,12 @@ export class DepositComponent implements OnInit {
 
     // Open the terms window
     openTerms(): void {
-        this.applyForm.controls['checkTerms'].setValue(true);
-        this.dialog.open(TermsComponent, { width: '600px' });
+        const dialogRef = this.dialog.open(TermsComponent, { width: '600px' });
+
+        dialogRef.componentInstance.accepted.subscribe(() => {
+            this.applyForm.controls['checkTerms'].setValue(true); // Set checkTerms to true when accepted
+            dialogRef.close(); // Close the dialog after acceptance
+        });
     }
 
     // On page load call
@@ -73,6 +77,15 @@ export class DepositComponent implements OnInit {
 
         // POST request
         this.submitDeposit(newStraindeposit);
+    }
+
+    // Download CSV
+    downloadCSV() {
+        const fileUrl = '../../../assets/template.csv';
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.download = 'template.csv';
+        link.click();
     }
 
     // Handle post response
