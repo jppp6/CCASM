@@ -109,9 +109,9 @@ export class AdminAddComponent implements OnInit {
 
     individualData = new FormGroup({
         visible: new FormControl<boolean>(true, Validators.required),
-        ccasmId: new FormControl<string>('CCASM-', [
+        ccasmId: new FormControl<string>('CCASM_', [
             Validators.required,
-            Validators.pattern(/^CCASM-\d{6}$/),
+            Validators.pattern(/^CCASM_\d{6}$/),
         ]),
         strainName: new FormControl<string>('', Validators.required),
         binomialClassification: new FormControl<string>(
