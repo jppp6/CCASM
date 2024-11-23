@@ -160,7 +160,7 @@ def admin_update_strain(request, pk):
     except Strains.DoesNotExist:
         return JsonResponse({'status': False}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = StrainSerializer(strain, data=request.data)
+    serializer = StrainSerializer(strain, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse({'status': True}, status=status.HTTP_200_OK)

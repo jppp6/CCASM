@@ -40,7 +40,7 @@ class Requests(models.Model):
 
 class Strains(models.Model):
     ccasm_id_validator = RegexValidator(
-        regex=r'^CCASM-\d{6}$',  # CCASM- followed by exactly 6 digits
+        regex=r'^CCASM_\d{6}$',  # CCASM- followed by exactly 6 digits
         message='CCASM ID must be in the format CCASM-xxxxxx, where x is a digit.'
     )
 
