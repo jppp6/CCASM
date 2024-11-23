@@ -1,1 +1,7 @@
+# Exclude virtual environment
 backend/.env
+venv/
+.env/
+*.pyc
+*.pyo
+__pycache__/

@@ -21,18 +21,21 @@ class MyObtainTokenPairView(TokenObtainPairView):
 
 
 # GENERAL USERS:
-
+get_by_location_columns = ['longitude', 'latitude', 'isolation_soil_province']
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_by_location(request):
+    strains = Strains.objects.filter(visible=True).values(*get_by_location_columns)
+    return JsonResponse({"data": list(strains)})
 
 # GET collection for any user
 # This is used in the browse page
+get_collection_columns = ['ccasm_id', 'strain_name', 'binomial_classification', 'taxonomic_lineage', 'risk_group', 'is_plant_pathogen', 'colony_morphology', 'host_plant_species', 'isolation_source', 'isolation_year', 'isolation_protocol', 'isolation_growth_medium', 'isolation_growth_temperature', 'isolation_growth_medium_composition', 'isolation_soil_ph', 'isolation_soil_organic_matter', 'isolation_soil_texture', 'isolation_soil_province', 'genome_ncbi_association', 'genome_size', 'notes', 'citation', 'photo']
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def get_collection(request):
-    strains = Strains.objects.filter(
-        visible=True
-    )  # based on whatever column decides visibility
-    serializer = StrainSerializer(strains, many=True)
-    return JsonResponse({"strains": serializer.data})
+    strains = Strains.objects.filter(visible=True).values(*get_collection_columns)
+    return JsonResponse({"strains": list(strains)})
 
 
 # POST new deposit for any user
@@ -143,22 +146,8 @@ def admin_add_single_strain(request):
 
     if serializer.is_valid():
         serializer.save()
-        return JsonResponse({"result": "success"}, status=status.HTTP_201_CREATED)
-    return JsonResponse({"result": "error"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# POST add new strains for admins
-# This is used in the admin collection tab
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def admin_add_bulk_strain(request):
-    # Decode the body to json for parsing
-    upload = request.data["strains"]
-    for i in upload:
-        serializer = StrainSerializer(data=i)
-        if serializer.is_valid():
-            serializer.save()
-    return JsonResponse({"result": "success"}, status=status.HTTP_201_CREATED)
+        return JsonResponse({"status": True}, status=status.HTTP_201_CREATED)
+    return JsonResponse({"status": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # PUT to update a strain
@@ -169,13 +158,28 @@ def admin_update_strain(request, pk):
     try:
         strain = Strains.objects.get(pk=pk)
     except Strains.DoesNotExist:
-        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse({'status': False}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = StrainSerializer(strain, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return JsonResponse(serializer.data)
-    return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'status': True}, status=status.HTTP_200_OK)
+    
+    return JsonResponse({'status': False}, status=status.HTTP_400_BAD_REQUEST)
+
+# DELETE to remove a strain
+# This is used in the admin collection tab
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def admin_delete_strain(request, pk):
+    try:
+        strain = Strains.objects.get(pk=pk)
+        strain.delete()
+        return JsonResponse({"status": True}, status=status.HTTP_200_OK)
+    except Strains.DoesNotExist:
+        return JsonResponse({"status": False}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 # DEPOSITS
@@ -185,7 +189,7 @@ def admin_update_strain(request, pk):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def admin_get_deposits(request):
-    deposits = Deposits.objects.all()
+    deposits = Deposits.objects.all().order_by('-deposit_creation_date')
     serializer = DepositsSerializer(deposits, many=True)
     return JsonResponse({"deposits": serializer.data})
 
@@ -197,13 +201,27 @@ def admin_update_deposit(request, pk):
     try:
         deposit = Deposits.objects.get(pk=pk)
     except Deposits.DoesNotExist:
-        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse({'status': False}, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = DepositsSerializer(deposit, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return JsonResponse(serializer.data)
-    return JsonResponse({}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({'status': True}, status=status.HTTP_200_OK)
+    
+    return JsonResponse({'status': False}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# DELETE to remove a deposit
+# This is used in the admin collection tab
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def admin_delete_deposit(request, pk):
+    try:
+        deposit = Deposits.objects.get(pk=pk)
+        deposit.delete()
+        return JsonResponse({"status": True})
+    except Deposits.DoesNotExist:
+        return JsonResponse({"status": False})
 
 
 # REQUESTS
@@ -213,7 +231,7 @@ def admin_update_deposit(request, pk):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def admin_get_requests(request):
-    reqs = Requests.objects.all()
+    reqs = Requests.objects.all().order_by('-request_creation_date')
     serializer = RequestsSerializer(reqs, many=True)
     return JsonResponse({"requests": serializer.data})
 
@@ -225,14 +243,30 @@ def admin_update_request(request, pk):
     try:
         req = Requests.objects.get(pk=pk)
     except Requests.DoesNotExist:
-        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+        return JsonResponse({'status': False}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = RequestsSerializer(req, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return JsonResponse(serializer.data)
+        return JsonResponse({'status': True}, status=status.HTTP_200_OK)
+    
+    return JsonResponse({'status': False}, status=status.HTTP_400_BAD_REQUEST)
+
+# DELETE to remove a request
+# This is used in the admin collection tab
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def admin_delete_request(request, pk):
+    try:
+        r = Requests.objects.get(pk=pk)
+        r.delete()
+        return JsonResponse({"status": True})
+    except Requests.DoesNotExist:
+        return JsonResponse({"status": False})
 
 
+# STATISTICS
+    
 # Generates the view based ona given province, terriroty or geographical location
 @api_view(["GET"])
 @permission_classes([AllowAny])

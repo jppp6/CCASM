@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as L from 'leaflet';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
-import { Strain } from 'src/app/core/utils/ccasm.types';
+import { StrainLocation } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
 
 @Component({
@@ -10,7 +10,7 @@ import { Utils } from 'src/app/core/utils/ccasm.utils';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, OnInit {
     map!: L.Map;
     fromProv = {
         AB: 0,
@@ -28,16 +28,19 @@ export class HomeComponent implements AfterViewInit {
         YT: 0,
         ALL: 0,
     };
+
     private ccasmService = inject(CCASMService);
     public dialog = inject(MatDialog);
 
+    ngOnInit(): void {
+        this.ccasmService.getMap().subscribe((r) => {
+            const s = Utils.snackCaseToCamelCase(r.data) as StrainLocation[];
+            this.addCircularMarkers(s);
+        });
+    }
+
     ngAfterViewInit(): void {
         this._initializeMap();
-        this.ccasmService.getCollection().subscribe((result) => {
-            this.addCircularMarkers(
-                Utils.snackCaseToCamelCase(result.strains) as Strain[]
-            );
-        });
     }
 
     // Initialize the leaflet map
@@ -66,8 +69,8 @@ export class HomeComponent implements AfterViewInit {
         tiles.addTo(this.map);
     }
 
-    addCircularMarkers(strains: Strain[]): void {
-        strains.forEach((s: Strain) => {
+    addCircularMarkers(strains: StrainLocation[]): void {
+        strains.forEach((s: StrainLocation) => {
             if (!s.latitude || !s.longitude) {
                 return;
             }

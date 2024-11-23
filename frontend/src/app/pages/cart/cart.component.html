@@ -20,7 +20,7 @@
                     {{ strain.taxonomicLineage }}
                 </mat-card-content>
                 <!-- ugly button rn will fix -->
-                <button mat-icon-button (click)="removeStrain(strain.ccasmId)">
+                <button mat-icon-button (click)="removeStrain(strain.strainId)">
                     <mat-icon aria-label="Remove">delete</mat-icon>
                 </button>
             </mat-card>
@@ -42,7 +42,11 @@
         <!-- Title -->
         <h1 class="title">Request Strain Form</h1>
         <hr />
-        <h2>To request one or more isolates be shipped to you, please add the strains of interest to the cart, and then fill-in and submit this form to initiate the process.</h2>
+        <h2>
+            To request one or more isolates be shipped to you, please add the
+            strains of interest to the cart, and then fill-in and submit this
+            form to initiate the process.
+        </h2>
 
         <!-- Main Form -->
         <form [formGroup]="applyForm" novalidate class="form">
@@ -157,11 +161,17 @@
 
             <div>
                 <mat-checkbox formControlName="checkbox">
-                    By submitting this form, you consent to receiving an email from the collection curators, asking for more information and who will provide instructions on how to receive your isolate(s). Submission of this form does not guarantee that your request will be fulfilled; only requests meeting the requirements (e.g., shipping to an address in Canada) will be fulfilled.                
+                    By submitting this form, you consent to receiving an email
+                    from the collection curators, asking for more information
+                    and who will provide instructions on how to receive your
+                    isolate(s). Submission of this form does not guarantee that
+                    your request will be fulfilled; only requests meeting the
+                    requirements (e.g., shipping to an address in Canada) will
+                    be fulfilled.
                 </mat-checkbox>
             </div>
-            <br>
-    
+            <br />
+
             <div>
                 <mat-error class="terms" *ngIf="f.cart?.errors?.['required']"
                     >* You don't have anything in cart...</mat-error
@@ -196,4 +206,3 @@
         </form>
     </div>
 </div>
-
