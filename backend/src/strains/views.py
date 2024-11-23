@@ -62,6 +62,12 @@ def post_deposit(request):
         email_message += f"email: {email}\n\n"
         email_message += f"Affiliation: {affiliation}\n\n"
         email_message += f"Message: {message}\n\n"
+        
+        confirmation_msg = (
+            f"\nThis is a confirmation for your strain deposit! Thank you and our team will get back to you soon!\n\n"
+        )
+        confirmation_msg += f"CCASM"
+
 
         # Sent the email
         send_mail(
@@ -69,6 +75,13 @@ def post_deposit(request):
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=["ccasm.collection@gmail.com"],
+        )
+        
+        send_mail(
+            subject="CCASM Deposit Confirmation",
+            message=confirmation_msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
         )
 
         # Save to database
@@ -105,6 +118,11 @@ def post_request(request):
         email_message += f"email: {email}\n\n"
         email_message += f"Affiliation: {affiliation}\n\n"
         email_message += f"Message: {message}\n\n"
+        
+        confirmation_msg = (
+            f"\nThis is a confirmation for your strain request! Thank you and our team will get back to you soon!\n\n"
+        )
+        confirmation_msg += f"CCASM"
 
         # Sent the email
         send_mail(
@@ -112,6 +130,13 @@ def post_request(request):
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=["ccasm.collection@gmail.com"],
+        )
+        
+        send_mail(
+            subject="CCASM Request Confirmation",
+            message=confirmation_msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
         )
 
         # Save to database
@@ -308,27 +333,27 @@ def get_strains_by_isolation_protocol(request):
     return JsonResponse({"protocol": serializer.data})
 
 
-""" @api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_kingdom_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('0')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
 @api_view(['GET']) 
 @permission_classes([AllowAny]) 
 def get_strains_by_phylum_level(request):
     taxonomic_data = (
         Strains.objects
         .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('1')))
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
+    serializer.is_valid(raise_exception=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+""" @api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_kingdom_level(request):
+    taxonomic_data = (
+        Strains.objects
+        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('0')))
         .values('taxonomic_level')
         .annotate(strain_count=Count('ccasm_id'))
     )
