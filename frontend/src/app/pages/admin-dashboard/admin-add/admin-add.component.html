@@ -8,7 +8,7 @@
             <mat-form-field class="w100">
                 <mat-label> CCASM ID </mat-label>
                 <input matInput formControlName="ccasmId" type="text" />
-                <mat-hint align="start"> ^ Format is CCASM-xxxxxx </mat-hint>
+                <mat-hint align="start"> ^ Format is CCASM_xxxxxx </mat-hint>
             </mat-form-field>
 
             <mat-form-field class="w100">
@@ -215,7 +215,7 @@
         </form>
     </mat-tab>
 
-    <mat-tab label="Batch">
+    <!-- <mat-tab label="Batch">
         <strong>
             WARNING: Batch processing does not validate any inputs. Please use
             with caution. Do not use commas in the entries, as the CSV parser
@@ -274,5 +274,5 @@
                 <td mat-cell *matCellDef="let row">{{ row[column] }}</td>
             </ng-container>
         </table>
-    </mat-tab>
+    </mat-tab> -->
 </mat-tab-group>

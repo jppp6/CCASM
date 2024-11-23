@@ -5,7 +5,7 @@ export interface Strain {
     binomialClassification: string;
     taxonomicLineage: string;
     riskGroup: number;
-    isPlantPathogen: number;
+    isPlantPathogen: string;
     colonyMorphology: string;
     hostPlantSpecies: string;
     isolationSource: string;

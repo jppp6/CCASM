@@ -57,7 +57,7 @@ export class AdminCollectionComponent implements OnInit, AfterViewInit {
 
     openStrainEditor(s: Strain): void {
         const dialogRef = this._dialog.open(AdminEditComponent, {
-            width: '600px',
+            width: '700px',
             data: { ...s },
         });
 

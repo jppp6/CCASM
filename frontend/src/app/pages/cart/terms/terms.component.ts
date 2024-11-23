@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'app-terms',
@@ -6,17 +6,19 @@ import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
     styleUrls: ['./terms.component.css'],
 })
 export class TermsComponent {
-    @ViewChild("dialogContent") dialogContent: any;
-    scrolledToBottom = false
+    @ViewChild('dialogContent') dialogContent: any;
+    scrolledToBottom = false;
 
     // Handle Scrolling code
     ngAfterViewInit() {
         const dialogCE = this.dialogContent.nativeElement;
 
-        dialogCE.addEventListener('scroll', ()=> {
-            const isScrolledToBottom = ((dialogCE.scrollHeight - dialogCE.scrollTop) === dialogCE.clientHeight);
-            this.scrolledToBottom = isScrolledToBottom;
-        })
+        dialogCE.addEventListener('scroll', () => {
+            const ratio =
+                dialogCE.clientHeight /
+                (dialogCE.scrollHeight - dialogCE.scrollTop);
+            this.scrolledToBottom = ratio > 0.9;
+        });
     }
 
     @Output() accepted = new EventEmitter<void>();
@@ -24,8 +26,7 @@ export class TermsComponent {
     // Accept code
     acceptTerms() {
         if (this.scrolledToBottom) {
-            console.log("terms")
-            this.accepted.emit()
+            this.accepted.emit();
         }
     }
 }

@@ -1,11 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import * as csvtojson from 'csvtojson';
 import { CCASMService } from 'src/app/core/services/ccasm.services';
 import { Strain } from 'src/app/core/utils/ccasm.types';
 import { Utils } from 'src/app/core/utils/ccasm.utils';
+import { AdminEditComponent } from '../admin-edit/admin-edit.component';
 
 @Component({
     selector: 'app-admin-add',
@@ -17,6 +19,7 @@ export class AdminAddComponent implements OnInit {
 
     private _ccasmService = inject(CCASMService);
     private _snackBar = inject(MatSnackBar);
+    private _dialog = inject(MatDialog);
 
     ngOnInit(): void {
         this.reader.onload = async (event) => {
@@ -45,28 +48,46 @@ export class AdminAddComponent implements OnInit {
         });
     }
 
-    uploadDataBatch(): void {
+    // TODO: Work in progress
+    async uploadDataBatch() {
         const toUpload = [...this.batchDataSource.data];
         const successes = new Array(toUpload.length).fill(false);
+        let toRedo: Strain[] = [];
 
-        // this._ccasmService
-        //     .adminAddStrain(this.batchDataSource.data)
-        //     .subscribe((res) => {
-        //         if (res.result === 'success') {
-        //             // flash a message
-        //             this.batchDataSource.data = [];
-        //             this._snackBar.open(
-        //                 'Strains added successfully!',
-        //                 'Close',
-        //                 { duration: 3000 }
-        //             );
-        //         } else {
-        //             this._snackBar.open('Error adding strains', 'Close', {
-        //                 duration: 3000,
-        //             });
-        //             // flash error message
-        //         }
-        //     });
+        for (let i = 0; i < toUpload.length; i++) {
+            this._dialog
+                .open(AdminEditComponent, {
+                    width: '700px',
+                    data: { ...toUpload[i], strainId: -1 },
+                })
+                .afterClosed()
+                .subscribe((newStrain) => {
+                    if (!newStrain) {
+                        toRedo.push(toUpload[i]);
+                        return;
+                    }
+                    this._ccasmService
+                        .adminAddStrain(newStrain)
+                        .subscribe((res) => {
+                            if (res.result === 'success') {
+                                successes[i] = true;
+                            } else {
+                                toRedo.push(toUpload[i]);
+                            }
+                        });
+                    console.log('done');
+                });
+        }
+        this._snackBar.open(
+            `Uploaded ${successes.filter((t) => !!t).length}/${
+                successes.length
+            }`,
+            'Close',
+            {
+                duration: 3000,
+            }
+        );
+        this.batchDataSource.data = toRedo;
     }
 
     async onFileUpload(event: any) {
