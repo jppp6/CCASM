@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
-from django.db.models import Count, Func, F, Value
+from django.db.models import Count, Func, F, Value, CharField
 import json
 from django.core.mail import send_mail
 from django.conf import settings
@@ -47,7 +47,6 @@ def post_deposit(request):
     serializer = DepositsSerializer(data=request.data)
 
     if serializer.is_valid():
-
         # Get the variables to build message
         first_name = serializer.validated_data.get("first_name")
         last_name = serializer.validated_data.get("last_name")
@@ -205,10 +204,7 @@ def admin_delete_strain(request, pk):
         return JsonResponse({"status": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 # DEPOSITS
-
 
 # GET for deposited strains
 @api_view(["GET"])
@@ -336,31 +332,60 @@ def get_strains_by_isolation_protocol(request):
 @api_view(['GET']) 
 @permission_classes([AllowAny]) 
 def get_strains_by_phylum_level(request):
+    
     taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('1')))
+        Strains.objects.annotate(
+            taxonomic_level=Func(
+                F('taxonomic_lineage'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, 2)",  # Get first two parts (e.g., 'Bacteria; Pseudomonadota')
+                output_field=CharField()  # Explicitly set the output field type
+            )
+        ).annotate(
+            taxonomic_level=Func(
+                F('taxonomic_level'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, -1)",  # Extract the second part (phyla)
+                output_field=CharField()
+            )
+        )
         .values('taxonomic_level')
         .annotate(strain_count=Count('ccasm_id'))
     )
 
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
+    # Convert queryset to list of dicts
+    taxonomic_data_list = list(taxonomic_data)
 
+    # Wrap the data in 'name' to match the frontend expectations
+    return JsonResponse({'name': taxonomic_data_list}, safe=False)
 
-""" @api_view(['GET']) 
+@api_view(['GET']) 
 @permission_classes([AllowAny]) 
 def get_strains_by_kingdom_level(request):
+        
     taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('0')))
+        Strains.objects.annotate(
+            taxonomic_level=Func(
+                F('taxonomic_lineage'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, 1)",  # Get first two parts (e.g., 'Bacteria; Pseudomonadota')
+                output_field=CharField()  # Explicitly set the output field type
+            )
+        )
         .values('taxonomic_level')
         .annotate(strain_count=Count('ccasm_id'))
     )
 
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
+    # Convert queryset to list of dicts
+    taxonomic_data_list = list(taxonomic_data)
+
+    # Wrap the data in 'name' to match the frontend expectations
+    return JsonResponse({'name': taxonomic_data_list}, safe=False)
+
+"""
 
 
 @api_view(['GET']) 
