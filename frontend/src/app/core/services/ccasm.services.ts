@@ -35,7 +35,9 @@ export class CCASMService {
     }
 
     refreshToken(token: any): Observable<any> {
-        return this.http.post<any>(this.url + '/refreshToken/', { token });
+        return this.http.post<any>(this.url + '/refreshToken/', {
+            refresh: token,
+        });
     }
 
     // GENERAL USER

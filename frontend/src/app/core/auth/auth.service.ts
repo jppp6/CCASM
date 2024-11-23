@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 import { CCASMService } from '../services/ccasm.services';
 
 @Injectable({
@@ -31,26 +32,25 @@ export class AuthService {
         this.router.navigateByUrl('/login');
     }
 
-    checkLoggedIn(): boolean {
+    checkLoggedIn(): void {
         const token = localStorage.getItem(this.authSecretKey);
-        // this.ccasmService.refreshToken(key).subscribe((res) => {
-        //     console.log(res);
-        // });
-        if (!token) {
-            this.isLoggedIn = false;
-        } else {
-            // const decodedToken = jwtDecode(token);
-            // const currentTime = Math.floor(Date.now() / 1000);
-            // Check if token is expired
-            // if (decodedToken.exp && decodedToken.exp < currentTime) {
-            //     // Token is expired
-            //     console.log('expired')
-            //     this.logout()
 
-            // } else {
-            this.isLoggedIn = true;
-            // }
+        if (!token) {
+            this.logout();
+        } else {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            if (decodedToken.exp && decodedToken.exp < currentTime) {
+                this.logout();
+                this.ccasmService.refreshToken(token).subscribe((newToken) => {
+                    localStorage.setItem(this.authSecretKey, newToken);
+                    this.isLoggedIn = true;
+                    this.router.navigateByUrl('/admin');
+                });
+            } else {
+                this.isLoggedIn = true;
+            }
         }
-        return this.isLoggedIn;
     }
 }

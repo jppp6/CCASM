@@ -6,7 +6,7 @@ export const authGuard = (): boolean => {
     const router = inject(Router);
     const service = inject(AuthService);
 
-    if (service.checkLoggedIn()) {
+    if (service.isLoggedIn) {
         return true;
     } else {
         // Redirect to the login page
