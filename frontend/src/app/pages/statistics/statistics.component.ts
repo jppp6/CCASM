@@ -24,7 +24,7 @@ export interface HostPlantData {
 }
 
 export interface TaxonomicData {
-    taxonomicLineage: string; // the name of the taxonomic level
+    taxonomicLevel: string; // the name of the taxonomic level
     strainCount: number; // the count of strains in this taxonomic level
 }
 
@@ -46,7 +46,9 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
     provinceBarChartOption: EChartsOption | null = null; // Chart option
     plantPieChartOption: EChartsOption | null = null; // Chart option
     plantBarChartOption: EChartsOption | null = null; // Chart option
-    taxonomicTreeChartOption: EChartsOption | null = null;
+    taxonomicKingdomPieChartOption: EChartsOption | null = null;
+    taxonomicPhylumPieChartOption: EChartsOption | null = null; 
+    //taxonomicTreeChartOption: EChartsOption | null = null;
     // taxonomicTreemapOption: EChartsOption | null = null; // NOT NEEDED
     // taxonomicSunburstOption: EChartsOption | null = null; // NOT NEEDED BUT MAYBE IN FUTURE
     taxonomicPieChartOption: EChartsOption | null = null;
@@ -81,7 +83,7 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getHostPlantData();
         // this.getTaxonomicData();
         this.getIsolationProtocolData();
-        // this.getTaxonomicData('kingdom');
+        this.getTaxonomicData('kingdom');
         this.getTaxonomicData('phylum');
         // this.getTaxonomicData('class');
         // this.getTaxonomicData('order');
@@ -119,7 +121,7 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
                             {
                                 name: 'Province/Territory',
                                 type: 'pie',
-                                radius: ['70%', '90%'],
+                                radius: ['50%', '70%'],
                                 data: allProvinceData.map((item) => ({
                                     value: item.strainCount,
                                     name: item.isolationSoilProvince,
@@ -201,7 +203,7 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
                             {
                                 name: 'Host Plant Species',
                                 type: 'pie',
-                                radius: ['70%', '90%'],
+                                radius: ['50%', '70%'],
                                 data: allHostPlantData.map((item) => ({
                                     value: item.strainCount,
                                     name: item.hostPlantSpecies,
@@ -266,49 +268,117 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.subscriptions.push(
             this.ccasmService.getStrainsPerTaxonomicLevel(taxonomicLevel).subscribe(
                 (data) => {
+                    console.log(data.name)
                   const allTaxonomicData =
                       Utils.snackCaseToCamelCase(
                         data.name
                   ) as TaxonomicData[]
-                  this.taxonomicPieChartOption = {
-                    title: {
-                      text: `Strains Distribution by ${taxonomicLevel} Taxonomy`,
-                      left: 'center',
+                  // Based on the taxonomic level, create the appropriate pie chart
+        if (taxonomicLevel === 'kingdom') {
+            this.taxonomicKingdomPieChartOption = {
+              title: {
+                text: `Kingdom Distribution`,
+                left: 'center',
+              },
+              tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+              },
+              series: [
+                {
+                  name: `Kingdom Taxonomy`,
+                  type: 'pie',
+                  radius: '50%',
+                  data: allTaxonomicData.map((item) => ({
+                    value: item.strainCount,
+                    name: item.taxonomicLevel,
+                  })),
+                  emphasis: {
+                    itemStyle: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)',
                     },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
-                    },
-                    /* legend: {
-                        orient: 'horizontal',
-                        left: 'left',
-                    }, */
-                    series: [
-                        {
-                            name: `${taxonomicLevel} Taxonomy`,
-                            type: 'pie',
-                            radius: '50%',
-                            data: allTaxonomicData.map((item) => ({
-                                value: item.strainCount,
-                                name: item.taxonomicLineage,
-                            })),
-                            emphasis: {
-                                itemStyle: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-                                },
+                  },
+                },
+              ],
+            };
+          } else if (taxonomicLevel === 'phylum') {
+            this.taxonomicPhylumPieChartOption = {
+                title: {
+                    text: 'Phylum Distribution',
+                    left: 'center',
+                    top: 'center',
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
+                },
+                /* legend: {
+                  orient: 'horizontal',
+                  left: 'left',
+              }, */
+                series: [
+                    {
+                        name: 'Phyla Taxonomy',
+                        type: 'pie',
+                        radius: ['60%', '80%'],
+                        data: allTaxonomicData.map((item) => ({
+                            value: item.strainCount,
+                            name: item.taxonomicLevel,
+                        })),
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)',
                             },
                         },
-                    ],
-                  };
+                        label: {
+                            fontSize: 15,
+                        },
+                    },
+                ],
+            };
+            this.plantBarChartOption = {
+                title: {
+                    text: 'Associated Plant',
+                    left: 'center',
                 },
-                (error) => {
-                    console.error('Error fetching taxonomic levels', error);
-                }
-            )
-        );
-    }
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                },
+                xAxis: {
+                    type: 'category',
+                    data: allTaxonomicData.map(
+                        (item) => item.taxonomicLevel
+                    ),
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: [
+                    {
+                        data: allTaxonomicData.map(
+                            (item) => item.strainCount
+                        ),
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            formatter: '{c}', // Display value on each bar
+                        },
+                    },
+                ],
+            };
+          }
+        },
+        (error) => {
+          console.error('Error fetching taxonomic levels', error);
+        }
+      )
+    );
+  }
 
     getIsolationProtocolData(): void {
         this.subscriptions.push(
@@ -335,7 +405,7 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
                             {
                                 name: 'Isolation Protocol',
                                 type: 'pie',
-                                radius: ['70%', '90%'],
+                                radius: ['50%', '70%'],
                                 data: allIsolationProtocolData.map((item) => ({
                                     value: item.strainCount,
                                     name: item.isolationProtocol,
