@@ -69,7 +69,7 @@ export class AdminAddComponent implements OnInit {
                     // Remove row on success
                     this.batchDataSource.data =
                         this.batchDataSource.data.filter(
-                            (s) => s.ccasmId !== s.ccasmId
+                            (strain) => strain.ccasmId !== s.ccasmId
                         );
                     this._snackBar.open(
                         `SUCCESS: ${s.ccasmId} added`,

@@ -2,11 +2,11 @@
 
 sudo docker compose down
 
-# cd frontend
+cd frontend
 
-# ng build
+ng build
 
-# cd ..
+cd ..
 
 sudo docker compose build
 sudo docker compose up -d 
