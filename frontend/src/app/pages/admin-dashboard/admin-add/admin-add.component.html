@@ -123,10 +123,7 @@
             <mat-form-field class="w100">
                 <mat-label> Isolation Soil Province </mat-label>
                 <mat-select formControlName="isolationSoilProvince">
-                    <mat-option
-                        *ngFor="let p of provinceAbbreviations"
-                        [value]="p"
-                    >
+                    <mat-option *ngFor="let p of PROVINCES" [value]="p">
                         {{ p }}
                     </mat-option>
                 </mat-select>
@@ -215,13 +212,7 @@
         </form>
     </mat-tab>
 
-    <!-- <mat-tab label="Batch">
-        <strong>
-            WARNING: Batch processing does not validate any inputs. Please use
-            with caution. Do not use commas in the entries, as the CSV parser
-            wont work as expected.<br />
-        </strong>
-
+    <mat-tab label="Batch">
         <a
             mat-stroked-button
             href="https://docs.google.com/spreadsheets/d/1MT87hcTSK76lwyhsje6DdbUkVXA9ARgXTAUbk9Hw2IQ/edit?usp=sharing"
@@ -256,23 +247,313 @@
         >
             <mat-icon>upload</mat-icon> Add to Collection
         </button>
-
-        <table mat-table [dataSource]="batchDataSource" matSort>
+        <strong> Double click row to edit (red means invalid) </strong>
+        <table mat-table [dataSource]="batchDataSource">
+            <tr mat-header-row *matHeaderRowDef="COLUMNS; sticky: true"></tr>
             <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
+                mat-row
+                *matRowDef="let row; columns: COLUMNS"
+                (dblclick)="openStrainEditor(row)"
             ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-            <ng-container
-                *ngFor="let column of displayedColumns"
-                [matColumnDef]="column"
-            >
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    {{ column }}
-                </th>
-                <td mat-cell *matCellDef="let row">{{ row[column] }}</td>
+            <ng-container matColumnDef="ccasmId">
+                <th mat-header-cell *matHeaderCellDef>CCASM ID</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'ccasmId')"
+                >
+                    {{ row.ccasmId }}
+                </td>
             </ng-container>
+
+            <ng-container matColumnDef="strainName">
+                <th mat-header-cell *matHeaderCellDef>Strain Name</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'strainName')"
+                >
+                    {{ row.strainName }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="binomialClassification">
+                <th mat-header-cell *matHeaderCellDef>
+                    Binomial Classification
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="
+                        !isValidCell(row, 'binomialClassification')
+                    "
+                >
+                    {{ row.binomialClassification }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="taxonomicLineage">
+                <th mat-header-cell *matHeaderCellDef>Taxonomic Lineage</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'taxonomicLineage')"
+                >
+                    {{ row.taxonomicLineage }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="riskGroup">
+                <th mat-header-cell *matHeaderCellDef>Risk Group</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'riskGroup')"
+                >
+                    {{ row.riskGroup }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isPlantPathogen">
+                <th mat-header-cell *matHeaderCellDef>Is Plant Pathogen</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isPlantPathogen')"
+                >
+                    {{ row.isPlantPathogen }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="colonyMorphology">
+                <th mat-header-cell *matHeaderCellDef>Colony Morphology</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'colonyMorphology')"
+                >
+                    {{ row.colonyMorphology }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="hostPlantSpecies">
+                <th mat-header-cell *matHeaderCellDef>Host Plant Species</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'hostPlantSpecies')"
+                >
+                    {{ row.hostPlantSpecies }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationSource">
+                <th mat-header-cell *matHeaderCellDef>Isolation Source</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationSource')"
+                >
+                    {{ row.isolationSource }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationYear">
+                <th mat-header-cell *matHeaderCellDef>Isolation Year</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationYear')"
+                >
+                    {{ row.isolationYear }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationProtocol">
+                <th mat-header-cell *matHeaderCellDef>Isolation Protocol</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationProtocol')"
+                >
+                    {{ row.isolationProtocol }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationGrowthMedium">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Growth Medium
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationGrowthMedium')"
+                >
+                    {{ row.isolationGrowthMedium }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationGrowthTemperature">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Growth Temperature
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="
+                        !isValidCell(row, 'isolationGrowthTemperature')
+                    "
+                >
+                    {{ row.isolationGrowthTemperature }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationGrowthMediumComposition">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Growth Medium Composition
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="
+                        !isValidCell(row, 'isolationGrowthMediumComposition')
+                    "
+                >
+                    {{ row.isolationGrowthMediumComposition }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationSoilPh">
+                <th mat-header-cell *matHeaderCellDef>Isolation Soil pH</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationSoilPh')"
+                >
+                    {{ row.isolationSoilPh }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationSoilOrganicMatter">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Soil Organic Matter
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="
+                        !isValidCell(row, 'isolationSoilOrganicMatter')
+                    "
+                >
+                    {{ row.isolationSoilOrganicMatter }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationSoilTexture">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Soil Texture
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationSoilTexture')"
+                >
+                    {{ row.isolationSoilTexture }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isolationSoilProvince">
+                <th mat-header-cell *matHeaderCellDef>
+                    Isolation Soil Province
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'isolationSoilProvince')"
+                >
+                    {{ row.isolationSoilProvince }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="longitude">
+                <th mat-header-cell *matHeaderCellDef>Longitude</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'longitude')"
+                >
+                    {{ row.longitude }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="latitude">
+                <th mat-header-cell *matHeaderCellDef>Latitude</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'latitude')"
+                >
+                    {{ row.latitude }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="genomeNcbiAssociation">
+                <th mat-header-cell *matHeaderCellDef>
+                    Genome NCBI Association
+                </th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'genomeNcbiAssociation')"
+                >
+                    {{ row.genomeNcbiAssociation }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="genomeSize">
+                <th mat-header-cell *matHeaderCellDef>Genome Size</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'genomeSize')"
+                >
+                    {{ row.genomeSize }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="notes">
+                <th mat-header-cell *matHeaderCellDef>Notes</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'notes')"
+                >
+                    {{ row.notes }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="citation">
+                <th mat-header-cell *matHeaderCellDef>Citation</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'citation')"
+                >
+                    {{ row.citation }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="photo">
+                <th mat-header-cell *matHeaderCellDef>Photo</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    [class.invalid]="!isValidCell(row, 'photo')"
+                >
+                    {{ row.photo }}
+                </td>
+            </ng-container>
+
+            <tr *matNoDataRow></tr>
         </table>
-    </mat-tab> -->
+    </mat-tab>
 </mat-tab-group>

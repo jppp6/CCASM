@@ -12,6 +12,7 @@ import { AdminEditComponent } from '../admin-edit/admin-edit.component';
 @Component({
     selector: 'app-admin-add',
     templateUrl: './admin-add.component.html',
+    styles: ['.invalid { background-color: red !important; color: white;}'],
 })
 export class AdminAddComponent implements OnInit {
     batchDataSource = new MatTableDataSource<Strain>([]);
@@ -32,10 +33,18 @@ export class AdminAddComponent implements OnInit {
         };
     }
 
+    async onFileUpload(event: any) {
+        const file: File = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        this.reader.readAsText(file);
+    }
+
     uploadDataIndividual(): void {
         const strain = this.individualData.value;
         this._ccasmService.adminAddStrain(strain).subscribe((res) => {
-            if (res.result === 'success') {
+            if (res.status) {
                 this.individualData.reset();
                 this._snackBar.open('SUCCESS: Strain added ', 'Close', {
                     duration: 3000,
@@ -48,59 +57,96 @@ export class AdminAddComponent implements OnInit {
         });
     }
 
-    // TODO: Work in progress
-    async uploadDataBatch() {
+    uploadDataBatch() {
         const toUpload = [...this.batchDataSource.data];
-        const successes = new Array(toUpload.length).fill(false);
-        let toRedo: Strain[] = [];
-
-        for (let i = 0; i < toUpload.length; i++) {
-            this._dialog
-                .open(AdminEditComponent, {
-                    width: '700px',
-                    data: { ...toUpload[i], strainId: -1 },
-                })
-                .afterClosed()
-                .subscribe((newStrain) => {
-                    if (!newStrain) {
-                        toRedo.push(toUpload[i]);
-                        return;
-                    }
-                    this._ccasmService
-                        .adminAddStrain(newStrain)
-                        .subscribe((res) => {
-                            if (res.result === 'success') {
-                                successes[i] = true;
-                            } else {
-                                toRedo.push(toUpload[i]);
-                            }
-                        });
-                    console.log('done');
-                });
-        }
-        this._snackBar.open(
-            `Uploaded ${successes.filter((t) => !!t).length}/${
-                successes.length
-            }`,
-            'Close',
-            {
-                duration: 3000,
+        toUpload.forEach((s) => {
+            if (!this._isRowValid(s)) {
+                return;
             }
-        );
-        this.batchDataSource.data = toRedo;
+
+            this._ccasmService.adminAddStrain(s).subscribe((res) => {
+                if (res.status) {
+                    // Remove row on success
+                    this.batchDataSource.data =
+                        this.batchDataSource.data.filter(
+                            (s) => s.ccasmId !== s.ccasmId
+                        );
+                    this._snackBar.open(
+                        `SUCCESS: ${s.ccasmId} added`,
+                        'Close',
+                        {
+                            duration: 3000,
+                        }
+                    );
+                }
+            });
+        });
     }
 
-    async onFileUpload(event: any) {
-        // Current file upload * will add more
-        const file: File = event.target.files[0];
-        if (!file) {
-            return;
+    openStrainEditor(strain: Strain): void {
+        const dialogRef = this._dialog.open(AdminEditComponent, {
+            width: '700px',
+            data: { ...strain, strainId: -1 },
+        });
+
+        dialogRef.afterClosed().subscribe((newStrain: Strain) => {
+            if (!newStrain) {
+                return;
+            }
+            this.batchDataSource.data = this.batchDataSource.data.map((s) =>
+                s.ccasmId === strain.ccasmId ? newStrain : s
+            );
+        });
+    }
+
+    isValidCell(row: Strain, column: string): boolean {
+        const value = (row as any)[column];
+        switch (column) {
+            case 'ccasmId':
+                return /^CCASM_\d{6}$/.test(value);
+            case 'taxonomicLineage':
+                return /^[ \w]*;[ \w]*;[ \w]*;[ \w]*;[ \w]*;[ \w]*;[ \w]*$/.test(
+                    value
+                );
+            case 'strainName':
+            case 'binomialClassification':
+            case 'hostPlantSpecies':
+            case 'isolationSource':
+            case 'isolationProtocol':
+            case 'isolationGrowthMediumComposition':
+            case 'isolationGrowthMedium':
+                return value.trim().length > 0;
+
+            case 'isolationYear':
+                const year = +value;
+                return !!year && year > 1900;
+            case 'isolationGrowthTemperature':
+                const temp = +value;
+                return !!temp;
+            case 'isolationSoilPh':
+                const ph = +value;
+                return !!ph;
+            case 'isolationSoilProvince':
+                return this.PROVINCES.includes(value);
+            case 'longitude':
+            case 'latitude':
+                const l = +value;
+                return !!l && value >= -180 && value <= 180;
+            case 'isPlantPathogen':
+                return ['0', '1', 'true', 'false'].includes(value);
+            default:
+                // genomeSize - riskGroup - colonyMorphology - genomeNcbiAssociation -
+                // isolationSoilOrganicMatter - isolationSoilTexture - notes - citation - photo
+                return true;
         }
-        this.reader.readAsText(file);
     }
 
-    readonly provinceAbbreviations: string[] = Utils.getProvinceAbbreviations();
-    readonly displayedColumns: string[] = [
+    private _isRowValid(row: Strain): boolean {
+        return this.COLUMNS.every((c) => this.isValidCell(row, c));
+    }
+
+    readonly PROVINCES: string[] = Utils.getProvinceAbbreviations();
+    readonly COLUMNS: string[] = [
         'ccasmId',
         'strainName',
         'binomialClassification',

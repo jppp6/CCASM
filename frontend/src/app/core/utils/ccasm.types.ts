@@ -88,3 +88,8 @@ export interface StrainNode {
     name: string;
     children: StrainNode[];
 }
+
+export interface Status {
+    status: boolean;
+    message: string | undefined;
+}

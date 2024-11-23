@@ -7,6 +7,7 @@ import {
     ProvinceData,
 } from 'src/app/pages/statistics/statistics.component';
 import {
+    Status,
     Strain,
     StrainDeposit,
     StrainLocation,
@@ -63,22 +64,22 @@ export class CCASMService {
         );
     }
 
-    adminAddStrain(strain: any): Observable<{ result: string }> {
-        return this.http.post<{ result: string }>(
+    adminAddStrain(strain: any): Observable<Status> {
+        return this.http.post<Status>(
             this.url + '/admin/add-strain/',
             Utils.camelCaseToSnakeCase(strain)
         );
     }
 
-    adminUpdateStrain(s: Strain): Observable<{ status: boolean }> {
-        return this.http.put<{ status: boolean }>(
+    adminUpdateStrain(s: Strain): Observable<Status> {
+        return this.http.put<Status>(
             this.url + '/admin/update-strain/' + s.strainId,
             Utils.camelCaseToSnakeCase(s)
         );
     }
 
-    adminDeleteStrain(strain: Strain): Observable<{ status: boolean }> {
-        return this.http.delete<{ status: boolean }>(
+    adminDeleteStrain(strain: Strain): Observable<Status> {
+        return this.http.delete<Status>(
             this.url + '/admin/delete-strain/' + strain.strainId
         );
     }
@@ -89,17 +90,15 @@ export class CCASMService {
         );
     }
 
-    adminUpdateDeposit(d: StrainDeposit): Observable<{ status: boolean }> {
-        return this.http.put<{ status: boolean }>(
+    adminUpdateDeposit(d: StrainDeposit): Observable<Status> {
+        return this.http.put<Status>(
             this.url + '/admin/update-deposit/' + d.depositId,
             Utils.camelCaseToSnakeCase(d)
         );
     }
 
-    adminDeleteDeposit(
-        deposit: StrainDeposit
-    ): Observable<{ status: boolean }> {
-        return this.http.delete<{ status: boolean }>(
+    adminDeleteDeposit(deposit: StrainDeposit): Observable<Status> {
+        return this.http.delete<Status>(
             this.url + '/admin/delete-deposit/' + deposit.depositId
         );
     }
@@ -110,17 +109,15 @@ export class CCASMService {
         );
     }
 
-    adminUpdateRequest(r: StrainRequest): Observable<{ status: boolean }> {
-        return this.http.put<{ status: boolean }>(
+    adminUpdateRequest(r: StrainRequest): Observable<Status> {
+        return this.http.put<Status>(
             this.url + '/admin/update-request/' + r.requestId,
             Utils.camelCaseToSnakeCase(r)
         );
     }
 
-    adminDeleteRequest(
-        request: StrainRequest
-    ): Observable<{ status: boolean }> {
-        return this.http.delete<{ status: boolean }>(
+    adminDeleteRequest(request: StrainRequest): Observable<Status> {
+        return this.http.delete<Status>(
             this.url + '/admin/delete-request/' + request.requestId
         );
     }
