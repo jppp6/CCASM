@@ -33,7 +33,6 @@ export class AdminDepositsComponent implements OnInit, AfterViewInit {
         'affiliation',
         'email',
         'message',
-        'depositExcel',
         'depositState',
         'depositCreationDate',
         'edit',
