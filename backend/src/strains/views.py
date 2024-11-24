@@ -293,7 +293,8 @@ def admin_delete_request(request, pk):
 @permission_classes([AllowAny])
 def get_strains_by_province(request):
     province_counts = (
-        Strains.objects.exclude(isolation_soil_province__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(isolation_soil_province__isnull=True)
         .exclude(isolation_soil_province__exact="")
         .values("isolation_soil_province")
         .annotate(strain_count=Count("ccasm_id"))
@@ -306,7 +307,8 @@ def get_strains_by_province(request):
 @permission_classes([AllowAny])
 def get_strains_by_plant(request):
     plants = (
-        Strains.objects.exclude(host_plant_species__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(host_plant_species__isnull=True)
         .exclude(host_plant_species__exact="")
         .values("host_plant_species")
         .annotate(strain_count=Count("ccasm_id"))
@@ -320,7 +322,8 @@ def get_strains_by_plant(request):
 def get_strains_by_isolation_protocol(request):
     # Group strains by isolation protocol and count the number of strains for each protocol
     strains_by_protocol = (
-        Strains.objects.exclude(isolation_protocol__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(isolation_protocol__isnull=True)
         .exclude(isolation_protocol__exact="")
         .values("isolation_protocol")
         .annotate(strain_count=Count("ccasm_id"))
@@ -334,7 +337,8 @@ def get_strains_by_isolation_protocol(request):
 def get_strains_by_phylum_level(request):
     
     taxonomic_data = (
-        Strains.objects.annotate(
+        Strains.objects.filter(visible=True) 
+        .annotate(
             taxonomic_level=Func(
                 F('taxonomic_lineage'), 
                 Value(';'), 
@@ -366,7 +370,8 @@ def get_strains_by_phylum_level(request):
 def get_strains_by_kingdom_level(request):
         
     taxonomic_data = (
-        Strains.objects.annotate(
+        Strains.objects.filter(visible=True) 
+        .annotate(
             taxonomic_level=Func(
                 F('taxonomic_lineage'), 
                 Value(';'), 
