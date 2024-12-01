@@ -188,6 +188,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+    <span *ngIf="!scrolledToBottom" class="error-message">You must scroll to the bottom to accept the terms.</span>
     <button mat-button [disabled]="!scrolledToBottom" (click)="acceptTerms()">Accept</button>
     <button mat-button mat-dialog-close>Return</button>
 </mat-dialog-actions>

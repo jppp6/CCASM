@@ -12,6 +12,11 @@
             >
                 <mat-card-title>
                     <strong>CCASM ID:</strong> {{ strain.ccasmId }}
+                </mat-card-title>
+                <mat-card-title>
+                    <strong>Strain Name:</strong> {{ strain.strainName }}
+                </mat-card-title>
+                <mat-card-title>
                     <strong>Binomial Classification:</strong>
                     {{ strain.binomialClassification }}
                 </mat-card-title>
@@ -20,9 +25,11 @@
                     {{ strain.taxonomicLineage }}
                 </mat-card-content>
                 <!-- ugly button rn will fix -->
-                <button mat-icon-button (click)="removeStrain(strain.strainId)">
-                    <mat-icon aria-label="Remove">delete</mat-icon>
-                </button>
+                <mat-card-footer class="footer">
+                    <button mat-icon-button (click)="removeStrain(strain.ccasmId)">
+                        <mat-icon aria-label="Remove">delete</mat-icon>
+                    </button>
+                </mat-card-footer>
             </mat-card>
         </ng-container>
 
@@ -33,7 +40,7 @@
 
         <!-- Paginator -->
         <mat-paginator
-            [pageSizeOptions]="[5, 10, 20]"
+            [pageSizeOptions]="[3,5]"
             showFirstLastButtons
         ></mat-paginator>
     </div>
@@ -149,7 +156,7 @@
             <div class="terms">
                 <span>I have read and agree to the  </span>
                     
-                    <button formControlName="checkTerms"
+                    <button
                         type="button"
                         class="button2"
                         mat-stroked-button

@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.http import JsonResponse
-from django.db.models import Count, Func, F, Value
+from django.db.models import Count, Func, F, Value, CharField
 import json
 from django.core.mail import send_mail
 from django.conf import settings
@@ -47,7 +47,6 @@ def post_deposit(request):
     serializer = DepositsSerializer(data=request.data)
 
     if serializer.is_valid():
-
         # Get the variables to build message
         first_name = serializer.validated_data.get("first_name")
         last_name = serializer.validated_data.get("last_name")
@@ -62,6 +61,12 @@ def post_deposit(request):
         email_message += f"email: {email}\n\n"
         email_message += f"Affiliation: {affiliation}\n\n"
         email_message += f"Message: {message}\n\n"
+        
+        confirmation_msg = (
+            f"\nThis is a confirmation for your strain deposit! Thank you and our team will get back to you soon!\n\n"
+        )
+        confirmation_msg += f"CCASM"
+
 
         # Sent the email
         send_mail(
@@ -69,6 +74,13 @@ def post_deposit(request):
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=["ccasm.collection@gmail.com"],
+        )
+        
+        send_mail(
+            subject="CCASM Deposit Confirmation",
+            message=confirmation_msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
         )
 
         # Save to database
@@ -105,6 +117,11 @@ def post_request(request):
         email_message += f"email: {email}\n\n"
         email_message += f"Affiliation: {affiliation}\n\n"
         email_message += f"Message: {message}\n\n"
+        
+        confirmation_msg = (
+            f"\nThis is a confirmation for your strain request! Thank you and our team will get back to you soon!\n\n"
+        )
+        confirmation_msg += f"CCASM"
 
         # Sent the email
         send_mail(
@@ -112,6 +129,13 @@ def post_request(request):
             message=email_message,
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=["ccasm.collection@gmail.com"],
+        )
+        
+        send_mail(
+            subject="CCASM Request Confirmation",
+            message=confirmation_msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email],
         )
 
         # Save to database
@@ -180,10 +204,7 @@ def admin_delete_strain(request, pk):
         return JsonResponse({"status": False}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 # DEPOSITS
-
 
 # GET for deposited strains
 @api_view(["GET"])
@@ -272,7 +293,8 @@ def admin_delete_request(request, pk):
 @permission_classes([AllowAny])
 def get_strains_by_province(request):
     province_counts = (
-        Strains.objects.exclude(isolation_soil_province__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(isolation_soil_province__isnull=True)
         .exclude(isolation_soil_province__exact="")
         .values("isolation_soil_province")
         .annotate(strain_count=Count("ccasm_id"))
@@ -285,7 +307,8 @@ def get_strains_by_province(request):
 @permission_classes([AllowAny])
 def get_strains_by_plant(request):
     plants = (
-        Strains.objects.exclude(host_plant_species__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(host_plant_species__isnull=True)
         .exclude(host_plant_species__exact="")
         .values("host_plant_species")
         .annotate(strain_count=Count("ccasm_id"))
@@ -299,7 +322,8 @@ def get_strains_by_plant(request):
 def get_strains_by_isolation_protocol(request):
     # Group strains by isolation protocol and count the number of strains for each protocol
     strains_by_protocol = (
-        Strains.objects.exclude(isolation_protocol__isnull=True)
+        Strains.objects.filter(visible=True) 
+        .exclude(isolation_protocol__isnull=True)
         .exclude(isolation_protocol__exact="")
         .values("isolation_protocol")
         .annotate(strain_count=Count("ccasm_id"))
@@ -308,34 +332,65 @@ def get_strains_by_isolation_protocol(request):
     return JsonResponse({"protocol": serializer.data})
 
 
-""" @api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_kingdom_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('0')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
 @api_view(['GET']) 
 @permission_classes([AllowAny]) 
 def get_strains_by_phylum_level(request):
+    
     taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('1')))
+        Strains.objects.filter(visible=True) 
+        .annotate(
+            taxonomic_level=Func(
+                F('taxonomic_lineage'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, 2)",  # Get first two parts (e.g., 'Bacteria; Pseudomonadota')
+                output_field=CharField()  # Explicitly set the output field type
+            )
+        ).annotate(
+            taxonomic_level=Func(
+                F('taxonomic_level'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, -1)",  # Extract the second part (phyla)
+                output_field=CharField()
+            )
+        )
         .values('taxonomic_level')
         .annotate(strain_count=Count('ccasm_id'))
     )
 
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
+    # Convert queryset to list of dicts
+    taxonomic_data_list = list(taxonomic_data)
+
+    # Wrap the data in 'name' to match the frontend expectations
+    return JsonResponse({'name': taxonomic_data_list}, safe=False)
+
+@api_view(['GET']) 
+@permission_classes([AllowAny]) 
+def get_strains_by_kingdom_level(request):
+        
+    taxonomic_data = (
+        Strains.objects.filter(visible=True) 
+        .annotate(
+            taxonomic_level=Func(
+                F('taxonomic_lineage'), 
+                Value(';'), 
+                function='SUBSTRING_INDEX', 
+                template="%(function)s(%(expressions)s, 1)",  # Get first two parts (e.g., 'Bacteria; Pseudomonadota')
+                output_field=CharField()  # Explicitly set the output field type
+            )
+        )
+        .values('taxonomic_level')
+        .annotate(strain_count=Count('ccasm_id'))
+    )
+
+    # Convert queryset to list of dicts
+    taxonomic_data_list = list(taxonomic_data)
+
+    # Wrap the data in 'name' to match the frontend expectations
+    return JsonResponse({'name': taxonomic_data_list}, safe=False)
+
+"""
 
 
 @api_view(['GET']) 

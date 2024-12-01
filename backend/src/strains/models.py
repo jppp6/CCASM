@@ -11,7 +11,6 @@ from django.core.validators import RegexValidator
 class Deposits(models.Model):
     deposit_id = models.SmallAutoField(primary_key=True)
     message = models.TextField(blank=True, null=True)
-    deposit_excel = models.FileField(blank=True, null=True)
     deposit_state = models.CharField(max_length=16, blank=False, null=False)
     deposit_creation_date = models.DateTimeField(blank=False, null=False)
     first_name = models.CharField(max_length=64, blank=False, null=False)

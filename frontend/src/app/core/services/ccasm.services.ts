@@ -5,6 +5,7 @@ import {
     HostPlantData,
     IsolationProtocolData,
     ProvinceData,
+    TaxonomicData,
 } from 'src/app/pages/statistics/statistics.component';
 import {
     Status,
@@ -137,9 +138,9 @@ export class CCASMService {
     }
 
     // NEEDED for TAXONOMINC DATA
-    /*  getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
+    getStrainsPerTaxonomicLevel(taxonomicLevel: string): Observable<{ name: TaxonomicData[] }> {
         return this.http.get<{ name: TaxonomicData[] }>(`${this.url}/${taxonomicLevel}/`);
-    } */
+    } 
 
     getStrainsPerIsolationProtocol(): Observable<{
         protocol: IsolationProtocolData[];

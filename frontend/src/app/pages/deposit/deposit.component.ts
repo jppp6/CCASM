@@ -39,7 +39,6 @@ export class DepositComponent implements OnInit {
     // Services
     services = inject(CCASMService);
     constructor(private fb: FormBuilder, public dialog: MatDialog) {
-        this.applyForm.valueChanges.subscribe(console.log);
         this.reader.onload = async (event) => {
             // Read file value and stringify it
             const data: string = event?.target?.result as string;

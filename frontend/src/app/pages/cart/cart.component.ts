@@ -136,7 +136,7 @@ export class CartComponent implements OnInit {
         if (this.dataSource.data.length > 0) {
             Utils.exportToCSV(
                 this.dataSource.data,
-                'CCASM-' + Utils.formatDate(new Date()) + '.csv'
+                'CCASM_' + Utils.formatDate(new Date()) + '.csv'
             );
         }
     }
@@ -160,9 +160,9 @@ export class CartComponent implements OnInit {
     }
 
     // Removes strain selected from cart
-    removeStrain(i: number): void {
-        console.log('Removing strain id:' + i);
-        this.scs.removeStrainById(i.toString());
+    removeStrain(id: string): void {
+        console.log('Removing strain id:' + id);
+        this.scs.removeStrainById(id);
         this.dataSource.data = this.scs.getSelectedStrains();
 
         if (this.dataSource.data.length === 0) {
