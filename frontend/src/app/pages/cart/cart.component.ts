@@ -88,7 +88,6 @@ export class CartComponent implements OnInit {
             // Success
             next: (data) => {
                 this.msg = 'Request Sent!';
-                console.log(data);
             },
             // Failure
             error: (error) => {

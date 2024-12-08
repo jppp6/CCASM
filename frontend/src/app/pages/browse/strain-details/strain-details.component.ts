@@ -61,6 +61,8 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
             <strong>Notes: </strong>{{ data.notes }}
             <mat-divider></mat-divider>
             <strong>Citation: </strong>{{ data.citation }}
+            <mat-divider></mat-divider>
+            <strong>Image: </strong><img [src]="data.photo ? '/images/' + data.photo : '/images/Placeholder.png'"  alt="Image" style="width:300px; height:300px;">
         </mat-dialog-content>
 
         <mat-dialog-actions align="end">
@@ -77,6 +79,7 @@ import { Strain } from 'src/app/core/utils/ccasm.types';
     `,
 })
 export class StrainDetailsDialog {
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: Strain,
         private strainCartService: StrainCartService

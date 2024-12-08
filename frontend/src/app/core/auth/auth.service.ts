@@ -29,7 +29,8 @@ export class AuthService {
     logout(): void {
         localStorage.removeItem(this.authSecretKey);
         this.isLoggedIn = false;
-        this.router.navigateByUrl('/login');
+        // this.router.navigateByUrl('/login');
+        this.router.navigateByUrl('/home');
     }
 
     checkLoggedIn(): void {

@@ -48,7 +48,7 @@
     <mat-divider></mat-divider>
     <strong>Citation:</strong>{{ data.citation }}
     <mat-divider></mat-divider>
-    <strong>Photo:</strong>{{ data.photo }}
+    <strong>Image: </strong><img [src]="data.photo ? '/images/' + data.photo : '/images/Placeholder.png'"  alt="Image" style="width:300px; height:300px;">
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

@@ -93,7 +93,6 @@ export class DepositComponent implements OnInit {
             // Success
             next: (data) => {
                 this.msg = 'Request Sent!';
-                console.log(data);
             },
             // Failure
             error: (error) => {
