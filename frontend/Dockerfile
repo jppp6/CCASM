@@ -9,4 +9,6 @@ RUN mkdir -p /home/nginxuser/staticfiles
 
 COPY ./dist/frontend /home/nginxuser/staticfiles
 
+RUN mkdir -p /home/nginxuser/images
+
 
