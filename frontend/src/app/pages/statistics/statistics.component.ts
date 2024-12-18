@@ -82,8 +82,8 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getProvinceData();
         this.getHostPlantData();
         // this.getTaxonomicData();
-        this.getIsolationProtocolData();
-        this.getTaxonomicData('kingdom');
+        //this.getIsolationProtocolData();
+        //this.getTaxonomicData('kingdom');
         this.getTaxonomicData('phylum');
         // this.getTaxonomicData('class');
         // this.getTaxonomicData('order');
@@ -314,10 +314,6 @@ export class StatisticsComponent implements OnInit, AfterViewInit, OnDestroy {
                     trigger: 'item',
                     formatter: '{a} <br/>{b}: {c} ({d}%)', // Include value in the tooltip
                 },
-                /* legend: {
-                  orient: 'horizontal',
-                  left: 'left',
-              }, */
                 series: [
                     {
                         name: 'Phyla Taxonomy',

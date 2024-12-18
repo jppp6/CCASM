@@ -376,7 +376,7 @@ def get_strains_by_kingdom_level(request):
                 F('taxonomic_lineage'), 
                 Value(';'), 
                 function='SUBSTRING_INDEX', 
-                template="%(function)s(%(expressions)s, 1)",  # Get first two parts (e.g., 'Bacteria; Pseudomonadota')
+                template="%(function)s(%(expressions)s, 1)",  # Get first part (eg. Bacteria)
                 output_field=CharField()  # Explicitly set the output field type
             )
         )
@@ -389,96 +389,3 @@ def get_strains_by_kingdom_level(request):
 
     # Wrap the data in 'name' to match the frontend expectations
     return JsonResponse({'name': taxonomic_data_list}, safe=False)
-
-"""
-
-
-@api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_class_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('2')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
-
-@api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_order_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('3')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
-
-@api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_family_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('4')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
-
-@api_view(['GET']) 
-@permission_classes([AllowAny]) 
-def get_strains_by_genus_level(request):
-    taxonomic_data = (
-        Strains.objects
-        .annotate(taxonomic_level=Func(F('taxonomic_lineage'), Value(';'), Value('5')))
-        .values('taxonomic_level')
-        .annotate(strain_count=Count('ccasm_id'))
-    )
-
-    serializer = TaxonomicDataSerializer(data=taxonomic_data, many=True)
-    # serializer.is_valid(raise_exception=True)
-    return JsonResponse(serializer.data, safe=False) """
-
-
-# TODO stats for (i) number of people who have deposited to the collection;
-# (ii) number of strain requests fulfilled; and
-# (iii) number of citations. For these simple stats,
-# I think it is best to just have them as short sentences,
-# and for the stats to be manually updated.
-
-""" @api_view(['GET']) 
-@permission_classes([AllowAny])
-def get_strains_per_isolation_protocol(request):
-    # Group strains by isolation protocol and count the number of strains for each protocol
-    strains_by_protocol = (
-        Strains.objects.exclude(isolation_protocol__isnull=True)
-            .exclude(isolation_protocol__exact='')
-            .values('isolation_protocol')
-            .annotate(strain_count=Count('ccasm_id'))
-            .order_by('isolation_protocol')
-    )
-
-    # Structure the data into a list of dictionaries
-    isolation_protocol_data = [
-        {'name': strain['isolation_protocol'], 'value': strain['strain_count']}
-        for strain in strains_by_protocol
-    ]
-
-    # Return the data as JSON response
-    return JsonResponse({'protocol': isolation_protocol_data}) """
